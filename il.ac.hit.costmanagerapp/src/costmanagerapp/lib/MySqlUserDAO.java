@@ -7,6 +7,8 @@ public class MySqlUserDAO implements IUsersDAO {
 
     public String driver = "com.mysql.jdbc.Driver";
     public String connectionString = "jdbc:mysql://localhost:3306/costmanager";
+    private String sqlUser = "costmanager";
+    private String guidColumn = "Guid";
 
     public MySqlUserDAO() throws ClassNotFoundException {
         Class.forName(driver);
@@ -20,13 +22,13 @@ public class MySqlUserDAO implements IUsersDAO {
         Statement statement = null;
         ResultSet rs = null;
         try {
-            connection = DriverManager.getConnection(connectionString, "costmanager", "123456");
+            connection = DriverManager.getConnection(connectionString, sqlUser, "123456");
             statement = connection.createStatement();
             rs = statement.executeQuery("SELECT * FROM user WHERE guid =" + userId);
             if (!rs.next()) {
                 throw new UsersPlatformException("user not exist");
             }
-            user = new User(rs.getInt("Guid"), rs.getString("userName"),
+            user = new User(rs.getInt(guidColumn), rs.getString("userName"),
                     rs.getString("Password"), rs.getString("Email"));
         } catch (SQLException e) {
             throw new UsersPlatformException("problem getting row", e);
