@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec0c3dbd-20b3-49df-a16b-c025088c138f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/IRetailDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/MySqlRetailDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/il.ac.hit.costmanagerapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/il.ac.hit.costmanagerapp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/MySqlUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/MySqlUserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/RetailType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/RetailType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/ITransactionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/ITransactionDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/MySqlTransactionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/MySqlTransactionDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/Transaction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +14,52 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/MySqlTransactionDAO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="33" column="128" selection-start-line="33" selection-start-column="128" selection-end-line="33" selection-end-column="128" />
+              <folding>
+                <element signature="e#3049#6481#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-6">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/ITransactionDAO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Transaction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="20" column="33" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -30,8 +72,70 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/Transaction.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/MySqlTransactionDAO.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/ITransactionDAO.java" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectId" id="1bwFEP8rnw3d87ZCLl3ERswZw1u" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="il.ac.hit.costmanagerapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="il.ac.hit.costmanagerapp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="il.ac.hit.costmanagerapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="il.ac.hit.costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="il.ac.hit.costmanagerapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="il.ac.hit.costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="costmanagerapp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="il.ac.hit.costmanagerapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="il.ac.hit.costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="Console" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="il.ac.hit.costmanagerapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="il.ac.hit.costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="il.ac.hit.costmanagerapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="il.ac.hit.costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="costmanagerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="Tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -49,7 +153,19 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
-  <component name="RunManager" selected="JUnit.RetailDAOTest.testUpdateRetail">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.TransactionDAOUnitTest.testGetTransaction">
     <configuration name="RetailDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="il.ac.hit.costmanagerapp" />
       <extension name="coverage">
@@ -97,22 +213,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RetailDAOTest.testInsertRetail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="il.ac.hit.costmanagerapp" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="costmanagerapp.Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="costmanagerapp.Tests" />
-      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.RetailDAOTest" />
-      <option name="METHOD_NAME" value="testInsertRetail" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="RetailDAOTest.testUpdateRetail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="il.ac.hit.costmanagerapp" />
       <extension name="coverage">
@@ -129,13 +229,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TransactionDAOUnitTest.testGetTransaction" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="il.ac.hit.costmanagerapp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="costmanagerapp.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="costmanagerapp.Tests" />
+      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.TransactionDAOUnitTest" />
+      <option name="METHOD_NAME" value="testGetTransaction" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TransactionDAOUnitTest.testGetTransaction" />
+        <item itemvalue="JUnit.RetailDAOTest.testGetAllRetails" />
         <item itemvalue="JUnit.RetailDAOTest.testUpdateRetail" />
         <item itemvalue="JUnit.RetailDAOTest.testDeleteRetail" />
         <item itemvalue="JUnit.RetailDAOTest" />
-        <item itemvalue="JUnit.RetailDAOTest.testInsertRetail" />
-        <item itemvalue="JUnit.RetailDAOTest.testGetAllRetails" />
       </list>
     </recent_temporary>
   </component>
@@ -153,36 +269,98 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RetailDAOTest_testInsertRetail - 2020.05.10 at 17h 39m 08s.xml">
-      <configuration name="RetailDAOTest.testInsertRetail" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RetailDAOTest_testInsertRetail - 2020.05.10 at 17h 39m 20s.xml">
-      <configuration name="RetailDAOTest.testInsertRetail" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RetailDAOTest_testInsertRetail - 2020.05.10 at 17h 41m 18s.xml">
-      <configuration name="RetailDAOTest.testInsertRetail" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RetailDAOTest_testInsertRetail - 2020.05.10 at 17h 41m 50s.xml">
-      <configuration name="RetailDAOTest.testInsertRetail" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RetailDAOTest_testInsertRetail - 2020.05.10 at 17h 43m 42s.xml">
-      <configuration name="RetailDAOTest.testInsertRetail" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RetailDAOTest - 2020.05.10 at 17h 44m 30s.xml">
-      <configuration name="RetailDAOTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RetailDAOTest - 2020.05.10 at 17h 47m 05s.xml">
-      <configuration name="RetailDAOTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RetailDAOTest_testDeleteRetail - 2020.05.10 at 17h 49m 21s.xml">
-      <configuration name="RetailDAOTest.testDeleteRetail" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="RetailDAOTest_testDeleteRetail - 2020.05.10 at 17h 52m 20s.xml">
       <configuration name="RetailDAOTest.testDeleteRetail" configurationId="JUnit" />
     </history-entry>
     <history-entry file="RetailDAOTest_testDeleteRetail - 2020.05.10 at 17h 53m 29s.xml">
       <configuration name="RetailDAOTest.testDeleteRetail" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.05.15 at 13h 49m 48s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.05.15 at 13h 50m 36s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RetailDAOTest_testGetAllRetails - 2020.05.15 at 13h 50m 53s.xml">
+      <configuration name="RetailDAOTest.testGetAllRetails" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.05.15 at 13h 51m 09s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.05.15 at 13h 51m 45s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.05.15 at 13h 52m 00s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.05.15 at 13h 53m 25s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.05.15 at 13h 53m 46s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Learn" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.38668555" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4220963" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3286119" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25302014" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Learn" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3286119" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.53257793" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+    </layout-to-restore>
   </component>
   <component name="WindowStateProjectService">
     <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1589535574924">
@@ -212,20 +390,161 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/costmanagerapp/Console/ConsoleMain.java</url>
           <line>15</line>
+          <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/costmanagerapp/Console/ConsoleMain.java</url>
           <line>17</line>
+          <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/costmanagerapp/Console/ConsoleMain.java</url>
           <line>19</line>
+          <properties />
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java</url>
+          <line>36</line>
+          <properties />
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="rs.getInt(guidColumn)" language="JAVA" />
+        <watch expression="rs.getBoolean(isIncomeColumn)" language="JAVA" />
+        <watch expression="rs.getDouble()" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>rs.getDouble()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>rs.getBoolean(isIncomeColumn)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>rs.getInt(guidColumn)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/RetailType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#368#369#0" expanded="true" />
+            <element signature="e#395#396#0" expanded="true" />
+            <element signature="e#424#425#0" expanded="true" />
+            <element signature="e#451#452#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/MySqlRetailDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#execute#0;class#MySqlRetailDAO#0" />
+            <element signature="method#getRetail#0;class#MySqlRetailDAO#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/IUsersDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/UsersPlatformException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/IRetailDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="64" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Transaction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="20" column="33" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-89">
+          <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/MySqlTransactionDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="33" column="128" selection-start-line="33" selection-start-column="128" selection-end-line="33" selection-end-column="128" />
+          <folding>
+            <element signature="e#3049#6481#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/ITransactionDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>

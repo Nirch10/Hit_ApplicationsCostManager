@@ -9,8 +9,8 @@ public interface ITransactionDAO {
 
     Transaction getTransaction(int transaction_id) throws UsersPlatformException;
 
-    Collection<Transaction> getTransactions(int guid) throws UsersPlatformException;
-
+    Collection<Transaction> getTransactions() throws UsersPlatformException;
+/*
 //    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 //    java.util.Date yourDate = sdf.parse("1992-07-26");
 
@@ -20,5 +20,5 @@ public interface ITransactionDAO {
     void insertTransaction(int guid, boolean isIncome, double price, String description,
                                   String retailName, LocalDate sdf) throws SQLException;
 
-    void deleteTransaction(int guid) throws UsersPlatformException;
+    void deleteTransaction(int guid) throws UsersPlatformException;*/
 }

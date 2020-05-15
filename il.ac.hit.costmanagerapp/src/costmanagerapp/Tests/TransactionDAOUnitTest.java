@@ -1,10 +1,7 @@
 package costmanagerapp.Tests;
 
 import com.mysql.jdbc.AssertionFailedException;
-import costmanagerapp.lib.ITransactionDAO;
-import costmanagerapp.lib.MySqlRetailDAO;
-import costmanagerapp.lib.TransactionType;
-import costmanagerapp.lib.UsersPlatformException;
+import costmanagerapp.lib.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,38 +33,12 @@ public class TransactionDAOUnitTest {
 //    }
 
     @Test
-    public void testGetAllRetails() throws UsersPlatformException {
-        Collection<RetailType> cl = tester.getRetails();
-        if(cl.size() == 0) throw new AssertionError("empty list");
-        cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getType()));
+    public void testGetTransaction() throws UsersPlatformException {
+        Transaction cl = tester.getTransaction(1);
+        if(cl == null) throw new AssertionError("empty list");
+        System.out.println(cl.getGuid() + ", "+ cl.getPrice() +", " + cl.getDateOfTransaction());
     }
 
-    @Test
-    public void testInsertRetail(){
-        try {
-            tester.insertRetail(new RetailType(2,"Books"));
-        } catch (UsersPlatformException e) {
-            throw new AssertionError();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    @Test
-    public void testDeleteRetail(){
-        try {
-            tester.deleteRetail(1);
-        } catch (UsersPlatformException e) {
-            throw new AssertionError();
-        }
-    }
-    @Test
-    public void testUpdateRetail(){
-        try {
-            tester.setRetail(77953,"Test");
-        } catch (SQLException e) {
-            throw new AssertionError();
-        }
-    }
 
 
 

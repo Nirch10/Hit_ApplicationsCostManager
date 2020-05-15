@@ -18,9 +18,21 @@ public class Transaction {
 
 
     public Transaction(@NotNull int guid, @NotNull boolean isIncome, @NotNull  double price, @NotNull  RetailType retailType, @NotNull  User user,
-                       String description){
+                       LocalDate date,String description){
         //TODO::: Generate id automatically
         Guid = guid;
+        IsIncome = isIncome;
+        Price = price;
+        Retail = retailType;
+        User = user;
+        DateOfTransaction = date;
+        Description = description;
+    }
+
+    public Transaction(@NotNull boolean isIncome, @NotNull  double price, @NotNull  RetailType retailType, @NotNull  User user,
+                       String description){
+        //TODO::: Generate id automatically
+        Guid = new Random().nextInt(100000);
         IsIncome = isIncome;
         Price = price;
         Retail = retailType;

@@ -1,7 +1,5 @@
 package costmanagerapp.lib;
 
-import com.sun.istack.internal.NotNull;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     public String connectionString = "jdbc:mysql://localhost:3306/costmanager";
     private String sqlUser = "costmanager";
     private String sqlPassword = "123456";
+    private String transactionsTable = "transactions";
     private String guidColumn = "Guid";
     private String isIncomeColumn = "IsIncome";
     private String descriptionColumn = "Description";
@@ -20,10 +19,25 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     private String priceColumn = "Price";
     private String userGuidColumn = "UserGuid";
     private String retailGuidColumn = "RetailGuid";
+    private IRetailDAO retailDAO;
+    private IUsersDAO userDAO;
 
-    public MySqlTransactionDAO() throws ClassNotFoundException {
+    public MySqlTransactionDAO() throws ClassNotFoundException {this(new MySqlUserDAO(), new MySqlRetailDAO());}
+
+    public MySqlTransactionDAO(IUsersDAO userDAO, IRetailDAO retailDAO) throws ClassNotFoundException {
         Class.forName(driver);
+        this.retailDAO = retailDAO;
+        this.userDAO = userDAO;
     }
+
+    private Transaction getTransactionFromResultSet(ResultSet rs) throws SQLException, UsersPlatformException {
+        Transaction transaction = new Transaction(rs.getInt(guidColumn), rs.getBoolean(isIncomeColumn), rs.getDouble(priceColumn),
+                retailDAO.getRetail(rs.getInt(retailGuidColumn)),
+                userDAO.GetUser(rs.getInt(userGuidColumn)),rs.getDate(dateOfTransactionColumn).toLocalDate(),
+                rs.getString(descriptionColumn));
+        return transaction;
+    }
+
 
     private ResultSet executeQueryGET(String query) throws SQLException {
         Connection connection = DriverManager.getConnection(connectionString, sqlUser, sqlPassword);
@@ -42,21 +56,19 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     public Transaction getTransaction(int transactionId) throws UsersPlatformException {
         Transaction transaction = null;
         try {
-            ResultSet rs = executeQueryGET("SELECT * FROM transction WHERE transactionid =" + transactionId);
+            ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+guidColumn+"=" + transactionId);
             if (!rs.next()) {
                 throw new UsersPlatformException("Transaction does not exist / empty");
             }
-            transaction = new Transaction(rs.getInt(guidColumn), rs.getBoolean(isIncomeColumn), rs.getDouble(descriptionColumn), new RetailType()
-                    rs.getUser(), rs.getDateOfTransaction(), rs.getDescription());
-
-        } catch (SQLException e) {
+            transaction = getTransactionFromResultSet(rs);
+            } catch (SQLException e) {
             throw new UsersPlatformException("problem getting row", e);
         } catch (UsersPlatformException e) {
             e.printStackTrace();
         }
         return transaction;
     }
-
+/*
     @Override
     public Collection<Transaction> getTransactions(int guid) throws UsersPlatformException {
         Collection<Transaction> transacrions = new ArrayList<>();
@@ -67,8 +79,7 @@ public class MySqlTransactionDAO implements ITransactionDAO {
             }
             else {
                 do {
-                    transacrions.add(new Transaction(rs.getGuid(guidColumn), rs.getIsIncome(), rs.getPrice(), rs.getRetail(),
-                            rs.getUser(), rs.getDateOfTransaction(), rs.getDescription()));
+                    transacrions.add(getTransactionFromResultSet(rs));
                 } while (rs.next());
             }
 //            while (rs.next())
@@ -78,6 +89,8 @@ public class MySqlTransactionDAO implements ITransactionDAO {
             throw new UsersPlatformException("problem getting row", e);
         }
         catch (UsersPlatformException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return transacrions;
@@ -138,9 +151,9 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     @Override
     public void deleteTransaction(int guid) throws UsersPlatformException {
         try {
-            execute("DELETE FROM transactions WHERE RetailGuid = "+ guid);
+            execute("DELETE FROM transactionsTable WHERE RetailGuid = "+ guid);
         } catch (SQLException e) {
             throw new UsersPlatformException();
         }
-    }
+    }*/
 }
