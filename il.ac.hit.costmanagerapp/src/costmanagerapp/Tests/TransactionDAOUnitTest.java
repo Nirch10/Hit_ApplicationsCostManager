@@ -1,9 +1,9 @@
 package costmanagerapp.Tests;
 
 import com.mysql.jdbc.AssertionFailedException;
-import costmanagerapp.lib.IRetailDAO;
+import costmanagerapp.lib.ITransactionDAO;
 import costmanagerapp.lib.MySqlRetailDAO;
-import costmanagerapp.lib.RetailType;
+import costmanagerapp.lib.TransactionType;
 import costmanagerapp.lib.UsersPlatformException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -12,14 +12,14 @@ import org.junit.Test;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class RetailDAOTest {
+public class TransactionDAOUnitTest {
 
-    static IRetailDAO tester;
+    static ITransactionDAO tester;
 
     @BeforeClass
     public static void testSetup() {
         try {
-            tester = new MySqlRetailDAO();
+            tester = new MySqlTransactionDAO();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -30,10 +30,10 @@ public class RetailDAOTest {
         // Do your cleanup here like close URL connection , releasing resources etc
     }
 
-    @Test
-    public void testGetUser() throws UsersPlatformException {
-        if (tester.getRetail(1) == null) throw new AssertionError();
-    }
+//    @Test
+//    public void testGetUser() throws UsersPlatformException {
+//        if (tester.getRetail(1) == null) throw new AssertionError();
+//    }
 
     @Test
     public void testGetAllRetails() throws UsersPlatformException {
@@ -68,4 +68,7 @@ public class RetailDAOTest {
             throw new AssertionError();
         }
     }
+
+
+
 }
