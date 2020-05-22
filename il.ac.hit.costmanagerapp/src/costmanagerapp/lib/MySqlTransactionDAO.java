@@ -21,13 +21,18 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     private String retailGuidColumn = "RetailGuid";
     private IRetailDAO retailDAO;
     private IUsersDAO userDAO;
+    private IQueryExecuter executor;
+    private AbstractDbConnector dbConnector;
 
-    public MySqlTransactionDAO() throws ClassNotFoundException {this(new MySqlUserDAO(), new MySqlRetailDAO());}
+    public MySqlTransactionDAO() throws ClassNotFoundException {this(new MySqlUserDAO(), new MySqlRetailDAO(), new MySqlQueryExecuter(),
+            new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));}
 
-    public MySqlTransactionDAO(IUsersDAO userDAO, IRetailDAO retailDAO) throws ClassNotFoundException {
+    public MySqlTransactionDAO(IUsersDAO userDAO, IRetailDAO retailDAO, IQueryExecuter queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
         Class.forName(driver);
         this.retailDAO = retailDAO;
         this.userDAO = userDAO;
+        executor = queryExecutor;
+        dbConnector = connector;
     }
 
     private Transaction getTransactionFromResultSet(ResultSet rs) throws SQLException, UsersPlatformException {
@@ -81,35 +86,32 @@ public class MySqlTransactionDAO implements ITransactionDAO {
         }
         return transactions;
     }
-/*
+
     @Override
-    // !!
-1    //TODO: go over the parameters and fit them as in the DB and according to their appearence in RetailType table
-    // also for all the below there is might need to create transactionID so we can update transaction
-    // !!
-    public void updateTransactionAll(int guid, boolean isIncome, double price, String description,
-                                  String retailName, LocalDate sdf) throws SQLException {
-        execute("UPDATE transaction SET "+typeColumn+" = \"" + newName + "\" WHERE "+guidColumn+" = " + guid);
+    public void updateTransaction(int guid, boolean isIncome, float price, String description, String retailName, LocalDate sdf) throws SQLException {
+
     }
 
     @Override
-    // !!
-    // TODO: make sure that we transfer the variables to the function that we have some default value that is fine by us, by our definition
-    // !!
-    public void insertTransaction(Transaction trans) throws SQLException {
-        execute("INSERT INTO transaction ("+guidColumn+", "+IsIncome+", "+price+", "+Description+", "+RetailName+", "+DateOfTransact+", "+ion+") " +
-                "Values("+transaction.getGuid() + ", \""+transaction.getIsIncome() + ", \""+transaction.getPrice() +
-                ", \""+transaction.getRetail() + ", \""+transaction.getDate() + ", \""+transaction.getDescription() + "\")");
+    public void insertTransaction(Transaction transaction) throws SQLException, UsersPlatformException {
+//        try{
+//            getTransaction(transaction.getGuid());
+//            throw new UsersPlatformException("Transction with this guid already exists");
+//        }
+//        catch (UsersPlatformException e){
+//            //transaction doesnt exist
+//        }
+        executor.TryExecuteInsertQuery(dbConnector, "INSERT INTO transactions ("+guidColumn+", "+isIncomeColumn+", " +
+                dateOfTransactionColumn + ", " + priceColumn + ", " +descriptionColumn +", " +
+                retailGuidColumn + ", " + userGuidColumn+") Values("+transaction.getGuid()+", "+transaction.getIsIncome() + ", \""+
+                transaction.getDateOfTransaction() + "\", " + transaction.getPrice() +", \""+ transaction.getDescription() +
+                "\","+transaction.getRetail().getGuid()+"," + transaction.getUser().getGuid() +")");
     }
 
     @Override
     public void deleteTransaction(int guid) throws UsersPlatformException {
-        try {
-            execute("DELETE FROM transactionsTable WHERE RetailGuid = "+ guid);
-        } catch (SQLException e) {
-            throw new UsersPlatformException();
-        }
-    }*/
+
+    }
 
 
 /*TODO: - getTransactionByDateRange

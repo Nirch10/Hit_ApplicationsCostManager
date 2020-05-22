@@ -7,7 +7,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 public class TransactionDAOUnitTest {
 
@@ -38,8 +40,22 @@ public class TransactionDAOUnitTest {
         if(cl == null) throw new AssertionError("empty list");
         System.out.println(cl.getGuid() + ", "+ cl.getPrice() +", " + cl.getDateOfTransaction());
     }
+
     @Test
-    public void Collection<Transaction> getUserTransactions(int userId) throws UsersPlatformException {
+    public void testInsertTransaction() throws ClassNotFoundException {
+        IRetailDAO retailDAO = new MySqlRetailDAO();
+        IUsersDAO usersDAO = new MySqlUserDAO();
+        try {
+            tester.insertTransaction(new Transaction(11, true, 5.5, retailDAO.getRetails().stream().findFirst().get(),
+                    usersDAO.GetUser(1), LocalDate.now(), ""));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError();
+        } catch (UsersPlatformException e) {
+            e.printStackTrace();
+            throw new AssertionError();
+        }
 
     }
+
 }

@@ -12,9 +12,14 @@ public class User {
 
     public User(int guid, @NotNull String userName, @NotNull String email, @NotNull String password){
         //TODO::: Generate id automatically
-        Guid = new Random().nextInt(100000);
+        //Guid = new Random().nextInt(100000);
+        Guid = guid;
         UserName = userName;
         Password = password;
         Email = email;
+    }
+
+    public int getGuid() {
+        return Guid;
     }
 }
