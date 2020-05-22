@@ -1,8 +1,8 @@
 package costmanagerapp.Console;
 
-import costmanagerapp.lib.IUsersDAO;
-import costmanagerapp.lib.MySqlUserDAO;
-import costmanagerapp.lib.User;
+import costmanagerapp.lib.DAO.IUsersDAO;
+import costmanagerapp.lib.DAO.MySqlUserDAO;
+import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.UsersPlatformException;
 
 public class ConsoleMain {
