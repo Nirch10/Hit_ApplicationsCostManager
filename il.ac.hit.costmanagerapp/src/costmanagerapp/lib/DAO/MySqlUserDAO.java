@@ -1,4 +1,7 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.DAO;
+
+import costmanagerapp.lib.Models.User;
+import costmanagerapp.lib.UsersPlatformException;
 
 import java.sql.*;
 import java.util.Collection;

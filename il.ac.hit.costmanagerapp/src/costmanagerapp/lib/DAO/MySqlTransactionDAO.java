@@ -1,4 +1,11 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.DAO;
+
+import costmanagerapp.lib.Models.Transaction;
+import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
+import costmanagerapp.lib.QueryUtils.IQueryExecuter;
+import costmanagerapp.lib.QueryUtils.MySqlDbConnector;
+import costmanagerapp.lib.QueryUtils.MySqlQueryExecuter;
+import costmanagerapp.lib.UsersPlatformException;
 
 import java.sql.*;
 import java.time.LocalDate;

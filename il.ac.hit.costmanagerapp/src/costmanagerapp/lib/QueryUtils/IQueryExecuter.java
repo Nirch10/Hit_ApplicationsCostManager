@@ -1,4 +1,4 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.QueryUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

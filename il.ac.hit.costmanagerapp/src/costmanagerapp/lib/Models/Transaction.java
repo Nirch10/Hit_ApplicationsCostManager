@@ -1,10 +1,8 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.Models;
 
 import com.sun.istack.internal.NotNull;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Random;
 
 public class Transaction {

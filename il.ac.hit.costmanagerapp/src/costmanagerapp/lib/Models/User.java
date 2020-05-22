@@ -1,4 +1,4 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.Models;
 
 import com.sun.istack.internal.NotNull;
 

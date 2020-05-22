@@ -1,15 +1,14 @@
 package costmanagerapp.Tests;
 
-import com.mysql.jdbc.AssertionFailedException;
 import costmanagerapp.lib.*;
+import costmanagerapp.lib.DAO.*;
+import costmanagerapp.lib.Models.Transaction;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
 
 public class TransactionDAOUnitTest {
 
@@ -46,7 +45,7 @@ public class TransactionDAOUnitTest {
         IRetailDAO retailDAO = new MySqlRetailDAO();
         IUsersDAO usersDAO = new MySqlUserDAO();
         try {
-            tester.insertTransaction(new Transaction(12, false, 54.522, retailDAO.getRetails().stream().findFirst().get(),
+            tester.insertTransaction(new Transaction(11, false, 54.522, retailDAO.getRetails().stream().findFirst().get(),
                     usersDAO.GetUser(1), LocalDate.now(), "Test etset"));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,7 +59,7 @@ public class TransactionDAOUnitTest {
     @Test
     public void testDeleteTransaction(){
         try{
-            tester.deleteTransaction(14);
+            tester.deleteTransaction(11);
         } catch (UsersPlatformException e) {
             e.printStackTrace();
             throw new AssertionError();

@@ -1,9 +1,8 @@
 package costmanagerapp.Tests;
 
-import com.mysql.jdbc.AssertionFailedException;
-import costmanagerapp.lib.IRetailDAO;
-import costmanagerapp.lib.MySqlRetailDAO;
-import costmanagerapp.lib.RetailType;
+import costmanagerapp.lib.DAO.IRetailDAO;
+import costmanagerapp.lib.DAO.MySqlRetailDAO;
+import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.UsersPlatformException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -32,7 +31,7 @@ public class RetailDAOTest {
 
     @Test
     public void testGetUser() throws UsersPlatformException {
-        if (tester.getRetail(1) == null) throw new AssertionError();
+        if (tester.getRetail(52790) == null) throw new AssertionError();
     }
 
     @Test

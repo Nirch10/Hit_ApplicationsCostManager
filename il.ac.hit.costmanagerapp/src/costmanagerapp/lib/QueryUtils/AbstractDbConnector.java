@@ -1,4 +1,4 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.QueryUtils;
 
 public abstract class AbstractDbConnector {
     public String connectionString;

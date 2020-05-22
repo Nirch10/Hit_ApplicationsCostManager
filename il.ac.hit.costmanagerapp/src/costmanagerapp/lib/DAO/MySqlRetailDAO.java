@@ -1,4 +1,8 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.DAO;
+
+import costmanagerapp.lib.DAO.IRetailDAO;
+import costmanagerapp.lib.Models.RetailType;
+import costmanagerapp.lib.UsersPlatformException;
 
 import java.sql.*;
 import java.util.ArrayList;

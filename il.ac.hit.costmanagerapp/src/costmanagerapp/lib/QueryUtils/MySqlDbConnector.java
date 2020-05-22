@@ -1,4 +1,6 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.QueryUtils;
+
+import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 
 public class MySqlDbConnector extends AbstractDbConnector {
 

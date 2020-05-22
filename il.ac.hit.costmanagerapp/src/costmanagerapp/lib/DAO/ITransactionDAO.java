@@ -1,4 +1,7 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.DAO;
+
+import costmanagerapp.lib.Models.Transaction;
+import costmanagerapp.lib.UsersPlatformException;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

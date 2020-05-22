@@ -1,4 +1,7 @@
-package costmanagerapp.lib;
+package costmanagerapp.lib.QueryUtils;
+
+import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
+import costmanagerapp.lib.QueryUtils.IQueryExecuter;
 
 import java.sql.*;
 
