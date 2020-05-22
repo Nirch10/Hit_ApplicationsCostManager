@@ -9,7 +9,7 @@ public interface ITransactionDAO {
 
     Transaction getTransaction(int transaction_id) throws UsersPlatformException;
 
-    Collection<Transaction> getTransactions() throws UsersPlatformException;
+    Collection<Transaction> getUserTransactions(int userId) throws UsersPlatformException;
 /*
 //    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 //    java.util.Date yourDate = sdf.parse("1992-07-26");

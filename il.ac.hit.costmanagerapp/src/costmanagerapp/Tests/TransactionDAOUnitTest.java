@@ -38,8 +38,8 @@ public class TransactionDAOUnitTest {
         if(cl == null) throw new AssertionError("empty list");
         System.out.println(cl.getGuid() + ", "+ cl.getPrice() +", " + cl.getDateOfTransaction());
     }
+    @Test
+    public void Collection<Transaction> getUserTransactions(int userId) throws UsersPlatformException {
 
-
-
-
+    }
 }

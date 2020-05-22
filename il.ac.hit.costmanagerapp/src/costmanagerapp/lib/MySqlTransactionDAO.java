@@ -38,7 +38,6 @@ public class MySqlTransactionDAO implements ITransactionDAO {
         return transaction;
     }
 
-
     private ResultSet executeQueryGET(String query) throws SQLException {
         Connection connection = DriverManager.getConnection(connectionString, sqlUser, sqlPassword);
         Statement statement = connection.createStatement();
@@ -56,7 +55,8 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     public Transaction getTransaction(int transactionId) throws UsersPlatformException {
         Transaction transaction = null;
         try {
-            ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+guidColumn+"=" + transactionId);
+            String stringQuery=("SELECT * FROM " + transactionsTable + " WHERE "+userGuidColumn+"=" + transactionId);
+            ResultSet rs = executeQueryGET(stringQuery);
             if (!rs.next()) {
                 throw new UsersPlatformException("Transaction does not exist / empty");
             }
@@ -68,37 +68,23 @@ public class MySqlTransactionDAO implements ITransactionDAO {
         }
         return transaction;
     }
-/*
-    @Override
-    public Collection<Transaction> getTransactions(int guid) throws UsersPlatformException {
-        Collection<Transaction> transacrions = new ArrayList<>();
-        try {
-            ResultSet rs = executeQueryGET("SELECT * FROM transction WHERE Guid =" + gui);
-            if (!rs.next()) {
-                throw new UsersPlatformException("Transaction does not exist / empty");
-            }
-            else {
-                do {
-                    transacrions.add(getTransactionFromResultSet(rs));
-                } while (rs.next());
-            }
-//            while (rs.next())
-//                transacrions.add(new TransactionType(rs.getInt(guidColumn), rs.getString(typeColumn)));
-        }
-        catch (SQLException e) {
-            throw new UsersPlatformException("problem getting row", e);
-        }
-        catch (UsersPlatformException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return transacrions;
-    }
 
     @Override
+    public Collection<Transaction> getUserTransactions(int userId) throws UsersPlatformException {
+        Collection<Transaction> transactions = new ArrayList<>();
+        try {
+            ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+userGuidColumn+"=" + userId);
+            while (rs.next())
+                transactions.add(getTransactionFromResultSet(rs));
+        } catch (SQLException e) {
+            throw new UsersPlatformException("problem getting row", e);
+        }
+        return transactions;
+    }
+/*
+    @Override
     // !!
-    //TODO: go over the parameters and fit them as in the DB and according to their appearence in RetailType table
+1    //TODO: go over the parameters and fit them as in the DB and according to their appearence in RetailType table
     // also for all the below there is might need to create transactionID so we can update transaction
     // !!
     public void updateTransactionAll(int guid, boolean isIncome, double price, String description,
@@ -106,47 +92,15 @@ public class MySqlTransactionDAO implements ITransactionDAO {
         execute("UPDATE transaction SET "+typeColumn+" = \"" + newName + "\" WHERE "+guidColumn+" = " + guid);
     }
 
-    public void updateTransactionIsIncome(int guid, boolean isIncome) throws SQLException{
-
-    }
-
-    public void updateTransactionPrice(int guid, double price) throws SQLException{
-
-    }
-
-    public void updateTransactionDescription(int guid, String description) throws SQLException{
-
-    }
-
-    public void updateTransactionRetailName(int guid, String retailName) throws SQLException{
-
-    }
-
-    public void updateTransactionDate(int guid, LocalDate sdf) throws SQLException{
-
-    }
-
-    @Override
-    public Collection<Transaction> getTransaction() throws UsersPlatformException {
-        return null;
-    }
-
-    @Override
-    public void updateTransaction(int guid, boolean isIncome, float price, String description, String retailName, LocalDate sdf) throws SQLException {
-
-    }
-
     @Override
     // !!
     // TODO: make sure that we transfer the variables to the function that we have some default value that is fine by us, by our definition
     // !!
-    public void insertTransaction(int guid, boolean isIncome, double price, String description,
-                                     String retailName, LocalDate sdf) throws SQLException {
+    public void insertTransaction(Transaction trans) throws SQLException {
         execute("INSERT INTO transaction ("+guidColumn+", "+IsIncome+", "+price+", "+Description+", "+RetailName+", "+DateOfTransact+", "+ion+") " +
                 "Values("+transaction.getGuid() + ", \""+transaction.getIsIncome() + ", \""+transaction.getPrice() +
                 ", \""+transaction.getRetail() + ", \""+transaction.getDate() + ", \""+transaction.getDescription() + "\")");
     }
-
 
     @Override
     public void deleteTransaction(int guid) throws UsersPlatformException {
@@ -156,4 +110,10 @@ public class MySqlTransactionDAO implements ITransactionDAO {
             throw new UsersPlatformException();
         }
     }*/
+
+
+/*TODO: - getTransactionByDateRange
+    - getTransactionByRetail
+    - getTransactionByPriceRange
+ */
 }
