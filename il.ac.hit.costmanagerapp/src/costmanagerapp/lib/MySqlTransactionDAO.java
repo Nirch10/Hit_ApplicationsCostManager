@@ -109,8 +109,8 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     }
 
     @Override
-    public void deleteTransaction(int guid) throws UsersPlatformException {
-
+    public void deleteTransaction(int guid) throws UsersPlatformException, SQLException {
+        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+guidColumn+" = "+ guid);
     }
 
 

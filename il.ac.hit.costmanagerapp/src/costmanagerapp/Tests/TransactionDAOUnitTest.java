@@ -46,8 +46,8 @@ public class TransactionDAOUnitTest {
         IRetailDAO retailDAO = new MySqlRetailDAO();
         IUsersDAO usersDAO = new MySqlUserDAO();
         try {
-            tester.insertTransaction(new Transaction(11, true, 5.5, retailDAO.getRetails().stream().findFirst().get(),
-                    usersDAO.GetUser(1), LocalDate.now(), ""));
+            tester.insertTransaction(new Transaction(12, false, 54.522, retailDAO.getRetails().stream().findFirst().get(),
+                    usersDAO.GetUser(1), LocalDate.now(), "Test etset"));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new AssertionError();
@@ -55,7 +55,19 @@ public class TransactionDAOUnitTest {
             e.printStackTrace();
             throw new AssertionError();
         }
+    }
 
+    @Test
+    public void testDeleteTransaction(){
+        try{
+            tester.deleteTransaction(14);
+        } catch (UsersPlatformException e) {
+            e.printStackTrace();
+            throw new AssertionError();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError();
+        }
     }
 
 }
