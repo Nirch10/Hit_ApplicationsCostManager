@@ -44,7 +44,7 @@ public class RetailDAOTest {
     @Test
     public void testInsertRetail(){
         try {
-            tester.insertRetail(new RetailType(0,"None"));
+            tester.insertRetail(new RetailType(10,"Music"));
         } catch (UsersPlatformException e) {
             throw new AssertionError();
         } catch (SQLException e) {

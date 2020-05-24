@@ -1,5 +1,6 @@
 package costmanagerapp.lib.DAO;
 
+import com.sun.istack.internal.NotNull;
 import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
@@ -82,7 +83,7 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     }
 
     @Override
-    public Collection<Transaction> getUserTransactions(int userId) throws UsersPlatformException {
+    public Collection<Transaction> getTransactionByUser(int userId) throws UsersPlatformException {
         Collection<Transaction> transactions = new ArrayList<>();
         try {
             ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+userGuidColumn+"=" + userId);
@@ -93,21 +94,64 @@ public class MySqlTransactionDAO implements ITransactionDAO {
         }
         return transactions;
     }
-
     @Override
-    public void updateTransaction(int guid, boolean isIncome, float price, String description, String retailName, LocalDate sdf) throws SQLException {
-
+    public Collection<Transaction> getTransactionByRetail(@NotNull int retailId) throws UsersPlatformException {
+        Collection<Transaction> transactions = new ArrayList<>();
+        try {
+            ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+retailGuidColumn+"=" + retailId);
+            while (rs.next())
+                transactions.add(getTransactionFromResultSet(rs));
+        } catch (SQLException e) {
+            throw new UsersPlatformException("problem getting row", e);
+        }
+        return transactions;
     }
 
     @Override
+    public Collection<Transaction> getTransactionByDateRange(@NotNull LocalDate fromDate,@NotNull LocalDate toDate) throws UsersPlatformException {
+        Collection<Transaction> transactions = new ArrayList<>();
+        try {
+            ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+ dateOfTransactionColumn +" BETWEEN '" +
+                    fromDate + "' and '" + toDate + "' ORDER BY " + dateOfTransactionColumn + " desc");
+            while (rs.next())
+                transactions.add(getTransactionFromResultSet(rs));
+        } catch (SQLException e) {
+            throw new UsersPlatformException("problem getting row", e);
+        }
+        return transactions;
+    }
+
+    @Override
+    public Collection<Transaction> getTransactionByPriceRange(@NotNull double fromPrice,@NotNull double toPrice) throws UsersPlatformException {
+        Collection<Transaction> transactions = new ArrayList<>();
+        try {
+            ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+ priceColumn +" BETWEEN " +
+                    fromPrice + " and " + toPrice + " ORDER BY " + priceColumn + " desc");
+            while (rs.next())
+                transactions.add(getTransactionFromResultSet(rs));
+        } catch (SQLException e) {
+            throw new UsersPlatformException("problem getting row", e);
+        }
+        return transactions;
+    }
+
+    @Override
+    public void updateTransaction(@NotNull int guid, @NotNull boolean isIncome, @NotNull double price, @NotNull String description,
+                                  @NotNull int retailGuid, @NotNull LocalDate dateOT) throws UsersPlatformException {
+        try {
+            executeQuery("UPDATE " + transactionsTable +
+                    " SET "+ isIncomeColumn + "=" + isIncome +
+                    ", " + priceColumn + "=" + price +
+                    ", " + descriptionColumn + "='" + description +
+                    "', " + retailGuidColumn + "=" + retailGuid +
+                    ", " + dateOfTransactionColumn + "='" + dateOT +
+                    "' WHERE " + guidColumn + "=" + guid);
+        } catch (SQLException e) {
+            throw new UsersPlatformException("problem getting row", e);
+        }
+    }
+    @Override
     public void insertTransaction(Transaction transaction) throws SQLException, UsersPlatformException {
-//        try{
-//            getTransaction(transaction.getGuid());
-//            throw new UsersPlatformException("Transction with this guid already exists");
-//        }
-//        catch (UsersPlatformException e){
-//            //transaction doesnt exist
-//        }
         executor.TryExecuteInsertQuery(dbConnector, "INSERT INTO transactions ("+guidColumn+", "+isIncomeColumn+", " +
                 dateOfTransactionColumn + ", " + priceColumn + ", " +descriptionColumn +", " +
                 retailGuidColumn + ", " + userGuidColumn+") Values("+transaction.getGuid()+", "+transaction.getIsIncome() + ", \""+
@@ -129,10 +173,4 @@ public class MySqlTransactionDAO implements ITransactionDAO {
         executor.TryExecuteUpdateQuery(dbConnector, "UPDATE "+ transactionsTable + " SET "+retailGuidColumn +
                 "= "+ 0 + "  WHERE "+retailGuidColumn+" = "+ retailGuid);
     }
-
-
-/*TODO: - getTransactionByDateRange
-    - getTransactionByRetail
-    - getTransactionByPriceRange
- */
 }

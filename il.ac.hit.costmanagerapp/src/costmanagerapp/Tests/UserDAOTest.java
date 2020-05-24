@@ -61,7 +61,7 @@ public class UserDAOTest {
     @Test
     public void testDeleteUser(){
         try {
-            if (tester.getUser(96532) == null) throw new ValueException("the user isnt exists");
+            if (tester.getUser(96532) == null) throw new ValueException("the user doesnt exist");
             tester.deleteUser(96532);
 
         } catch (UsersPlatformException e) {

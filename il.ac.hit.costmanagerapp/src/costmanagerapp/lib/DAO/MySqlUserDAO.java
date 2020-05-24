@@ -91,7 +91,7 @@ public class MySqlUserDAO implements IUsersDAO {
     public void deleteUser(int id) throws UsersPlatformException {
         try{
             initTransctionDAO();
-           transactionDAO.deleteUserTransactions(id);
+            transactionDAO.deleteUserTransactions(id);
             executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM "+userTableName+" WHERE guid = " + id);
         }
         catch (SQLException e) {
@@ -104,7 +104,7 @@ public class MySqlUserDAO implements IUsersDAO {
     @Override
     public void setPassword(int id , String pw) throws UsersPlatformException {
         try{
-            executor.TryExecuteUpdateQuery(dbConnector, "UPDATE "+userTableName+" SET" + userPasswordColumn + " = \""+
+            executor.TryExecuteUpdateQuery(dbConnector, "UPDATE "+userTableName+" SET " + userPasswordColumn + " = \""+
                     pw + "\" WHERE "+ userGuidColumn + " = "+ id);
         }
         catch (SQLException e) {

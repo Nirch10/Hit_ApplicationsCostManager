@@ -73,8 +73,8 @@ public class MySqlRetailDAO implements IRetailDAO {
 
     @Override
     public void setRetail(int guid, String newName) throws SQLException {
-        executor.TryExecuteUpdateQuery(dbConnector,"UPDATE "+tableName + " SET "+typeColumn+" = \""
-                + newName + "\" WHERE "+guidColumn+" = " + guid);
+        executor.TryExecuteUpdateQuery(dbConnector, "UPDATE " + tableName + " SET " + typeColumn + " = \""
+                + newName + "\" WHERE " + guidColumn + " = " + guid);
     }
 
     @Override
