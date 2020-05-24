@@ -62,7 +62,7 @@ public class RetailDAOTest {
     @Test
     public void testUpdateRetail(){
         try {
-            tester.setRetail(77953,"Test");
+            tester.setRetail(77953,"Test3");
         } catch (SQLException e) {
             throw new AssertionError();
         }
