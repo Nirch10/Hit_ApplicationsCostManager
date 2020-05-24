@@ -46,7 +46,7 @@ public class TransactionDAOUnitTest {
         IUsersDAO usersDAO = new MySqlUserDAO();
         try {
             tester.insertTransaction(new Transaction(11, false, 54.522, retailDAO.getRetails().stream().findFirst().get(),
-                    usersDAO.GetUser(1), LocalDate.now(), "Test etset"));
+                    usersDAO.getUser(1), LocalDate.now(), "Test etset"));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new AssertionError();

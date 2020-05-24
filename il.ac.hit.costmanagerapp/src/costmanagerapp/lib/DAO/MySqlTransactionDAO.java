@@ -45,7 +45,7 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     private Transaction getTransactionFromResultSet(ResultSet rs) throws SQLException, UsersPlatformException {
         Transaction transaction = new Transaction(rs.getInt(guidColumn), rs.getBoolean(isIncomeColumn), rs.getDouble(priceColumn),
                 retailDAO.getRetail(rs.getInt(retailGuidColumn)),
-                userDAO.GetUser(rs.getInt(userGuidColumn)),rs.getDate(dateOfTransactionColumn).toLocalDate(),
+                userDAO.getUser(rs.getInt(userGuidColumn)),rs.getDate(dateOfTransactionColumn).toLocalDate(),
                 rs.getString(descriptionColumn));
         return transaction;
     }
@@ -118,6 +118,15 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     @Override
     public void deleteTransaction(int guid) throws UsersPlatformException, SQLException {
         executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+guidColumn+" = "+ guid);
+    }
+
+    @Override
+    public void deleteUserTransactions(int userGuid) throws SQLException {
+        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+userGuidColumn+" = "+ userGuid);
+    }
+    @Override
+    public void deleteRetailTransactions(int retailGuid) throws SQLException{
+        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+userGuidColumn+" = "+ retailGuid);
     }
 
 
