@@ -12,7 +12,7 @@ public class ConsoleMain {
         IUsersDAO dao = null;
         try {
             dao = new MySqlUserDAO();
-            User u = dao.GetUser(1);
+            User u = dao.getUser(1);
             System.out.println(u);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

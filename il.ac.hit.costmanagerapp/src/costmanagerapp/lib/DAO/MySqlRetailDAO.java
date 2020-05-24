@@ -2,6 +2,10 @@ package costmanagerapp.lib.DAO;
 
 import costmanagerapp.lib.DAO.IRetailDAO;
 import costmanagerapp.lib.Models.RetailType;
+import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
+import costmanagerapp.lib.QueryUtils.IQueryExecuter;
+import costmanagerapp.lib.QueryUtils.MySqlDbConnector;
+import costmanagerapp.lib.QueryUtils.MySqlQueryExecuter;
 import costmanagerapp.lib.UsersPlatformException;
 
 import java.sql.*;
@@ -16,29 +20,32 @@ public class MySqlRetailDAO implements IRetailDAO {
     private String sqlPassword = "123456";
     private String guidColumn = "Guid";
     private String typeColumn = "Name";
+    private String tableName = "retailtype";
 
-    public MySqlRetailDAO() throws ClassNotFoundException {
+    private IQueryExecuter executor;
+    private AbstractDbConnector dbConnector;
+    private ITransactionDAO transactionDAO;
+
+    public MySqlRetailDAO() throws ClassNotFoundException {this(new MySqlQueryExecuter(),
+            new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
+    }
+    public MySqlRetailDAO(IQueryExecuter queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
         Class.forName(driver);
+        executor = queryExecutor;
+        dbConnector = connector;
     }
 
-    private ResultSet executeQuery(String query) throws SQLException {
-        Connection connection = DriverManager.getConnection(connectionString, sqlUser, sqlPassword);
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(query);
-        return rs;
-    }
-    private boolean execute(String query) throws SQLException {
-        Connection connection = DriverManager.getConnection(connectionString, sqlUser, sqlPassword);
-        Statement statement = connection.createStatement();
-        boolean rs = statement.execute(query);
-        return rs;
+    private void initTransctionDAO() throws ClassNotFoundException {
+        transactionDAO  =
+                new MySqlTransactionDAO(new MySqlUserDAO(), this, new MySqlQueryExecuter(), new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
+
     }
 
     @Override
     public RetailType getRetail(int guid) throws UsersPlatformException {
         RetailType retailType = null;
         try {
-            ResultSet rs = executeQuery("SELECT * FROM retailtype WHERE Guid =" + guid);
+            ResultSet rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM "+tableName + " WHERE Guid =" + guid);
             if (!rs.next()) {
                 throw new UsersPlatformException("retail does not exist");
             }
@@ -55,7 +62,7 @@ public class MySqlRetailDAO implements IRetailDAO {
     public Collection<RetailType> getRetails() throws UsersPlatformException {
         Collection<RetailType> retails = new ArrayList<>();
         try {
-            ResultSet rs = executeQuery("SELECT * FROM retailtype");
+            ResultSet rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM " + tableName);
             while (rs.next())
                 retails.add(new RetailType(rs.getInt(guidColumn), rs.getString(typeColumn)));
         } catch (SQLException e) {
@@ -66,20 +73,22 @@ public class MySqlRetailDAO implements IRetailDAO {
 
     @Override
     public void setRetail(int guid, String newName) throws SQLException {
-        execute("UPDATE retailtype SET "+typeColumn+" = \"" + newName + "\" WHERE "+guidColumn+" = " + guid);
+        executor.TryExecuteUpdateQuery(dbConnector,"UPDATE "+tableName + " SET "+typeColumn+" = \""
+                + newName + "\" WHERE "+guidColumn+" = " + guid);
     }
 
     @Override
     public void insertRetail(RetailType retailType) throws SQLException {
-        execute("INSERT INTO retailtype ("+guidColumn+", "+typeColumn+") Values("+retailType.getGuid()+", \""+retailType.getType() + "\")");
+        executor.TryExecuteInsertQuery(dbConnector,"INSERT INTO "+tableName+" ("+guidColumn+", "+typeColumn+") Values("+retailType.getGuid()+", \""+retailType.getType() + "\")");
     }
 
     @Override
     public void deleteRetail(int guid) throws UsersPlatformException {
         try {
-            execute("DELETE FROM transactions WHERE RetailGuid = "+ guid);
-            execute("DELETE FROM retailtype WHERE Guid = " + guid);
-        } catch (SQLException e) {
+            initTransctionDAO();
+            transactionDAO.deleteRetailTransactions(guid);
+            executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM "+tableName+" WHERE Guid = " + guid);
+        } catch (SQLException | ClassNotFoundException e) {
             throw new UsersPlatformException();
         }
     }

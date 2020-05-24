@@ -44,7 +44,7 @@ public class RetailDAOTest {
     @Test
     public void testInsertRetail(){
         try {
-            tester.insertRetail(new RetailType(2,"Books"));
+            tester.insertRetail(new RetailType(0,"None"));
         } catch (UsersPlatformException e) {
             throw new AssertionError();
         } catch (SQLException e) {
@@ -54,7 +54,7 @@ public class RetailDAOTest {
     @Test
     public void testDeleteRetail(){
         try {
-            tester.deleteRetail(1);
+            tester.deleteRetail(2);
         } catch (UsersPlatformException e) {
             throw new AssertionError();
         }
@@ -62,7 +62,7 @@ public class RetailDAOTest {
     @Test
     public void testUpdateRetail(){
         try {
-            tester.setRetail(77953,"Test");
+            tester.setRetail(77953,"Test3");
         } catch (SQLException e) {
             throw new AssertionError();
         }
