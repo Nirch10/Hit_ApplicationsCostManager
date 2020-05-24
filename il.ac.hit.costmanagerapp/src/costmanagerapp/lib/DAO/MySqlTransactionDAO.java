@@ -126,7 +126,8 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     }
     @Override
     public void deleteRetailTransactions(int retailGuid) throws SQLException{
-        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+userGuidColumn+" = "+ retailGuid);
+        executor.TryExecuteUpdateQuery(dbConnector, "UPDATE "+ transactionsTable + " SET "+retailGuidColumn +
+                "= "+ 0 + "  WHERE "+retailGuidColumn+" = "+ retailGuid);
     }
 
 

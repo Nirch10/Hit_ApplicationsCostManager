@@ -35,6 +35,11 @@ public class MySqlRetailDAO implements IRetailDAO {
         dbConnector = connector;
     }
 
+    private void initTransctionDAO() throws ClassNotFoundException {
+        transactionDAO  =
+                new MySqlTransactionDAO(new MySqlUserDAO(), this, new MySqlQueryExecuter(), new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
+
+    }
 
     @Override
     public RetailType getRetail(int guid) throws UsersPlatformException {
@@ -68,7 +73,8 @@ public class MySqlRetailDAO implements IRetailDAO {
 
     @Override
     public void setRetail(int guid, String newName) throws SQLException {
-        executor.TryExecuteUpdateQuery(dbConnector,"UPDATE "+tableName + " SET "+typeColumn+" = \"" + newName + "\" WHERE "+guidColumn+" = " + guid);
+        executor.TryExecuteUpdateQuery(dbConnector,"UPDATE "+tableName + " SET "+typeColumn+" = \""
+                + newName + "\" WHERE "+guidColumn+" = " + guid);
     }
 
     @Override
@@ -79,9 +85,10 @@ public class MySqlRetailDAO implements IRetailDAO {
     @Override
     public void deleteRetail(int guid) throws UsersPlatformException {
         try {
+            initTransctionDAO();
             transactionDAO.deleteRetailTransactions(guid);
             executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM "+tableName+" WHERE Guid = " + guid);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new UsersPlatformException();
         }
     }
