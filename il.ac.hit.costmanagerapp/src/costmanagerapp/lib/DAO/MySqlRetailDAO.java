@@ -1,6 +1,6 @@
 package costmanagerapp.lib.DAO;
 
-import costmanagerapp.lib.DAO.IRetailDAO;
+import costmanagerapp.Config.HibernateMappingConfig;
 import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
@@ -21,7 +21,7 @@ public class MySqlRetailDAO implements IRetailDAO {
     private String guidColumn = "Guid";
     private String typeColumn = "Name";
     private String tableName = "retailtype";
-
+    private HibernateMappingConfig hibernateMapping;
     private IQueryExecuter executor;
     private AbstractDbConnector dbConnector;
     private ITransactionDAO transactionDAO;
