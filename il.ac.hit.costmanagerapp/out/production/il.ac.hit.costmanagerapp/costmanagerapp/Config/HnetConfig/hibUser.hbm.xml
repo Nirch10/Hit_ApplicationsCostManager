@@ -3,12 +3,12 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="costmanagerapp.lib.DAO.MySqlUserDAO" table="user">
-        <id name="guid" type="int" column="Guid" >
+    <class name="costmanagerapp.lib.Models.User" table="user">
+        <id name="Guid" type="int" column="Guid" >
             <generator class="increment"/>
         </id>
-        <property name="userNameColumn"><column name="UserName"/></property>
-        <property name="userEmailColumn"><column name="Email"/></property>
-        <property name="userPasswordColumn"><column name="Password"/></property>
+        <property name="UserName"><column name="UserName"/></property>
+        <property name="Email"><column name="Email"/></property>
+        <property name="Password"><column name="Password"/></property>
     </class>
 </hibernate-mapping>

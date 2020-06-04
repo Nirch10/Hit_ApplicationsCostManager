@@ -5,6 +5,7 @@ import com.sun.istack.internal.NotNull;
 import java.time.LocalDate;
 import java.util.Random;
 
+
 public class Transaction {
     private int Guid;
     private boolean IsIncome;
@@ -42,22 +43,34 @@ public class Transaction {
     public int getGuid() {
         return Guid;
     }
+    public void setGuid(int guid){Guid = guid;}
     public boolean getIsIncome() {
         return IsIncome;
     }
+
+    public boolean isIncome() {
+        return IsIncome;
+    }
+
+    public void setIsIncome(boolean isIncome){IsIncome = isIncome;}
     public double getPrice() {
         return Price;
     }
+    public void setPrice(double price){Price = price;}
     public RetailType getRetail() {
         return Retail;
     }
+    public void setRetail(RetailType retail){Retail = retail;}
     public User getUser() {
         return User;
     }
+    public void setUser(User user){User = user;}
     public LocalDate getDateOfTransaction() {
         return DateOfTransaction;
     }
+    public void setDateOfTransaction(LocalDate dateOfTransaction){DateOfTransaction = dateOfTransaction;}
     public String getDescription() {
         return Description;
     }
+    public void setDescription(String description){Description = description;}
 }
