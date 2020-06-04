@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 import java.util.Random;
 
+
 public class RetailType {
     private int Guid;
     private String Name;

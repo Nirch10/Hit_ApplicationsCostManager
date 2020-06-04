@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="costmanagerapp.lib.Transaction" table="transactions">
+        <id name="guidColumn" type="int" column="Guid" >
+            <generator class="increment"/>
+        </id>
+        <property name="isIncomeColumn"><column name="IsIncome"/></property>
+        <property name="priceColumn"><column name="Price"/></property>
+        <property name="descriptionColumn"><column name="Description"/></property>
+        <property name="retailGuidColumn"><column name="RetailGuid"/></property>
+        <property name="dateOfTransactionColumn"><column name="DateOfTransaction"/></property>
+        <property name="userGuidColumn"><column name="UserGuid"/></property>
+    </class>
+</hibernate-mapping>
