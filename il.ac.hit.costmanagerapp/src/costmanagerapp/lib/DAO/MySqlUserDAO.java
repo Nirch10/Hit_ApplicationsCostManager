@@ -1,10 +1,9 @@
 package costmanagerapp.lib.DAO;
 
+import costmanagerapp.lib.Models.RetailType;
+import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.Models.User;
-import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
-import costmanagerapp.lib.QueryUtils.IQueryExecuter;
-import costmanagerapp.lib.QueryUtils.MySqlDbConnector;
-import costmanagerapp.lib.QueryUtils.MySqlQueryExecuter;
+import costmanagerapp.lib.QueryUtils.*;
 import costmanagerapp.lib.UsersPlatformException;
 
 import java.sql.*;
@@ -19,33 +18,35 @@ public class MySqlUserDAO implements IUsersDAO {
     private String userPasswordColumn = "Password";
     private String userEmailColumn = "Email";
     private String userTableName = "user";
-    private IQueryExecuter executor;
+    private IQueryExecuter<User> executor;
     private AbstractDbConnector dbConnector;
     private ITransactionDAO transactionDAO;
 
 
-    public MySqlUserDAO() throws ClassNotFoundException {this(new MySqlQueryExecuter(),
+    public MySqlUserDAO() throws ClassNotFoundException {this(new HnetMySqlQueryExecuter<User>(),
             new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
               }
-    public MySqlUserDAO(IQueryExecuter queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
+    public MySqlUserDAO(IQueryExecuter<User> queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
         Class.forName(driver);
         executor = queryExecutor;
         dbConnector = connector;
     }
     private void initTransctionDAO() throws ClassNotFoundException {
         transactionDAO  =
-                new MySqlTransactionDAO(this, new MySqlRetailDAO(), new MySqlQueryExecuter(), new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
+                new MySqlTransactionDAO(this, new MySqlRetailDAO(),
+                        new HnetMySqlQueryExecuter<Transaction>(),
+                        new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
 
     }
     @Override
     public User getUser(int userId) throws UsersPlatformException {
         User user = null;
         try {
-            ResultSet rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM "+userTableName+" WHERE "+userGuidColumn+"=" + userId);
-            if (!rs.next()) {
+            Collection<User> rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM "+userTableName+" WHERE "+userGuidColumn+"=" + userId);
+            if (rs.size() <= 0 ) {
                 throw new UsersPlatformException("No such user exists");
             }
-            user = new User(rs.getInt(userGuidColumn) ,rs.getString(userNameColumn), rs.getString(userEmailColumn), rs.getString(userPasswordColumn));
+            user = rs.stream().findFirst().get();
         } catch (SQLException e) {
             throw new UsersPlatformException("Could not get user with guid {"+userId+"} from db,\n", e);
         } catch (UsersPlatformException e) {
@@ -58,12 +59,7 @@ public class MySqlUserDAO implements IUsersDAO {
     public Collection<User> getAllUsers() throws UsersPlatformException {
         Collection<User> userCollection = new ArrayList<>();
         try {
-            ResultSet rs = executor.ExecuteGetQuery(dbConnector, "SELECT * FROM "+userTableName);
-            while (rs.next()) {
-                userCollection.add(new User(rs.getInt(userGuidColumn) , rs.getString(userNameColumn),
-                        rs.getString(userEmailColumn), rs.getString(userPasswordColumn)));
-
-            }
+            userCollection = executor.ExecuteGetQuery(dbConnector, "SELECT * FROM "+userTableName);
             if (userCollection.size() == 0) {
                 throw new UsersPlatformException("No user exists");
             }

@@ -2,15 +2,16 @@ package costmanagerapp.lib.DAO;
 
 import costmanagerapp.Config.HibernateMappingConfig;
 import costmanagerapp.lib.Models.RetailType;
-import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
-import costmanagerapp.lib.QueryUtils.IQueryExecuter;
-import costmanagerapp.lib.QueryUtils.MySqlDbConnector;
-import costmanagerapp.lib.QueryUtils.MySqlQueryExecuter;
+import costmanagerapp.lib.Models.Transaction;
+import costmanagerapp.lib.QueryUtils.*;
 import costmanagerapp.lib.UsersPlatformException;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class MySqlRetailDAO implements IRetailDAO {
 
@@ -22,22 +23,25 @@ public class MySqlRetailDAO implements IRetailDAO {
     private String typeColumn = "Name";
     private String tableName = "retailtype";
     private HibernateMappingConfig hibernateMapping;
-    private IQueryExecuter executor;
+    private IQueryExecuter<RetailType> executor;
     private AbstractDbConnector dbConnector;
     private ITransactionDAO transactionDAO;
 
-    public MySqlRetailDAO() throws ClassNotFoundException {this(new MySqlQueryExecuter(),
-            new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
+    public MySqlRetailDAO() throws ClassNotFoundException {this(new HnetMySqlQueryExecuter<RetailType>(),
+            new HnetMySqlDbConnector(new File("C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml")));
     }
-    public MySqlRetailDAO(IQueryExecuter queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
+    public MySqlRetailDAO(IQueryExecuter<RetailType> queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
         Class.forName(driver);
         executor = queryExecutor;
         dbConnector = connector;
+
     }
 
     private void initTransctionDAO() throws ClassNotFoundException {
         transactionDAO  =
-                new MySqlTransactionDAO(new MySqlUserDAO(), this, new MySqlQueryExecuter(), new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
+                new MySqlTransactionDAO(new MySqlUserDAO(),
+                        this, new HnetMySqlQueryExecuter<Transaction>(),
+                        new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
 
     }
 
@@ -45,15 +49,20 @@ public class MySqlRetailDAO implements IRetailDAO {
     public RetailType getRetail(int guid) throws UsersPlatformException {
         RetailType retailType = null;
         try {
-            ResultSet rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM "+tableName + " WHERE Guid =" + guid);
-            if (!rs.next()) {
+            Collection<RetailType> rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM "+tableName + " WHERE Guid =" + guid);
+            if (rs.size() <= 0) {
                 throw new UsersPlatformException("retail does not exist");
             }
-            retailType = new RetailType(rs.getInt(guidColumn), rs.getString(typeColumn));
+
+            retailType = rs.stream().findFirst().get();
+
         } catch (SQLException e) {
             throw new UsersPlatformException("problem getting row", e);
         } catch (UsersPlatformException e) {
             e.printStackTrace();
+        }
+        catch (Exception e){
+            throw new UsersPlatformException("problem with parsing", e);
         }
         return retailType;
     }
@@ -62,13 +71,15 @@ public class MySqlRetailDAO implements IRetailDAO {
     public Collection<RetailType> getRetails() throws UsersPlatformException {
         Collection<RetailType> retails = new ArrayList<>();
         try {
-            ResultSet rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM " + tableName);
-            while (rs.next())
-                retails.add(new RetailType(rs.getInt(guidColumn), rs.getString(typeColumn)));
+            Collection<RetailType> rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM " + tableName);
+            return rs;
+//            for (RetailType r :
+//                    rs) {
+//                retails.add(new RetailType(r.getGuid(), r.getName()));
+//            }
         } catch (SQLException e) {
             throw new UsersPlatformException("problem getting row", e);
         }
-        return retails;
     }
 
     @Override

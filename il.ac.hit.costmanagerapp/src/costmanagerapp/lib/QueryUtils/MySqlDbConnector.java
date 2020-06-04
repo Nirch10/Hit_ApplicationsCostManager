@@ -1,6 +1,6 @@
 package costmanagerapp.lib.QueryUtils;
 
-import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
+import org.hibernate.Session;
 
 public class MySqlDbConnector extends AbstractDbConnector {
 
@@ -8,5 +8,10 @@ public class MySqlDbConnector extends AbstractDbConnector {
         connectionString = connString;
         userName = uName;
         password = uPassword;
+    }
+
+    @Override
+    Session openConn() {
+        return null;
     }
 }

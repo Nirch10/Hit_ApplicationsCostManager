@@ -2,10 +2,7 @@ package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
 import costmanagerapp.lib.Models.Transaction;
-import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
-import costmanagerapp.lib.QueryUtils.IQueryExecuter;
-import costmanagerapp.lib.QueryUtils.MySqlDbConnector;
-import costmanagerapp.lib.QueryUtils.MySqlQueryExecuter;
+import costmanagerapp.lib.QueryUtils.*;
 import costmanagerapp.lib.UsersPlatformException;
 
 import java.sql.*;
@@ -29,13 +26,13 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     private String retailGuidColumn = "RetailGuid";
     private IRetailDAO retailDAO;
     private IUsersDAO userDAO;
-    private IQueryExecuter executor;
+    private IQueryExecuter<Transaction> executor;
     private AbstractDbConnector dbConnector;
 
-    public MySqlTransactionDAO() throws ClassNotFoundException {this(new MySqlUserDAO(), new MySqlRetailDAO(), new MySqlQueryExecuter(),
+    public MySqlTransactionDAO() throws ClassNotFoundException {this(new MySqlUserDAO(), new MySqlRetailDAO(), new HnetMySqlQueryExecuter<>(),
             new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));}
 
-    public MySqlTransactionDAO(IUsersDAO userDAO, IRetailDAO retailDAO, IQueryExecuter queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
+    public MySqlTransactionDAO(IUsersDAO userDAO, IRetailDAO retailDAO, IQueryExecuter<Transaction> queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
         Class.forName(driver);
         this.retailDAO = retailDAO;
         this.userDAO = userDAO;
