@@ -15,6 +15,8 @@ public class RetailType {
         Guid = guid;
         Name = name;
     }
+    public RetailType(){
+    }
     public RetailType(@NotNull String name){
         //TODO::: Generate id automatically
         Guid = new Random().nextInt(100000);

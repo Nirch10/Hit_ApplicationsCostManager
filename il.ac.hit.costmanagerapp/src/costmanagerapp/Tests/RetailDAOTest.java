@@ -1,5 +1,6 @@
 package costmanagerapp.Tests;
 
+import costmanagerapp.lib.DAO.HnetMySqlRetailsDAO;
 import costmanagerapp.lib.DAO.IRetailDAO;
 import costmanagerapp.lib.DAO.MySqlRetailDAO;
 import costmanagerapp.lib.Models.RetailType;
@@ -17,11 +18,7 @@ public class RetailDAOTest {
 
     @BeforeClass
     public static void testSetup() {
-        try {
-            tester = new MySqlRetailDAO();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        tester = new HnetMySqlRetailsDAO();
     }
 
     @AfterClass
