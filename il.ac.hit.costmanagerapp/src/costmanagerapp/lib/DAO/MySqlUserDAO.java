@@ -1,6 +1,5 @@
 package costmanagerapp.lib.DAO;
 
-import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.QueryUtils.*;
@@ -42,7 +41,7 @@ public class MySqlUserDAO implements IUsersDAO {
     public User getUser(int userId) throws UsersPlatformException {
         User user = null;
         try {
-            Collection<User> rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM "+userTableName+" WHERE "+userGuidColumn+"=" + userId);
+            Collection<User> rs = executor.tryExecuteGetQuery(dbConnector,"SELECT * FROM "+userTableName+" WHERE "+userGuidColumn+"=" + userId);
             if (rs.size() <= 0 ) {
                 throw new UsersPlatformException("No such user exists");
             }
@@ -59,7 +58,7 @@ public class MySqlUserDAO implements IUsersDAO {
     public Collection<User> getAllUsers() throws UsersPlatformException {
         Collection<User> userCollection = new ArrayList<>();
         try {
-            userCollection = executor.ExecuteGetQuery(dbConnector, "SELECT * FROM "+userTableName);
+            userCollection = executor.tryExecuteGetQuery(dbConnector, "SELECT * FROM "+userTableName);
             if (userCollection.size() == 0) {
                 throw new UsersPlatformException("No user exists");
             }
@@ -99,13 +98,13 @@ public class MySqlUserDAO implements IUsersDAO {
 
     @Override
     public void setPassword(int id , String pw) throws UsersPlatformException {
-        try{
-            executor.TryExecuteUpdateQuery(dbConnector, "UPDATE "+userTableName+" SET " + userPasswordColumn + " = \""+
-                    pw + "\" WHERE "+ userGuidColumn + " = "+ id);
-        }
-        catch (SQLException e) {
-            throw new UsersPlatformException("Could not update user's password,\n", e);
-        }
+//        try{
+//            executor.TryExecuteUpdateQuery(dbConnector, "UPDATE "+userTableName+" SET " + userPasswordColumn + " = \""+
+//                    pw + "\" WHERE "+ userGuidColumn + " = "+ id);
+//        }
+//        catch (SQLException e) {
+//            throw new UsersPlatformException("Could not update user's password,\n", e);
+//        }
     }
 }
 

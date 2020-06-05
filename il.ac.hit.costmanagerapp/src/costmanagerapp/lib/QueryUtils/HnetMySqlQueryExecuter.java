@@ -10,15 +10,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class HnetMySqlQueryExecuter<T> implements IQueryExecuter<T> {
-
-   // private T classType;
-
-    public HnetMySqlQueryExecuter(){
-     //   classType = classTypeInput;
-    }
+    public HnetMySqlQueryExecuter(){}
 
     @Override
-    public Collection ExecuteGetQuery(AbstractDbConnector connector, String getQuery) throws SQLException {
+    public Collection tryExecuteGetQuery(AbstractDbConnector connector, String getQuery) {
         return null;
     }
 
@@ -30,11 +25,16 @@ public class HnetMySqlQueryExecuter<T> implements IQueryExecuter<T> {
 
     //TODO :: abstract problem - there might be huge problem with DbConnector
     @Override
-    public Collection<T> ExecuteGetQuery(AbstractDbConnector connector, String getQuery, Class type) {
-        Session session= setSession(connector);
-        List<T> res = (List<T>) session.createSQLQuery(getQuery).addEntity(type).list();
-        session.close();
-        return res;
+    public Collection<T> tryExecuteGetQuery(AbstractDbConnector connector, String getQuery, Class type) {
+        try {
+            Session session = setSession(connector);
+
+            List<T> res = (List<T>) session.createSQLQuery(getQuery).addEntity(type).list();
+            session.close();
+            return res;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -51,8 +51,16 @@ public class HnetMySqlQueryExecuter<T> implements IQueryExecuter<T> {
     }
 
     @Override
-    public Boolean TryExecuteUpdateQuery(AbstractDbConnector connector, String updateQuery) throws SQLException {
-        return null;
+    public Boolean TryExecuteUpdateQuery(AbstractDbConnector connector, T updateObj) throws SQLException {
+        try {
+            Session session = setSession(connector);
+            session.update(updateObj);
+            session.getTransaction().commit();
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
     @Override

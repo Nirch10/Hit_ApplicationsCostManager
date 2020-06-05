@@ -45,7 +45,7 @@
 //    public RetailType getRetail(int guid) throws UsersPlatformException {
 //        RetailType retailType = null;
 //        try {
-//            Collection rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM "+tableName + " WHERE Guid =" + guid);
+//            Collection rs = executor.tryExecuteGetQuery(dbConnector,"SELECT * FROM "+tableName + " WHERE Guid =" + guid);
 ////            if (!rs.next()) {
 ////                throw new UsersPlatformException("retail does not exist");
 //            } catch (SQLException ex) {
@@ -59,7 +59,7 @@
 //    public Collection<RetailType> getRetails() throws UsersPlatformException {
 //        Collection<RetailType> retails = new ArrayList<>();
 //        try {
-//            Collection rs = executor.ExecuteGetQuery(dbConnector,"SELECT * FROM " + tableName);
+//            Collection rs = executor.tryExecuteGetQuery(dbConnector,"SELECT * FROM " + tableName);
 ////            while (rs.next())
 ////                retails.add(new RetailType(rs.getInt(guidColumn), rs.getString(typeColumn)));
 //        } catch (SQLException e) {

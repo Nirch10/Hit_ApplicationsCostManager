@@ -6,7 +6,7 @@
 //public class MySqlQueryExecuter<T> implements IQueryExecuter<T> {
 //
 //    @Override
-//    public Collection ExecuteGetQuery(AbstractDbConnector connector, String getQuery) throws SQLException {
+//    public Collection tryExecuteGetQuery(AbstractDbConnector connector, String getQuery) throws SQLException {
 //        Connection connection = DriverManager.getConnection(connector.connectionString, connector.userName, connector.password);
 //        Statement statement = connection.createStatement();
 //        ResultSet rs = statement.executeQuery(getQuery);
@@ -14,7 +14,7 @@
 //    }
 //
 //    @Override
-//    public Collection<T> ExecuteGetQuery(AbstractDbConnector connector, String getQuery, Class type) throws SQLException {
+//    public Collection<T> tryExecuteGetQuery(AbstractDbConnector connector, String getQuery, Class type) throws SQLException {
 //        return null;
 //    }
 //
