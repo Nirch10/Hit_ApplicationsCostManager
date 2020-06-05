@@ -1,14 +1,12 @@
 package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
-import costmanagerapp.Config.HibernateMappingConfig;
 import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecuter;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
 import costmanagerapp.lib.UsersPlatformException;
-
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -32,7 +30,7 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
         if(connector != null)
             dbConnector = connector;
         else
-            new HnetMySqlDbConnector(new File(filePath));
+            dbConnector = new HnetMySqlDbConnector(new File(filePath));
     }
 
     @Override

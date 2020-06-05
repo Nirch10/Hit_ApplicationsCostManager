@@ -19,6 +19,7 @@ public class User {
                 ", Password='" + Password + '\'' +
                 '}';
     }
+    public User(){}
 
     public User(@NotNull String userName, @NotNull String email, @NotNull String password){
         //TODO::: Generate id automatically

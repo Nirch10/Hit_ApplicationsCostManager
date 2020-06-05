@@ -14,10 +14,10 @@
         <property name="DateOfTransaction"><column name="DateOfTransaction"/></property>
     
         <many-to-one name="Retail" class="costmanagerapp.lib.Models.RetailType"
-            column="retailGuid" unique="true" not-null="true"
+            column="RetailGuid" not-null="true"
             cascade="all" />
 		<many-to-one name="User" class="costmanagerapp.lib.Models.User"
-            column="userGuid" unique="true" not-null="true"
+            column="UserGuid" not-null="true"
             cascade="all" />
         
 	</class>

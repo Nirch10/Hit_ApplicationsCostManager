@@ -43,7 +43,7 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     private Transaction getTransactionFromResultSet(ResultSet rs) throws SQLException, UsersPlatformException {
         Transaction transaction = new Transaction(rs.getInt(guidColumn), rs.getBoolean(isIncomeColumn), rs.getDouble(priceColumn),
                 retailDAO.getRetail(rs.getInt(retailGuidColumn)),
-                userDAO.getUser(rs.getInt(userGuidColumn)),rs.getDate(dateOfTransactionColumn).toLocalDate(),
+                userDAO.getUser(rs.getInt(userGuidColumn)),rs.getDate(dateOfTransactionColumn),
                 rs.getString(descriptionColumn));
         return transaction;
     }

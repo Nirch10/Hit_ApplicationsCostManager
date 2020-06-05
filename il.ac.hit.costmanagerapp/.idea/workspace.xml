@@ -2,16 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec0c3dbd-20b3-49df-a16b-c025088c138f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlTransactionDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlRetailsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlRetailsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/IRetailDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/IRetailDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlRetailDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlRetailDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/ITransactionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/ITransactionDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlTransactionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlTransactionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlUserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlQueryExecuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlQueryExecuter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/IQueryExecuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/IQueryExecuter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/MySqlQueryExecuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/MySqlQueryExecuter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/Models/RetailType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/Models/RetailType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/Models/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/Models/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/costmanagerapp/lib/Models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/costmanagerapp/lib/Models/User.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlRetailsDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="39" selection-start-line="39" selection-end-line="39" />
+            <state relative-caret-position="129">
+              <caret line="21" column="193" lean-forward="true" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="193" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -37,48 +37,17 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/IQueryExecuter.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="10" column="98" selection-start-line="10" selection-start-column="98" selection-end-line="10" selection-end-column="98" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlQueryExecuter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="15" column="88" selection-start-line="15" selection-start-column="88" selection-end-line="15" selection-end-column="88" />
+            <state relative-caret-position="140">
+              <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#492#493#0" expanded="true" />
-                <element signature="e#519#520#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="62" column="42" selection-start-line="62" selection-start-column="42" selection-end-line="62" selection-end-column="42" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlUserDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="101" column="6" selection-start-line="101" selection-start-column="6" selection-end-line="101" selection-end-column="6" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1262#1263#0" expanded="true" />
+                <element signature="e#1297#1298#0" expanded="true" />
+                <element signature="e#1542#1543#0" expanded="true" />
+                <element signature="e#1577#1578#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -87,8 +56,59 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlTransactionDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="171" column="5" selection-start-line="171" selection-start-column="5" selection-end-line="171" selection-end-column="5" />
+            <state relative-caret-position="142">
+              <caret line="45" column="94" selection-start-line="45" selection-start-column="94" selection-end-line="45" selection-end-column="94" />
+              <folding>
+                <element signature="method#MySqlTransactionDAO#0;class#MySqlTransactionDAO#0" />
+                <element signature="method#MySqlTransactionDAO#1;class#MySqlTransactionDAO#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlTransactionDAO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/Transaction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="90" column="41" selection-start-line="90" selection-start-column="41" selection-end-line="90" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="142">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlQueryExecuter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#492#493#0" expanded="true" />
+                <element signature="e#519#520#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -119,7 +139,6 @@
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/RetailType.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/MySqlTransactionDAO.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/IUsersDAO.java" />
-        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/Models/User.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/ITransactionDAO.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/Tests/UserDAOTest.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/Config/CostManagerDAOConfig.java" />
@@ -128,23 +147,25 @@
         <option value="$PROJECT_DIR$/src/costmanagerapp/Config/CostManagerDAOConfigWrapper.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/Config/HnetConfig/hibernate.cfg.xml" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/Console/ConsoleMain.java" />
-        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/Models/Transaction.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/Config/HnetConfig/hibUser.hbm.xml" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/Config/HnetConfig/hibTransactions.hbm.xml" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/Config/HnetConfig/hibRetailType.hbm.xml" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/AbstractDbConnector.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/MySqlDbConnector.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlDbConnector.java" />
-        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/Models/RetailType.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/MySqlQueryExecuter.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlRetailDAO.java" />
-        <option value="$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlUserDAO.java" />
-        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlTransactionDAO.java" />
-        <option value="$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlQueryExecuter.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/IQueryExecuter.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/Models/RetailType.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java" />
         <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlRetailsDAO.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlTransactionDAO.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/Models/Transaction.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlTransactionDAO.java" />
+        <option value="$PROJECT_DIR$/src/costmanagerapp/lib/Models/User.java" />
       </list>
     </option>
   </component>
@@ -203,7 +224,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="costmanagerapp" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="DAO" type="462c0819:PsiDirectoryNode" />
+              <item name="Models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="il.ac.hit.costmanagerapp" type="b2602c69:ProjectViewProjectNode" />
@@ -260,7 +281,22 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.RetailDAOTest.testUpdateRetail">
+  <component name="RunManager" selected="JUnit.TransactionDAOUnitTest.testGetTransactionByUser">
+    <configuration name="RetailDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="il.ac.hit.costmanagerapp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="costmanagerapp.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="costmanagerapp.Tests" />
+      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.RetailDAOTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="RetailDAOTest.testDeleteRetail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="il.ac.hit.costmanagerapp" />
       <extension name="coverage">
@@ -272,22 +308,6 @@
       <option name="PACKAGE_NAME" value="costmanagerapp.Tests" />
       <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.RetailDAOTest" />
       <option name="METHOD_NAME" value="testDeleteRetail" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RetailDAOTest.testGetAllRetails" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="il.ac.hit.costmanagerapp" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="costmanagerapp.Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="costmanagerapp.Tests" />
-      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.RetailDAOTest" />
-      <option name="METHOD_NAME" value="testGetAllRetails" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -309,7 +329,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RetailDAOTest.testInsertRetail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TransactionDAOUnitTest.testGetTransaction" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="il.ac.hit.costmanagerapp" />
       <extension name="coverage">
         <pattern>
@@ -318,14 +338,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="costmanagerapp.Tests" />
-      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.RetailDAOTest" />
-      <option name="METHOD_NAME" value="testInsertRetail" />
+      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.TransactionDAOUnitTest" />
+      <option name="METHOD_NAME" value="testGetTransaction" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RetailDAOTest.testUpdateRetail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TransactionDAOUnitTest.testGetTransactionByUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="il.ac.hit.costmanagerapp" />
       <extension name="coverage">
         <pattern>
@@ -334,8 +354,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="costmanagerapp.Tests" />
-      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.RetailDAOTest" />
-      <option name="METHOD_NAME" value="testUpdateRetail" />
+      <option name="MAIN_CLASS_NAME" value="costmanagerapp.Tests.TransactionDAOUnitTest" />
+      <option name="METHOD_NAME" value="testGetTransactionByUser" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -343,10 +363,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.RetailDAOTest.testUpdateRetail" />
+        <item itemvalue="JUnit.TransactionDAOUnitTest.testGetTransactionByUser" />
+        <item itemvalue="JUnit.TransactionDAOUnitTest.testGetTransaction" />
         <item itemvalue="JUnit.RetailDAOTest.testDeleteRetail" />
-        <item itemvalue="JUnit.RetailDAOTest.testInsertRetail" />
-        <item itemvalue="JUnit.RetailDAOTest.testGetAllRetails" />
+        <item itemvalue="JUnit.RetailDAOTest" />
         <item itemvalue="JUnit.RetailDAOTest.testGetUser" />
       </list>
     </recent_temporary>
@@ -365,35 +385,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RetailDAOTest_testDeleteRetail - 2020.06.05 at 13h 29m 27s.xml">
-      <configuration name="RetailDAOTest.testDeleteRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 22m 35s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testDeleteRetail - 2020.06.05 at 13h 29m 59s.xml">
-      <configuration name="RetailDAOTest.testDeleteRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 25m 14s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testDeleteRetail - 2020.06.05 at 13h 31m 36s.xml">
-      <configuration name="RetailDAOTest.testDeleteRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 28m 22s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testUpdateRetail - 2020.06.05 at 22h 19m 44s.xml">
-      <configuration name="RetailDAOTest.testUpdateRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 31m 09s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testUpdateRetail - 2020.06.05 at 22h 20m 17s.xml">
-      <configuration name="RetailDAOTest.testUpdateRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 31m 13s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testUpdateRetail - 2020.06.05 at 22h 20m 56s.xml">
-      <configuration name="RetailDAOTest.testUpdateRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 33m 26s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testUpdateRetail - 2020.06.05 at 22h 21m 11s.xml">
-      <configuration name="RetailDAOTest.testUpdateRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 38m 39s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testUpdateRetail - 2020.06.05 at 22h 21m 28s.xml">
-      <configuration name="RetailDAOTest.testUpdateRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 40m 42s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testUpdateRetail - 2020.06.05 at 22h 22m 57s.xml">
-      <configuration name="RetailDAOTest.testUpdateRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 40m 45s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RetailDAOTest_testUpdateRetail - 2020.06.05 at 22h 23m 16s.xml">
-      <configuration name="RetailDAOTest.testUpdateRetail" configurationId="JUnit" />
+    <history-entry file="TransactionDAOUnitTest_testGetTransaction - 2020.06.05 at 23h 42m 53s.xml">
+      <configuration name="TransactionDAOUnitTest.testGetTransaction" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -411,7 +431,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.42776203" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4206799" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.4206799" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -560,7 +580,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java</url>
-          <line>38</line>
+          <line>40</line>
           <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
@@ -611,14 +631,6 @@
           <line>42</line>
           <properties />
           <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java</url>
-          <line>37</line>
-          <properties class="costmanagerapp.Tests.TransactionDAOUnitTest" method="testGetTransaction">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -730,31 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-179">
-          <caret line="31" column="43" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1262#1263#0" expanded="true" />
-            <element signature="e#1297#1298#0" expanded="true" />
-            <element signature="e#1542#1543#0" expanded="true" />
-            <element signature="e#1577#1578#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/Transaction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="57" column="5" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
-          <folding>
-            <element signature="e#1464#1465#0" expanded="true" />
-            <element signature="e#1495#1496#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/hibRetailType.hbm.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -851,36 +838,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="55" column="55" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/RetailType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#590#591#0" expanded="true" />
-            <element signature="e#617#618#0" expanded="true" />
-            <element signature="e#694#695#0" expanded="true" />
-            <element signature="e#721#722#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/statements/InvokeMethod.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -912,31 +869,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlTransactionDAO.java">
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/RetailType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="171" column="5" selection-start-line="171" selection-start-column="5" selection-end-line="171" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="62" column="42" selection-start-line="62" selection-start-column="42" selection-end-line="62" selection-end-column="42" />
+        <state relative-caret-position="323">
+          <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlQueryExecuter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="15" column="88" selection-start-line="15" selection-start-column="88" selection-end-line="15" selection-end-column="88" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#492#493#0" expanded="true" />
-            <element signature="e#519#520#0" expanded="true" />
+            <element signature="e#746#747#0" expanded="true" />
+            <element signature="e#773#774#0" expanded="true" />
+            <element signature="e#850#851#0" expanded="true" />
+            <element signature="e#877#878#0" expanded="true" />
+            <element signature="e#908#909#0" expanded="true" />
+            <element signature="e#935#936#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -948,12 +891,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlRetailsDAO.java">
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/RetailDAOTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
+        <state relative-caret-position="218">
+          <caret line="52" column="37" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlRetailsDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="21" column="193" lean-forward="true" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="193" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/Transaction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="90" column="41" selection-start-line="90" selection-start-column="41" selection-end-line="90" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/MySqlTransactionDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="45" column="94" selection-start-line="45" selection-start-column="94" selection-end-line="45" selection-end-column="94" />
+          <folding>
+            <element signature="method#MySqlTransactionDAO#0;class#MySqlTransactionDAO#0" />
+            <element signature="method#MySqlTransactionDAO#1;class#MySqlTransactionDAO#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/Tests/TransactionDAOUnitTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/DAO/HnetMySqlTransactionDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/QueryUtils/HnetMySqlQueryExecuter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#492#493#0" expanded="true" />
+            <element signature="e#519#520#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/costmanagerapp/lib/Models/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1262#1263#0" expanded="true" />
+            <element signature="e#1297#1298#0" expanded="true" />
+            <element signature="e#1542#1543#0" expanded="true" />
+            <element signature="e#1577#1578#0" expanded="true" />
           </folding>
         </state>
       </provider>

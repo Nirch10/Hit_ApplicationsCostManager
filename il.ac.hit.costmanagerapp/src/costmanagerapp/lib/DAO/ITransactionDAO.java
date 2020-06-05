@@ -11,7 +11,7 @@ import java.util.Collection;
 public interface ITransactionDAO {
 //    TransactionType getTransaction(int guid) throws UsersPlatformException;
 
-    Transaction getTransaction(int transaction_id) throws UsersPlatformException;
+    Transaction getTransaction(int transaction_id) throws UsersPlatformException, SQLException;
 
     Collection<Transaction> getTransactionByUser(int userId) throws UsersPlatformException;
 

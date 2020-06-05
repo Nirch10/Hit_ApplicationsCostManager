@@ -1,23 +1,39 @@
 package costmanagerapp.lib.Models;
 
 import com.sun.istack.internal.NotNull;
+import org.hibernate.annotations.Entity;
+import org.hibernate.annotations.Table;
 
+import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Random;
 
-
+@Entity
+@Table(appliesTo = "transactions")
 public class Transaction {
+    @Id @GeneratedValue
+    @Column(name = "Guid")
     private int Guid;
+    @Column(name = "IsIncome")
     private boolean IsIncome;
+    @Column(name = "Price")
     private double Price;
+    @ManyToOne
+    @JoinColumn(name = "RetailGuid")
     private RetailType Retail;
+    @ManyToOne
+    @JoinColumn(name = "UserGuid")
     private User User;
-    private LocalDate DateOfTransaction;
+    @Column(name = "DateOfTransaction", columnDefinition = "DATE")
+    private Date DateOfTransaction;
+    @Column(name = "Description")
     private String Description;
 
 
     public Transaction(@NotNull int guid, @NotNull boolean isIncome, @NotNull  double price, @NotNull  RetailType retailType, @NotNull  User user,
-                       LocalDate date,String description){
+                       Date date,String description){
         //TODO::: Generate id automatically
         Guid = guid;
         IsIncome = isIncome;
@@ -36,8 +52,12 @@ public class Transaction {
         Price = price;
         Retail = retailType;
         User = user;
-        DateOfTransaction = LocalDate.now();
+        DateOfTransaction = Date.from(Instant.now());
         Description = description;
+    }
+
+    public Transaction() {
+
     }
 
     public int getGuid() {
@@ -65,10 +85,10 @@ public class Transaction {
         return User;
     }
     public void setUser(User user){User = user;}
-    public LocalDate getDateOfTransaction() {
+    public Date getDateOfTransaction() {
         return DateOfTransaction;
     }
-    public void setDateOfTransaction(LocalDate dateOfTransaction){DateOfTransaction = dateOfTransaction;}
+    public void setDateOfTransaction(Date dateOfTransaction){DateOfTransaction = dateOfTransaction;}
     public String getDescription() {
         return Description;
     }
