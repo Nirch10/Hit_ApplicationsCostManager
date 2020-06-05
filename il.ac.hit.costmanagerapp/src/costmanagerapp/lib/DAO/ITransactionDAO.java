@@ -7,6 +7,7 @@ import costmanagerapp.lib.UsersPlatformException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 public interface ITransactionDAO {
 //    TransactionType getTransaction(int guid) throws UsersPlatformException;
@@ -17,7 +18,7 @@ public interface ITransactionDAO {
 
     Collection<Transaction> getTransactionByRetail(int retailId) throws UsersPlatformException;
 
-    Collection<Transaction> getTransactionByDateRange(LocalDate from, LocalDate to) throws UsersPlatformException;
+    Collection<Transaction> getTransactionByDateRange(Date from, Date to) throws UsersPlatformException;
 
     Collection<Transaction> getTransactionByPriceRange(double fromPrice, double toPrice) throws UsersPlatformException;
 

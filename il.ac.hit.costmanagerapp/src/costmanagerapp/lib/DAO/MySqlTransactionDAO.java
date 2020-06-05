@@ -9,6 +9,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class MySqlTransactionDAO implements ITransactionDAO {
 
@@ -105,7 +106,7 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     }
 
     @Override
-    public Collection<Transaction> getTransactionByDateRange(@NotNull LocalDate fromDate,@NotNull LocalDate toDate) throws UsersPlatformException {
+    public Collection<Transaction> getTransactionByDateRange(@NotNull Date fromDate, @NotNull Date toDate) throws UsersPlatformException {
         Collection<Transaction> transactions = new ArrayList<>();
         try {
             ResultSet rs = executeQueryGET("SELECT * FROM " + transactionsTable + " WHERE "+ dateOfTransactionColumn +" BETWEEN '" +

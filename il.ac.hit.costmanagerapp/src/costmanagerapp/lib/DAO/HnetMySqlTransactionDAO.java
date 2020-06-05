@@ -14,11 +14,13 @@ import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 public class HnetMySqlTransactionDAO implements ITransactionDAO {
     private String transactionsTable = "transactions";
+    private String dateOfTransactionColumn = "DateOfTransaction";
     private String guidColumn = "Guid";
-
+    private String priceColumn = "Price";
     private IRetailDAO retailDAO;
     private IUsersDAO userDAO;
     private IQueryExecuter<Transaction> executor;
@@ -27,6 +29,8 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
 
 
     private final String configFilePath = "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
+    private String userGuidColumn = "UserGuid";
+    private String retailGuidColumn = "RetailGuid";
 
     public HnetMySqlTransactionDAO() throws ClassNotFoundException {this(new HnetMySqlQueryExecuter(),
             new MySqlUserDAO(),new HnetMySqlRetailsDAO(),null);}
@@ -43,35 +47,51 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
             dbConnector = new HnetMySqlDbConnector(new File(configFilePath));
     }
 
-    @Override
-    public Transaction getTransaction(int transactionId) throws UsersPlatformException {
-        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ guidColumn +"=" + transactionId);
-        Collection<Transaction> results = executor.tryExecuteGetQuery(dbConnector, stringQuery, TransactionClass.getClass());
+    private Collection<Transaction> getTransaction(String query) throws UsersPlatformException {
+        Collection<Transaction> results  = executor.tryExecuteGetQuery(dbConnector, query, TransactionClass.getClass());
         if(results == null)
             throw new UsersPlatformException("No transaction found");
         if(results.size() <= 0)
             throw new UsersPlatformException("Not valid ID");
+        return results;
+    }
+
+    @Override
+    public Transaction getTransaction(int transactionId) throws UsersPlatformException {
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ guidColumn +"=" + transactionId);
+        Collection<Transaction> results = getTransaction(stringQuery);
         return results.stream().findFirst().get();
     }
 
     @Override
     public Collection<Transaction> getTransactionByUser(int userId) throws UsersPlatformException {
-        return null;
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ userGuidColumn+"=" + userId);
+        Collection<Transaction> results = getTransaction(stringQuery);
+        return results;
+
     }
 
     @Override
     public Collection<Transaction> getTransactionByRetail(int retailId) throws UsersPlatformException {
-        return null;
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ retailGuidColumn+"=" + retailId);
+        Collection<Transaction> results = getTransaction(stringQuery);
+        return results;
     }
 
     @Override
-    public Collection<Transaction> getTransactionByDateRange(LocalDate from, LocalDate to) throws UsersPlatformException {
-        return null;
+    public Collection<Transaction> getTransactionByDateRange(Date from, Date to) throws UsersPlatformException {
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ dateOfTransactionColumn +" BETWEEN '" +
+                from + "' and '" + to + "' ORDER BY " + dateOfTransactionColumn + " desc");
+        Collection<Transaction> results = getTransaction(stringQuery);
+        return results;
     }
 
     @Override
     public Collection<Transaction> getTransactionByPriceRange(double fromPrice, double toPrice) throws UsersPlatformException {
-        return null;
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ priceColumn +" BETWEEN '" +
+                fromPrice + "' and '" + toPrice + "' ORDER BY " + dateOfTransactionColumn + " desc");
+        Collection<Transaction> results = getTransaction(stringQuery);
+        return results;
     }
 
     @Override
