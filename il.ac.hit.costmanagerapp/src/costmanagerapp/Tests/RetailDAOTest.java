@@ -2,7 +2,6 @@ package costmanagerapp.Tests;
 
 import costmanagerapp.lib.DAO.HnetMySqlRetailsDAO;
 import costmanagerapp.lib.DAO.IRetailDAO;
-import costmanagerapp.lib.DAO.MySqlRetailDAO;
 import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.UsersPlatformException;
 import org.junit.AfterClass;
@@ -41,7 +40,7 @@ public class RetailDAOTest {
     @Test
     public void testInsertRetail(){
         try {
-            tester.insertRetail(new RetailType(10,"Music"));
+            tester.insertRetail(new RetailType(11,"Chill"));
         } catch (UsersPlatformException e) {
             throw new AssertionError();
         } catch (SQLException e) {
@@ -51,15 +50,17 @@ public class RetailDAOTest {
     @Test
     public void testDeleteRetail(){
         try {
-            tester.deleteRetail(2);
+            tester.deleteRetail(93594);
         } catch (UsersPlatformException e) {
             throw new AssertionError();
+        } catch (SQLException e) {
+            throw new AssertionError(e);
         }
     }
     @Test
     public void testUpdateRetail(){
         try {
-            tester.setRetail(77953,"Test3");
+            tester.setRetail(77954,"Test3");
         } catch (SQLException e) {
             throw new AssertionError();
         }

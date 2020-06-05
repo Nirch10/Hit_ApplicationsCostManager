@@ -11,6 +11,6 @@ public interface IRetailDAO {
     Collection<RetailType> getRetails() throws UsersPlatformException;
     void setRetail(int guid, String newName) throws SQLException;
     void insertRetail(RetailType retailType) throws UsersPlatformException, SQLException;
-    void deleteRetail(int guid) throws UsersPlatformException;
+    void deleteRetail(int guid) throws UsersPlatformException, SQLException;
 
 }

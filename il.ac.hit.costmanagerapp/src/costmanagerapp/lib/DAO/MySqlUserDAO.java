@@ -33,7 +33,7 @@ public class MySqlUserDAO implements IUsersDAO {
     }
     private void initTransctionDAO() throws ClassNotFoundException {
         transactionDAO  =
-                new MySqlTransactionDAO(this, new MySqlRetailDAO(),
+                new MySqlTransactionDAO(this, new HnetMySqlRetailsDAO(),
                         new HnetMySqlQueryExecuter<Transaction>(),
                         new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));
 
@@ -74,21 +74,21 @@ public class MySqlUserDAO implements IUsersDAO {
 
     @Override
     public void insertUser(User user) throws UsersPlatformException {
-        try {
-            executor.TryExecuteInsertQuery(dbConnector,
-                    "INSERT INTO "+userTableName+" ("+userGuidColumn+","+userNameColumn+","+userEmailColumn+","+userPasswordColumn+")" +  " VALUES("+ user.getGuid()+",\""+user.getUserName()
-                    +"\",\""+ user.getEmail() + "\",\""+user.getPassword() + "\")");
-        }
-        catch (SQLException e) {
-            throw new UsersPlatformException("Could not insert new user to db,\n", e);
-        }
+//        try {
+//            executor.TryExecuteInsertQuery(dbConnector,
+//                    "INSERT INTO "+userTableName+" ("+userGuidColumn+","+userNameColumn+","+userEmailColumn+","+userPasswordColumn+")" +  " VALUES("+ user.getGuid()+",\""+user.getUserName()
+//                    +"\",\""+ user.getEmail() + "\",\""+user.getPassword() + "\")");
+//        }
+//        catch (SQLException e) {
+//            throw new UsersPlatformException("Could not insert new user to db,\n", e);
+//        }
     }
     @Override
     public void deleteUser(int id) throws UsersPlatformException {
         try{
             initTransctionDAO();
             transactionDAO.deleteUserTransactions(id);
-            executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM "+userTableName+" WHERE guid = " + id);
+//            executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM "+userTableName+" WHERE guid = " + id);
         }
         catch (SQLException e) {
             throw new UsersPlatformException("Could not delete user from db,\n", e);

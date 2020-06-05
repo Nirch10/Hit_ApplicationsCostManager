@@ -31,7 +31,7 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
     public HnetMySqlRetailsDAO(IQueryExecuter<RetailType> queryExecutor, AbstractDbConnector connector){
         executor = queryExecutor;
         dbConnector = connector;
-        RetailType =  new RetailType("");
+        RetailType =  new RetailType();
     }
 
     @Override
@@ -73,11 +73,12 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
 
     @Override
     public void insertRetail(RetailType retailType) throws UsersPlatformException, SQLException {
-
+        executor.TryExecuteInsertQuery(dbConnector,retailType);
     }
 
     @Override
-    public void deleteRetail(int guid) throws UsersPlatformException {
-
+    public void deleteRetail(int guid) throws UsersPlatformException, SQLException {
+        RetailType rt = getRetail(guid);
+        executor.TryExecuteDeleteQuery(dbConnector,rt);
     }
 }

@@ -10,7 +10,7 @@ public interface IQueryExecuter<T> {
     //TODO :: abstract problem - there might be huge problem with DbConnector
     Collection<T> ExecuteGetQuery(AbstractDbConnector connector, String getQuery, Class type) throws SQLException;
 
-    Boolean TryExecuteInsertQuery(AbstractDbConnector connector, String insertQuery) throws SQLException;
+    Boolean TryExecuteInsertQuery(AbstractDbConnector connector, T insertObj) throws SQLException;
     Boolean TryExecuteUpdateQuery(AbstractDbConnector connector, String updateQuery) throws SQLException;
-    Boolean TryExecuteDeleteQuery(AbstractDbConnector connector, String deleteQuery) throws SQLException;
+    Boolean TryExecuteDeleteQuery(AbstractDbConnector connector,T deleteObj) throws SQLException;
 }

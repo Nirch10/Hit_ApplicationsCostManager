@@ -53,7 +53,7 @@ public class TransactionDAOUnitTest {
     public void testUpdateTransaction() throws ClassNotFoundException  {
         LocalDate d = LocalDate.of(2020, 05, 10);
         String desc = "Lord Of The Rings";
-        IRetailDAO retailDAO = new MySqlRetailDAO();
+        IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
         IUsersDAO usersDAO = new MySqlUserDAO();
         try {
             tester.updateTransaction(1234, true, 21, desc, 52790, d);
@@ -87,7 +87,7 @@ public class TransactionDAOUnitTest {
     }
     @Test
     public void testInsertTransaction() throws ClassNotFoundException {
-        IRetailDAO retailDAO = new MySqlRetailDAO();
+        IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
         IUsersDAO usersDAO = new MySqlUserDAO();
         try {
             tester.insertTransaction(new Transaction(19, false, 54.522, retailDAO.getRetails().stream().findFirst().get(),

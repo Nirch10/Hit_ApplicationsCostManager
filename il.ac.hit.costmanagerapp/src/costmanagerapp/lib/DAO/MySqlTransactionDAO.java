@@ -29,7 +29,7 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     private IQueryExecuter<Transaction> executor;
     private AbstractDbConnector dbConnector;
 
-    public MySqlTransactionDAO() throws ClassNotFoundException {this(new MySqlUserDAO(), new MySqlRetailDAO(), new HnetMySqlQueryExecuter<>(),
+    public MySqlTransactionDAO() throws ClassNotFoundException {this(new MySqlUserDAO(), new HnetMySqlRetailsDAO(), new HnetMySqlQueryExecuter<>(),
             new MySqlDbConnector("jdbc:mysql://localhost:3306/costmanager", "costmanager", "123456"));}
 
     public MySqlTransactionDAO(IUsersDAO userDAO, IRetailDAO retailDAO, IQueryExecuter<Transaction> queryExecutor, AbstractDbConnector connector) throws ClassNotFoundException {
@@ -149,21 +149,21 @@ public class MySqlTransactionDAO implements ITransactionDAO {
     }
     @Override
     public void insertTransaction(Transaction transaction) throws SQLException, UsersPlatformException {
-        executor.TryExecuteInsertQuery(dbConnector, "INSERT INTO transactions ("+guidColumn+", "+isIncomeColumn+", " +
-                dateOfTransactionColumn + ", " + priceColumn + ", " +descriptionColumn +", " +
-                retailGuidColumn + ", " + userGuidColumn+") Values("+transaction.getGuid()+", "+transaction.getIsIncome() + ", \""+
-                transaction.getDateOfTransaction() + "\", " + transaction.getPrice() +", \""+ transaction.getDescription() +
-                "\","+transaction.getRetail().getGuid()+"," + transaction.getUser().getGuid() +")");
+//        executor.TryExecuteInsertQuery(dbConnector, "INSERT INTO transactions ("+guidColumn+", "+isIncomeColumn+", " +
+//                dateOfTransactionColumn + ", " + priceColumn + ", " +descriptionColumn +", " +
+//                retailGuidColumn + ", " + userGuidColumn+") Values("+transaction.getGuid()+", "+transaction.getIsIncome() + ", \""+
+//                transaction.getDateOfTransaction() + "\", " + transaction.getPrice() +", \""+ transaction.getDescription() +
+//                "\","+transaction.getRetail().getGuid()+"," + transaction.getUser().getGuid() +")");
     }
 
     @Override
     public void deleteTransaction(int guid) throws UsersPlatformException, SQLException {
-        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+guidColumn+" = "+ guid);
+//        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+guidColumn+" = "+ guid);
     }
 
     @Override
     public void deleteUserTransactions(int userGuid) throws SQLException {
-        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+userGuidColumn+" = "+ userGuid);
+//        executor.TryExecuteDeleteQuery(dbConnector, "DELETE FROM transactions WHERE "+userGuidColumn+" = "+ userGuid);
     }
     @Override
     public void deleteRetailTransactions(int retailGuid) throws SQLException{
