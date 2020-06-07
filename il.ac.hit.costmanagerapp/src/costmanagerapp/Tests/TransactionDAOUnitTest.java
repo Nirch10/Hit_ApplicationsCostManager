@@ -67,18 +67,18 @@ public class TransactionDAOUnitTest {
 
     @Test
 
-    public void testGetTransactionByRetail() throws UsersPlatformException {
+    public void testGetTransactionByRetail() throws Exception {
         Collection<Transaction> cl = tester.getTransactionByRetail(52790);
         if(cl.size() == 0) throw new AssertionError("empty list");
-        cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getRetail()));
+        cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getUser().getUserName()));
     }
 
     @Test
     public void testGetTransactionByDateRange() throws UsersPlatformException {
 //        LocalDate d1 = LocalDate.of(2020, 05, 10);
 //        LocalDate d2 = LocalDate.of(2020, 05, 15);
-        Date d1 = new Date(2020,01,01);
-        Date d2 = new Date(2020,05,31);
+        Date d1 = new Date(2020 -1900,00,01);
+        Date d2 = new Date(2020 - 1900,05,31);
         Collection<Transaction> cl = tester.getTransactionByDateRange(d1, d2);
         if(cl.size() == 0) throw new AssertionError("empty list");
         cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getDateOfTransaction()));

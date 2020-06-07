@@ -2,6 +2,8 @@ package costmanagerapp.lib.Models;
 
 import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.Entity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Random;
+
 
 @Entity
 @Table(appliesTo = "transactions")
@@ -20,10 +23,13 @@ public class Transaction {
     private boolean IsIncome;
     @Column(name = "Price")
     private double Price;
-    @ManyToOne
+    @Fetch(FetchMode.JOIN)
+
+    //@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "RetailGuid")
     private RetailType Retail;
-    @ManyToOne
+    @Fetch(FetchMode.JOIN)
+    //@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "UserGuid")
     private User User;
     @Column(name = "DateOfTransaction", columnDefinition = "DATE")

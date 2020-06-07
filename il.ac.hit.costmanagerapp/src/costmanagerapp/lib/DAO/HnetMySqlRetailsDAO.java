@@ -2,12 +2,14 @@ package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
 import costmanagerapp.lib.Models.RetailType;
+import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecuter;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
 import costmanagerapp.lib.UsersPlatformException;
 import java.io.File;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -35,8 +37,10 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
 
     @Override
     public RetailType getRetail(@NotNull int guid) throws UsersPlatformException {
+        executor.openConnection(dbConnector);
         Collection<RetailType> rs = executor.tryExecuteGetQuery(dbConnector, "SELECT * FROM " + tableName + " WHERE Guid =" + guid,
                 RetailType.getClass());
+        executor.closeConnection();
         if (rs == null)
             throw new UsersPlatformException("Error handling query");
         if (rs.size() <= 0) {
@@ -48,29 +52,51 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
     @Override
     public Collection<RetailType> getRetails() throws UsersPlatformException {
         Collection<RetailType> retails = null;
+        executor.openConnection(dbConnector);
         retails = executor.tryExecuteGetQuery(dbConnector, "SELECT * FROM " + tableName, RetailType.getClass());
+        executor.closeConnection();
         if (retails == null)
             throw new UsersPlatformException("Error handling query");
+
         return retails;
     }
 
     @Override
     public void setRetail(@NotNull int guid, String newName) throws UsersPlatformException, SQLException {
+        executor.openConnection(dbConnector);
         if(executor.TryExecuteUpdateQuery(dbConnector, new RetailType(guid, newName)) == false)
-                throw new UsersPlatformException("Could not update Retail");
+        {
+            executor.closeConnection();
+            throw new UsersPlatformException("Could not update Retail");
+        }
+        executor.closeConnection();
     }
 
     @Override
     public void insertRetail(@NotNull RetailType retailType) throws UsersPlatformException, SQLException {
+        executor.openConnection(dbConnector);
         if (executor.TryExecuteInsertQuery(dbConnector, retailType) == false)
+        {
+            executor.closeConnection();
             throw new UsersPlatformException("Could not update Retail");
-
+        }
+        executor.closeConnection();
     }
 
     @Override
     public void deleteRetail(@NotNull int guid) throws UsersPlatformException, SQLException {
         RetailType rt = getRetail(guid);
+        try {
+            transactionDAO.deleteRetailTransactions(guid);
+        } catch (Exception e) {
+            throw new UsersPlatformException("couldnt delete transactions..");
+        }
+        executor.openConnection(dbConnector);
         if (executor.TryExecuteDeleteQuery(dbConnector,rt) == false)
+        {
+            executor.closeConnection();
             throw new UsersPlatformException("Could not update Retail");
+        }
+        executor.closeConnection();
     }
 }

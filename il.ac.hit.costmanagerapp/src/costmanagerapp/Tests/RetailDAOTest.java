@@ -26,8 +26,8 @@ public class RetailDAOTest {
     }
 
     @Test
-    public void testGetUser() throws UsersPlatformException {
-        if (tester.getRetail(10) == null) throw new AssertionError();
+    public void testGetUser() throws Exception {
+        if (tester.getRetail(52790) == null) throw new AssertionError();
     }
 
     @Test

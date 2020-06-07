@@ -9,9 +9,11 @@ import costmanagerapp.lib.QueryUtils.HnetMySqlDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecuter;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
 import costmanagerapp.lib.UsersPlatformException;
+import org.hibernate.Hibernate;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
@@ -48,7 +50,9 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     }
 
     private Collection<Transaction> getTransaction(String query) throws UsersPlatformException {
+        executor.openConnection(dbConnector);
         Collection<Transaction> results  = executor.tryExecuteGetQuery(dbConnector, query, TransactionClass.getClass());
+
         if(results == null)
             throw new UsersPlatformException("No transaction found");
         if(results.size() <= 0)
@@ -58,31 +62,43 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
 
     @Override
     public Transaction getTransaction(int transactionId) throws UsersPlatformException {
+        executor.openConnection(dbConnector);
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ guidColumn +"=" + transactionId);
         Collection<Transaction> results = getTransaction(stringQuery);
+        executor.closeConnection();
         return results.stream().findFirst().get();
     }
 
     @Override
     public Collection<Transaction> getTransactionByUser(int userId) throws UsersPlatformException {
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ userGuidColumn+"=" + userId);
-        Collection<Transaction> results = getTransaction(stringQuery);
-        return results;
+        return getListOfTranactions(stringQuery);
 
     }
 
     @Override
-    public Collection<Transaction> getTransactionByRetail(int retailId) throws UsersPlatformException {
+    public Collection<Transaction> getTransactionByRetail(int retailId) throws Exception {
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ retailGuidColumn+"=" + retailId);
-        Collection<Transaction> results = getTransaction(stringQuery);
+        return getListOfTranactions(stringQuery);
+    }
+
+    private Collection<Transaction> getListOfTranactions(String query) throws UsersPlatformException {
+        executor.openConnection(dbConnector);
+        Collection<Transaction> results =executor.tryExecuteGetQuery(dbConnector, query, TransactionClass.getClass());
+        results.forEach(r ->{
+            Hibernate.initialize(r.getUser());
+            Hibernate.initialize(r.getRetail());
+        });
+        executor.closeConnection();
         return results;
     }
 
     @Override
     public Collection<Transaction> getTransactionByDateRange(Date from, Date to) throws UsersPlatformException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ dateOfTransactionColumn +" BETWEEN '" +
-                from + "' and '" + to + "' ORDER BY " + dateOfTransactionColumn + " desc");
-        Collection<Transaction> results = getTransaction(stringQuery);
+                formatter.format(from)+ "' and '" + formatter.format(to)+ "' ORDER BY " + dateOfTransactionColumn + " desc");
+        Collection<Transaction> results = getListOfTranactions(stringQuery);
         return results;
     }
 
@@ -90,8 +106,7 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     public Collection<Transaction> getTransactionByPriceRange(double fromPrice, double toPrice) throws UsersPlatformException {
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ priceColumn +" BETWEEN '" +
                 fromPrice + "' and '" + toPrice + "' ORDER BY " + dateOfTransactionColumn + " desc");
-        Collection<Transaction> results = getTransaction(stringQuery);
-        return results;
+        return getListOfTranactions(stringQuery);
     }
 
     @Override
@@ -101,21 +116,53 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
 
     @Override
     public void insertTransaction(Transaction transaction) throws SQLException, UsersPlatformException {
-
+        executor.openConnection(dbConnector);
+        if (executor.TryExecuteInsertQuery(dbConnector, transaction) == false)
+        {
+            executor.closeConnection();
+            throw new UsersPlatformException("Could not update Retail");
+        }
+        executor.closeConnection();
     }
 
     @Override
     public void deleteTransaction(int guid) throws UsersPlatformException, SQLException {
-
+        Transaction rt = getTransaction(guid);
+        executor.openConnection(dbConnector);
+        if (executor.TryExecuteDeleteQuery(dbConnector,rt) == false)
+        {
+            executor.closeConnection();
+            throw new UsersPlatformException("Could not update Retail");
+        }
+        executor.closeConnection();
     }
 
     @Override
-    public void deleteUserTransactions(int userGuid) throws SQLException {
+    public void deleteUserTransactions(int userGuid) throws SQLException, UsersPlatformException {
+        Collection<Transaction> rt = getTransactionByUser(userGuid);
+        executor.openConnection(dbConnector);
+        rt.forEach(r ->{
+            try {
+                executor.TryExecuteDeleteQuery(dbConnector,r);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
 
+        executor.closeConnection();
     }
 
     @Override
-    public void deleteRetailTransactions(int retailGuid) throws SQLException {
-
+    public void deleteRetailTransactions(int retailGuid) throws Exception {
+        Collection<Transaction> rt = getTransactionByRetail(retailGuid);
+        executor.openConnection(dbConnector);
+        rt.forEach(r ->{
+            try {
+                executor.TryExecuteDeleteQuery(dbConnector,r);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        executor.closeConnection();
     }
 }

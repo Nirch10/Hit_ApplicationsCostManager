@@ -16,7 +16,7 @@ public interface ITransactionDAO {
 
     Collection<Transaction> getTransactionByUser(int userId) throws UsersPlatformException;
 
-    Collection<Transaction> getTransactionByRetail(int retailId) throws UsersPlatformException;
+    Collection<Transaction> getTransactionByRetail(int retailId) throws Exception;
 
     Collection<Transaction> getTransactionByDateRange(Date from, Date to) throws UsersPlatformException;
 
@@ -29,6 +29,6 @@ public interface ITransactionDAO {
 
     void deleteTransaction(int guid) throws UsersPlatformException, SQLException;
 
-    void deleteUserTransactions(int userGuid) throws SQLException;
-    void deleteRetailTransactions(int retailGuid) throws SQLException;
+    void deleteUserTransactions(int userGuid) throws SQLException, UsersPlatformException;
+    void deleteRetailTransactions(int retailGuid) throws Exception;
 }
