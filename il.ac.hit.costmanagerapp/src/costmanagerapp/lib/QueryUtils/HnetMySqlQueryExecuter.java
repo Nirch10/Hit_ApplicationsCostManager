@@ -62,7 +62,7 @@ public class HnetMySqlQueryExecuter<T> implements IQueryExecuter<T> {
     @Override
     public Boolean TryExecuteUpdateQuery(AbstractDbConnector connector, T updateObj) throws SQLException {
         try {
-            session.update(updateObj);
+            session.merge(updateObj);
             session.getTransaction().commit();
             return true;
         }

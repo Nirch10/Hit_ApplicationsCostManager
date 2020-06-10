@@ -19,11 +19,7 @@ public class TransactionDAOUnitTest {
 
     @BeforeClass
     public static void testSetup() {
-        try {
             tester = new HnetMySqlTransactionDAO();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     @AfterClass
@@ -56,7 +52,7 @@ public class TransactionDAOUnitTest {
         LocalDate d = LocalDate.of(2020, 05, 10);
         String desc = "Lord Of The Rings";
         IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
-        IUsersDAO usersDAO = new MySqlUserDAO();
+        IUsersDAO usersDAO = new HnetMySqlUserDAO();
         try {
             tester.updateTransaction(1234, true, 21, desc, 52790, d);
         } catch (UsersPlatformException e) {
@@ -93,10 +89,10 @@ public class TransactionDAOUnitTest {
     @Test
     public void testInsertTransaction() throws ClassNotFoundException {
         IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
-        IUsersDAO usersDAO = new MySqlUserDAO();
+        IUsersDAO usersDAO = new HnetMySqlUserDAO();
         try {
             tester.insertTransaction(new Transaction(19, false, 54.522, retailDAO.getRetails().stream().findFirst().get(),
-                    usersDAO.getUser(1), Date.from(Instant.now()), "Test etset"));
+                    usersDAO.getAllUsers().stream().findFirst().get(), Date.from(Instant.now()), "Test etset"));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new AssertionError();

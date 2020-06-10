@@ -27,7 +27,7 @@ public class RetailDAOTest {
 
     @Test
     public void testGetUser() throws Exception {
-        if (tester.getRetail(52790) == null) throw new AssertionError();
+        if (tester.getRetail(0) == null) throw new AssertionError();
     }
 
     @Test
@@ -50,9 +50,9 @@ public class RetailDAOTest {
     @Test
     public void testDeleteRetail(){
         try {
-            tester.deleteRetail(52790);
+            tester.deleteRetail(93597);
         } catch (UsersPlatformException e) {
-            throw new AssertionError();
+            throw new AssertionError(e.getMessage());
         } catch (SQLException e) {
             throw new AssertionError(e);
         }

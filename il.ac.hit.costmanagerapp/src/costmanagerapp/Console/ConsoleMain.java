@@ -1,20 +1,16 @@
 package costmanagerapp.Console;
 
+import costmanagerapp.lib.DAO.HnetMySqlUserDAO;
 import costmanagerapp.lib.DAO.IUsersDAO;
-import costmanagerapp.lib.DAO.MySqlUserDAO;
 import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.UsersPlatformException;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 
-import javax.security.auth.login.AppConfigurationEntry;
 import java.io.File;
-import java.io.FileReader;
 
 public class ConsoleMain {
 
@@ -37,11 +33,9 @@ public class ConsoleMain {
             System.out.println(e);
         }
         try {
-            dao = new MySqlUserDAO();
+            dao = new HnetMySqlUserDAO();
             User u = dao.getUser(1);
             System.out.println(u);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (UsersPlatformException e) {
             e.printStackTrace();
         }

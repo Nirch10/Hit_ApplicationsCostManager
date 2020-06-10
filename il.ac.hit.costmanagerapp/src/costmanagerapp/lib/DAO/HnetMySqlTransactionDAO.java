@@ -17,14 +17,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HnetMySqlTransactionDAO implements ITransactionDAO {
     private String transactionsTable = "transactions";
     private String dateOfTransactionColumn = "DateOfTransaction";
     private String guidColumn = "Guid";
     private String priceColumn = "Price";
-    private IRetailDAO retailDAO;
-    private IUsersDAO userDAO;
     private IQueryExecuter<Transaction> executor;
     private AbstractDbConnector dbConnector;
     private Transaction TransactionClass;
@@ -34,13 +33,10 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     private String userGuidColumn = "UserGuid";
     private String retailGuidColumn = "RetailGuid";
 
-    public HnetMySqlTransactionDAO() throws ClassNotFoundException {this(new HnetMySqlQueryExecuter(),
-            new MySqlUserDAO(),new HnetMySqlRetailsDAO(),null);}
+    public HnetMySqlTransactionDAO() {this(new HnetMySqlQueryExecuter() ,null);}
 
-    public HnetMySqlTransactionDAO(@NotNull IQueryExecuter iQueryExecuter,IUsersDAO iUsersDAO, IRetailDAO iRetailDAO,
+    public HnetMySqlTransactionDAO(@NotNull IQueryExecuter iQueryExecuter,
                                    AbstractDbConnector abstractDbConnector){
-        retailDAO = iRetailDAO;
-        userDAO = iUsersDAO;
         executor = iQueryExecuter;
         TransactionClass = new Transaction();
         if (abstractDbConnector != null)
@@ -138,17 +134,20 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     }
 
     @Override
-    public void deleteUserTransactions(int userGuid) throws SQLException, UsersPlatformException {
+    public void deleteUserTransactions(int userGuid) throws UsersPlatformException {
         Collection<Transaction> rt = getTransactionByUser(userGuid);
+        AtomicBoolean foundError = new AtomicBoolean(false);
         executor.openConnection(dbConnector);
         rt.forEach(r ->{
+                r.setDateOfTransaction(new Date(0,0,0));
+                r.setUser(new User(0, "","",""));
             try {
-                executor.TryExecuteDeleteQuery(dbConnector,r);
+                executor.TryExecuteUpdateQuery(dbConnector, r);
             } catch (SQLException e) {
-                e.printStackTrace();
+                foundError.set(true);
             }
         });
-
+        if(foundError.get())throw new UsersPlatformException("Error updating transaction row ");
         executor.closeConnection();
     }
 
@@ -158,8 +157,15 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
         executor.openConnection(dbConnector);
         rt.forEach(r ->{
             try {
-                executor.TryExecuteDeleteQuery(dbConnector,r);
+                Transaction t1 = new Transaction(r.getGuid(), r.isIncome(), r.getPrice(), new RetailType(0, "None"),
+                        new User(r.getUser().getUserName(), r.getUser().getEmail(), r.getUser().getPassword()),
+                        r.getDateOfTransaction(), r.getDescription());
+                executor.TryExecuteDeleteQuery(dbConnector, r);
+                insertTransaction(t1);
+//                executor.TryExecuteUpdateQuery(dbConnector,t1);
             } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (UsersPlatformException e) {
                 e.printStackTrace();
             }
         });

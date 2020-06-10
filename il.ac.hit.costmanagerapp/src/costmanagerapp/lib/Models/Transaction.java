@@ -25,12 +25,13 @@ public class Transaction {
     private double Price;
     @Fetch(FetchMode.JOIN)
 
-    //@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "RetailGuid")
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "RetailGuid", insertable=false, updatable=false)
     private RetailType Retail;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @Fetch(FetchMode.JOIN)
     //@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "UserGuid")
+    @JoinColumn(name = "RetailGuid", insertable=false, updatable=false)
     private User User;
     @Column(name = "DateOfTransaction", columnDefinition = "DATE")
     private Date DateOfTransaction;

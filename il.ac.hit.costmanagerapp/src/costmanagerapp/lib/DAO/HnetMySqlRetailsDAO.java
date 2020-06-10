@@ -23,12 +23,12 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
     private RetailType RetailType;
     private final String filePath = "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
 
-    public HnetMySqlRetailsDAO(){this(new HnetMySqlQueryExecuter<>(), null);
-    }
+    public HnetMySqlRetailsDAO(){this(new HnetMySqlQueryExecuter<>(), new HnetMySqlTransactionDAO(), null);}
 
-    public HnetMySqlRetailsDAO(@NotNull IQueryExecuter<RetailType> queryExecutor, AbstractDbConnector connector){
+    public HnetMySqlRetailsDAO(@NotNull IQueryExecuter<RetailType> queryExecutor,ITransactionDAO inputTransactionDAO, AbstractDbConnector connector){
         executor = queryExecutor;
         RetailType =  new RetailType();
+        transactionDAO = inputTransactionDAO;
         if(connector != null)
             dbConnector = connector;
         else

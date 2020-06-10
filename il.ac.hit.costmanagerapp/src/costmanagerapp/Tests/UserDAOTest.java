@@ -1,8 +1,8 @@
 package costmanagerapp.Tests;
 
 import com.mysql.jdbc.AssertionFailedException;
+import costmanagerapp.lib.DAO.HnetMySqlUserDAO;
 import costmanagerapp.lib.DAO.IUsersDAO;
-import costmanagerapp.lib.DAO.MySqlUserDAO;
 import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.UsersPlatformException;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
@@ -14,74 +14,92 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Scanner;
 
 public class UserDAOTest {
     static IUsersDAO tester;
-
-
     @BeforeClass
     public static void testSetup() {
-        try {
-            tester = new MySqlUserDAO();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+            tester = new HnetMySqlUserDAO();
     }
-
-
-
     @AfterClass
     public static void testCleanup() {
         // Do your cleanup here like close URL connection , releasing resources etc
     }
-
-
+    //Get Tests
     @Test
     public void testGetUser() throws UsersPlatformException {
-        if (tester.getUser(1) == null) throw new AssertionError();
+        testGetUser(1);
     }
-
-
     @Test
     public void testGetAllUsers() throws UsersPlatformException {
         Collection<User> users = tester.getAllUsers();
         if (users.size() == 0) throw new AssertionError("empty list");
-        users.forEach(u -> System.out.println(u.getGuid() + ", " + u.getUserName()));
+        users.forEach(u -> System.out.println(u.getGuid() + " : " + u.getUserName() ));
     }
-
+    @Test
+    public void testGetUsersOneByOne() throws UsersPlatformException {
+        Collection<User> users = tester.getAllUsers();
+        users.forEach(user -> {
+            try {
+                testGetUser(user.getGuid());
+            } catch (UsersPlatformException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    private void testGetUser(int userGuid) throws UsersPlatformException {
+        User res;
+        res= tester.getUser(userGuid);
+        if (res == null) throw new AssertionError("User not found");
+        System.out.println(res.getGuid() + " : " + res.getUserName());
+    }
+    //Insert Tests
     @Test
     public void testInsertUser() {
-        try {
-            tester.insertUser(new User("gila morgenshtein", "kusiteshmegilshesh@gmail.com", "6667788"));
-        } catch (UsersPlatformException e) {
-            throw new AssertionError();
+        Scanner scanner = new Scanner(System.in);
+        String[] names = {"Nir","Achi", "Oren", "Haim"};
+        String[] passwords= {"123","abc", "  ", "abc 123"};
+        String[] mails = {"Nir@","Achi@", "Oren@", "Haim@"};
+        for (int i =0;i< names.length;i++) {
+            try {
+                tester.insertUser(new User(names[i],mails[i],passwords[i])) ;
+            } catch (UsersPlatformException e) {
+                throw new AssertionError(e.getMessage());
+            } catch (SQLException e) {
+                throw new AssertionError(e.getMessage());
+            }
         }
     }
-
+    //Delete Tests
     @Test
     public void testDeleteUser(){
+        int userGuid = 3;
         try {
-            if (tester.getUser(96532) == null) throw new ValueException("the user doesnt exist");
-            tester.deleteUser(96532);
+            User u = tester.getUser(userGuid);
+            if (u == null) throw new ValueException("User doesnt exist");
+            tester.deleteUser(u.getGuid());
 
         } catch (UsersPlatformException e) {
-            throw new AssertionError();
+            throw new AssertionError(e.getMessage());
+        } catch (SQLException e) {
+            throw new AssertionError(e.getMessage());
         }
     }
-
+    //Update Tests
     @Test
     public void testSetPassword(){
+        String newPass = "456";
+        int userGuid = 1;
         try {
-            if (tester.getUser(1) == null) throw new ValueException("the user isnt exists");
-            tester.setPassword(1,"6667");
-            User u1 = tester.getUser(1);
-            if (u1.getPassword() == "6667") throw new ValueException("Set Password isn't succeed");
+            if (tester.getUser(userGuid) == null) throw new AssertionFailedException(new Exception("User was not found"));
+            tester.setPassword(userGuid, newPass);
+            User u1 = tester.getUser(userGuid);
+            if (u1.getPassword() == newPass) throw new AssertionFailedException(new Exception("Did not change password"));
         } catch (UsersPlatformException e) {
-            throw new AssertionError();
+            throw new AssertionError(e.getMessage());
+        } catch (SQLException e) {
+            throw new AssertionError(e.getMessage());
         }
     }
-
-
-
-
 }
