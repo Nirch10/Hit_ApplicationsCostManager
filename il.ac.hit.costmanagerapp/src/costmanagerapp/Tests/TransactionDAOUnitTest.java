@@ -28,7 +28,7 @@ public class TransactionDAOUnitTest {
     }
 
 //    @Test
-//    public void testGetUser() throws UsersPlatformException {
+//    public void testGetRetailByGuid() throws UsersPlatformException {
 //        if (tester.getRetail(1) == null) throw new AssertionError();
 //    }
 

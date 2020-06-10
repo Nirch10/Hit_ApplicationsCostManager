@@ -27,6 +27,10 @@ public class RetailType {
     }
     public RetailType(){ }
 
+    public RetailType(String retailName) {
+        Name = retailName;
+    }
+
     public int getGuid() {
         return Guid;
     }

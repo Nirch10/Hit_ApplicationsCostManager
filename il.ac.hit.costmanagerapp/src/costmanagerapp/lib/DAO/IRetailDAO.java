@@ -2,7 +2,6 @@ package costmanagerapp.lib.DAO;
 
 import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.UsersPlatformException;
-
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -12,5 +11,4 @@ public interface IRetailDAO {
     void setRetail(int guid, String newName) throws SQLException, UsersPlatformException;
     void insertRetail(RetailType retailType) throws UsersPlatformException, SQLException;
     void deleteRetail(int guid) throws UsersPlatformException, SQLException;
-
 }

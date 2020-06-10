@@ -55,12 +55,9 @@ public class HnetMySqlUserDAO implements IUsersDAO {
     @Override
     public void insertUser(User user) throws UsersPlatformException, SQLException {
         executor.openConnection(dbConnector);
-        if (executor.TryExecuteInsertQuery(dbConnector, user) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not insert new user");
-        }
+        boolean resultsFlag = executor.TryExecuteInsertQuery(dbConnector, user);
         executor.closeConnection();
+        if (!resultsFlag) throw new UsersPlatformException("Could not insert new user");
     }
     @Override
     public void deleteUser(int userGuid) throws UsersPlatformException, SQLException {
@@ -69,23 +66,17 @@ public class HnetMySqlUserDAO implements IUsersDAO {
             throw new UsersPlatformException("User {" + userGuid + "} not found");
         transactionDAO.deleteUserTransactions(userGuid);
         executor.openConnection(dbConnector);
-        if (executor.TryExecuteDeleteQuery(dbConnector,user) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not delete user {" + userGuid + "}");
-        }
+        boolean resultsFlag = executor.TryExecuteDeleteQuery(dbConnector,user);
         executor.closeConnection();
+        if (!resultsFlag) throw new UsersPlatformException("Could not delete user {" + userGuid + "}");
     }
     @Override
     public void setPassword(int userGuid, String newPassword) throws UsersPlatformException, SQLException {
         User user = getUser(userGuid);
         user.setPassword(newPassword);
         executor.openConnection(dbConnector);
-        if(executor.TryExecuteUpdateQuery(dbConnector, user) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not update Retail");
-        }
+        boolean resultsFlag = executor.TryExecuteUpdateQuery(dbConnector, user);
         executor.closeConnection();
+        if(!resultsFlag) throw new UsersPlatformException("Could not update Retail");
     }
 }

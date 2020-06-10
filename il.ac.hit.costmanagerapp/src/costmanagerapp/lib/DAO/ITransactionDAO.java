@@ -20,5 +20,5 @@ public interface ITransactionDAO {
     void insertTransaction(Transaction transaction) throws SQLException, UsersPlatformException;
     void deleteTransaction(int guid) throws UsersPlatformException, SQLException;
     void deleteUserTransactions(int userGuid) throws SQLException, UsersPlatformException;
-    void deleteRetailTransactions(int retailGuid) throws Exception;
+    void deleteRetailTransactions(int retailGuid) throws UsersPlatformException;
 }

@@ -15,17 +15,17 @@ import java.util.Collection;
 
 public class HnetMySqlRetailsDAO implements IRetailDAO {
     private String guidColumn = "Guid";
-    private String typeColumn = "Name";
     private String tableName = "retailtype";
     private IQueryExecuter<RetailType> executor;
     private AbstractDbConnector dbConnector;
     private ITransactionDAO transactionDAO;
     private RetailType RetailType;
-    private final String filePath = "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
+    private final String filePath =
+            "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
 
     public HnetMySqlRetailsDAO(){this(new HnetMySqlQueryExecuter<>(), new HnetMySqlTransactionDAO(), null);}
-
-    public HnetMySqlRetailsDAO(@NotNull IQueryExecuter<RetailType> queryExecutor,ITransactionDAO inputTransactionDAO, AbstractDbConnector connector){
+    public HnetMySqlRetailsDAO(@NotNull IQueryExecuter<RetailType> queryExecutor,
+                               @NotNull ITransactionDAO inputTransactionDAO, AbstractDbConnector connector){
         executor = queryExecutor;
         RetailType =  new RetailType();
         transactionDAO = inputTransactionDAO;
@@ -36,67 +36,50 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
     }
 
     @Override
-    public RetailType getRetail(@NotNull int guid) throws UsersPlatformException {
+    public RetailType getRetail(@NotNull int retailGuid) throws UsersPlatformException {
         executor.openConnection(dbConnector);
-        Collection<RetailType> rs = executor.tryExecuteGetQuery(dbConnector, "SELECT * FROM " + tableName + " WHERE Guid =" + guid,
-                RetailType.getClass());
+        Collection<RetailType> queryResults = executor.tryExecuteGetQuery(dbConnector,
+                "SELECT * FROM " + tableName + " WHERE "+guidColumn+"=" + retailGuid, RetailType.getClass());
         executor.closeConnection();
-        if (rs == null)
-            throw new UsersPlatformException("Error handling query");
-        if (rs.size() <= 0) {
-            throw new UsersPlatformException("retail does not exist");
-        }
-        return rs.stream().findFirst().get();
-    }
 
+        if (queryResults == null)throw new UsersPlatformException("Query result was null");
+        if (queryResults.size() <= 0)throw new UsersPlatformException("Retail does not exist");
+
+        return queryResults.stream().findFirst().get();
+    }
     @Override
     public Collection<RetailType> getRetails() throws UsersPlatformException {
-        Collection<RetailType> retails = null;
         executor.openConnection(dbConnector);
-        retails = executor.tryExecuteGetQuery(dbConnector, "SELECT * FROM " + tableName, RetailType.getClass());
+        Collection<RetailType> retails = executor.tryExecuteGetQuery(dbConnector, "SELECT * FROM " + tableName, RetailType.getClass());
         executor.closeConnection();
-        if (retails == null)
-            throw new UsersPlatformException("Error handling query");
+        if (retails == null)throw new UsersPlatformException("Query result was null");
 
         return retails;
     }
-
     @Override
-    public void setRetail(@NotNull int guid, String newName) throws UsersPlatformException, SQLException {
+    public void setRetail(@NotNull int retailGuid,@NotNull String retailNewName) throws UsersPlatformException, SQLException {
+        RetailType retailTypeToSet = getRetail(retailGuid);
+        if(retailTypeToSet == null)throw new UsersPlatformException("Retail {"+retailGuid + "} not found");
+        retailTypeToSet.setName(retailNewName);
         executor.openConnection(dbConnector);
-        if(executor.TryExecuteUpdateQuery(dbConnector, new RetailType(guid, newName)) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not update Retail");
-        }
+        boolean resultsFlag = executor.TryExecuteUpdateQuery(dbConnector, retailTypeToSet);
         executor.closeConnection();
+        if(!resultsFlag)throw new UsersPlatformException("Could not update Retail {" + retailGuid + "} name");
     }
-
     @Override
     public void insertRetail(@NotNull RetailType retailType) throws UsersPlatformException, SQLException {
         executor.openConnection(dbConnector);
-        if (executor.TryExecuteInsertQuery(dbConnector, retailType) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not update Retail");
-        }
+        boolean resultsFlag = executor.TryExecuteInsertQuery(dbConnector, retailType);
         executor.closeConnection();
+        if (!resultsFlag) throw new UsersPlatformException("Could not Insert new Retail");
     }
-
     @Override
-    public void deleteRetail(@NotNull int guid) throws UsersPlatformException, SQLException {
-        RetailType rt = getRetail(guid);
-        try {
-            transactionDAO.deleteRetailTransactions(guid);
-        } catch (Exception e) {
-            throw new UsersPlatformException("couldnt delete transactions..");
-        }
+    public void deleteRetail(@NotNull int retailGuid) throws UsersPlatformException, SQLException {
+        RetailType rt = getRetail(retailGuid);
+        transactionDAO.deleteRetailTransactions(retailGuid);
         executor.openConnection(dbConnector);
-        if (executor.TryExecuteDeleteQuery(dbConnector,rt) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not update Retail");
-        }
+        boolean resultsFlag = executor.TryExecuteDeleteQuery(dbConnector,rt);
         executor.closeConnection();
+        if (!resultsFlag) throw new UsersPlatformException("Could not delete Retail {"+retailGuid+"}");
     }
 }

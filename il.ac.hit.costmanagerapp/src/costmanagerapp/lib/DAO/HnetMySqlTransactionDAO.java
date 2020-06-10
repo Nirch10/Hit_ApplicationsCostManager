@@ -73,7 +73,7 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     }
 
     @Override
-    public Collection<Transaction> getTransactionByRetail(int retailId) throws Exception {
+    public Collection<Transaction> getTransactionByRetail(int retailId) throws UsersPlatformException{
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ retailGuidColumn+"=" + retailId);
         return getListOfTranactions(stringQuery);
     }
@@ -152,7 +152,7 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     }
 
     @Override
-    public void deleteRetailTransactions(int retailGuid) throws Exception {
+    public void deleteRetailTransactions(int retailGuid) throws UsersPlatformException {
         Collection<Transaction> rt = getTransactionByRetail(retailGuid);
         executor.openConnection(dbConnector);
         rt.forEach(r ->{
