@@ -1,6 +1,7 @@
 package costmanagerapp.Tests;
 
 import com.mysql.jdbc.AssertionFailedException;
+import costmanagerapp.Config.CostManagerDAOConfigWrapper;
 import costmanagerapp.lib.DAO.HnetMySqlUserDAO;
 import costmanagerapp.lib.DAO.IUsersDAO;
 import costmanagerapp.lib.Models.User;
@@ -11,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Scanner;
@@ -19,8 +20,8 @@ import java.util.Scanner;
 public class UserDAOTest {
     static IUsersDAO tester;
     @BeforeClass
-    public static void testSetup() {
-            tester = new HnetMySqlUserDAO();
+    public static void testSetup() throws IOException {
+            tester = new HnetMySqlUserDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
     }
     @AfterClass
     public static void testCleanup() {

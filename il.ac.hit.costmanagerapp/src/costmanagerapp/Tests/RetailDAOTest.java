@@ -1,5 +1,6 @@
 package costmanagerapp.Tests;
 
+import costmanagerapp.Config.CostManagerDAOConfigWrapper;
 import costmanagerapp.lib.DAO.HnetMySqlRetailsDAO;
 import costmanagerapp.lib.DAO.IRetailDAO;
 import costmanagerapp.lib.Models.RetailType;
@@ -8,14 +9,15 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 
 public class RetailDAOTest {
     static IRetailDAO tester;
     @BeforeClass
-    public static void testSetup() {
-        tester = new HnetMySqlRetailsDAO();
+    public static void testSetup() throws IOException {
+        tester = new HnetMySqlRetailsDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
     }
     @AfterClass
     public static void testCleanup() {

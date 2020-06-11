@@ -1,6 +1,7 @@
 package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
+import costmanagerapp.Config.CostManagerDAOConfig;
 import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.Models.User;
@@ -25,13 +26,14 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     private IQueryExecuter<Transaction> executor;
     private AbstractDbConnector dbConnector;
     private Transaction TransactionClass;
-    private final String configFilePath = "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
+    private final String configFilePath;// = "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
     private String userGuidColumn = "UserGuid";
     private String retailGuidColumn = "RetailGuid";
 
-    public HnetMySqlTransactionDAO() {this(new HnetMySqlQueryExecutor() ,null);}
-    public HnetMySqlTransactionDAO(@NotNull IQueryExecuter iQueryExecuter,
+    public HnetMySqlTransactionDAO(@NotNull CostManagerDAOConfig config) {this(config, new HnetMySqlQueryExecutor() ,null);}
+    public HnetMySqlTransactionDAO(@NotNull CostManagerDAOConfig config,@NotNull IQueryExecuter iQueryExecuter,
                                    AbstractDbConnector abstractDbConnector){
+        configFilePath = config.HibernateConfigPath;
         executor = iQueryExecuter;
         TransactionClass = new Transaction();
         if (abstractDbConnector != null)

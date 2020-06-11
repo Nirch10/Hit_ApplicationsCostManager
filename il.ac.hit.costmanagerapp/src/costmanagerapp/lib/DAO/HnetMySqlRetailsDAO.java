@@ -1,6 +1,7 @@
 package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
+import costmanagerapp.Config.CostManagerDAOConfig;
 import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
@@ -19,12 +20,14 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
     private AbstractDbConnector dbConnector;
     private ITransactionDAO transactionDAO;
     private RetailType RetailType;
-    private final String filePath =
-            "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
+    private final String filePath;
+//    =    "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
 
-    public HnetMySqlRetailsDAO(){this(new HnetMySqlQueryExecutor<>(), new HnetMySqlTransactionDAO(), null);}
-    public HnetMySqlRetailsDAO(@NotNull IQueryExecuter<RetailType> queryExecutor,
+    public HnetMySqlRetailsDAO(@NotNull CostManagerDAOConfig config){this(config,new HnetMySqlQueryExecutor<>(),
+            new HnetMySqlTransactionDAO(config), null);}
+    public HnetMySqlRetailsDAO(@NotNull CostManagerDAOConfig config,@NotNull IQueryExecuter<RetailType> queryExecutor,
                                @NotNull ITransactionDAO inputTransactionDAO, AbstractDbConnector connector){
+        filePath = config.HibernateConfigPath;
         executor = queryExecutor;
         RetailType =  new RetailType();
         transactionDAO = inputTransactionDAO;
