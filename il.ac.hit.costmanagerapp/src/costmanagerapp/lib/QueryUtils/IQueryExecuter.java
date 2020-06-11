@@ -4,8 +4,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 public interface IQueryExecuter<T> {
-    Collection tryExecuteGetQuery(AbstractDbConnector connector, String getQuery) throws SQLException;
-
+    boolean tryExecuteWildCardQuery(String query);
     void openConnection(AbstractDbConnector connector);
     void closeConnection();
     //TODO :: abstract problem - there might be huge problem with DbConnector

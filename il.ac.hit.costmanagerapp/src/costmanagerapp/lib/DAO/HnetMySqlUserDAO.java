@@ -1,15 +1,17 @@
 package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
+import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlDbConnector;
-import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecuter;
+import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecutor;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
 import costmanagerapp.lib.UsersPlatformException;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Date;
 
 public class HnetMySqlUserDAO implements IUsersDAO {
     private String tableName = "user";
@@ -21,7 +23,7 @@ public class HnetMySqlUserDAO implements IUsersDAO {
     private final String filePath =
             "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
 
-    public HnetMySqlUserDAO(){this(new HnetMySqlQueryExecuter<>(), new HnetMySqlTransactionDAO(),  null);}
+    public HnetMySqlUserDAO(){this(new HnetMySqlQueryExecutor<>(), new HnetMySqlTransactionDAO(),  null);}
     public HnetMySqlUserDAO(@NotNull IQueryExecuter<User> queryExecutor,
                             @NotNull ITransactionDAO inputTransactionDAO, AbstractDbConnector connector){
         executor = queryExecutor;
@@ -62,9 +64,15 @@ public class HnetMySqlUserDAO implements IUsersDAO {
     @Override
     public void deleteUser(int userGuid) throws UsersPlatformException, SQLException {
         User user = getUser(userGuid);
-        if(user == null)
-            throw new UsersPlatformException("User {" + userGuid + "} not found");
-        transactionDAO.deleteUserTransactions(userGuid);
+        if(user == null) throw new UsersPlatformException("User {" + userGuid + "} not found");
+        if(user.getUserName() == "None" || userGuid == 1)throw new UsersPlatformException("Cant delete the none object");
+        User noneUser = getUser(1);
+        if(noneUser == null) noneUser = new User(1, "None", "","");
+        Date noneDate = new Date(0,0,0);
+        for (Transaction transaction : transactionDAO.getTransactionsByUser(user.getGuid())) {
+            transactionDAO.updateTransactionDate(transaction.getGuid(),noneDate);
+            transactionDAO.updateTransactionUser(transaction.getGuid(),noneUser);
+        }
         executor.openConnection(dbConnector);
         boolean resultsFlag = executor.TryExecuteDeleteQuery(dbConnector,user);
         executor.closeConnection();

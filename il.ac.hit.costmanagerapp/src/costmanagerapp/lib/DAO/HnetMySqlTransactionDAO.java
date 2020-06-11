@@ -6,7 +6,7 @@ import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlDbConnector;
-import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecuter;
+import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecutor;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
 import costmanagerapp.lib.UsersPlatformException;
 import org.hibernate.Hibernate;
@@ -14,10 +14,8 @@ import org.hibernate.Hibernate;
 import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HnetMySqlTransactionDAO implements ITransactionDAO {
     private String transactionsTable = "transactions";
@@ -27,14 +25,11 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
     private IQueryExecuter<Transaction> executor;
     private AbstractDbConnector dbConnector;
     private Transaction TransactionClass;
-
-
     private final String configFilePath = "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
     private String userGuidColumn = "UserGuid";
     private String retailGuidColumn = "RetailGuid";
 
-    public HnetMySqlTransactionDAO() {this(new HnetMySqlQueryExecuter() ,null);}
-
+    public HnetMySqlTransactionDAO() {this(new HnetMySqlQueryExecutor() ,null);}
     public HnetMySqlTransactionDAO(@NotNull IQueryExecuter iQueryExecuter,
                                    AbstractDbConnector abstractDbConnector){
         executor = iQueryExecuter;
@@ -45,40 +40,7 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
             dbConnector = new HnetMySqlDbConnector(new File(configFilePath));
     }
 
-    private Collection<Transaction> getTransaction(String query) throws UsersPlatformException {
-        executor.openConnection(dbConnector);
-        Collection<Transaction> results  = executor.tryExecuteGetQuery(dbConnector, query, TransactionClass.getClass());
-
-        if(results == null)
-            throw new UsersPlatformException("No transaction found");
-        if(results.size() <= 0)
-            throw new UsersPlatformException("Not valid ID");
-        return results;
-    }
-
-    @Override
-    public Transaction getTransaction(int transactionId) throws UsersPlatformException {
-        executor.openConnection(dbConnector);
-        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ guidColumn +"=" + transactionId);
-        Collection<Transaction> results = getTransaction(stringQuery);
-        executor.closeConnection();
-        return results.stream().findFirst().get();
-    }
-
-    @Override
-    public Collection<Transaction> getTransactionByUser(int userId) throws UsersPlatformException {
-        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ userGuidColumn+"=" + userId);
-        return getListOfTranactions(stringQuery);
-
-    }
-
-    @Override
-    public Collection<Transaction> getTransactionByRetail(int retailId) throws UsersPlatformException{
-        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ retailGuidColumn+"=" + retailId);
-        return getListOfTranactions(stringQuery);
-    }
-
-    private Collection<Transaction> getListOfTranactions(String query) throws UsersPlatformException {
+    private Collection<Transaction> getTransactions(String query) {
         executor.openConnection(dbConnector);
         Collection<Transaction> results =executor.tryExecuteGetQuery(dbConnector, query, TransactionClass.getClass());
         results.forEach(r ->{
@@ -88,87 +50,120 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
         executor.closeConnection();
         return results;
     }
-
     @Override
-    public Collection<Transaction> getTransactionByDateRange(Date from, Date to) throws UsersPlatformException {
+    public Transaction getTransaction(int transactionGuid) throws UsersPlatformException {
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ guidColumn +"=" + transactionGuid);
+
+        Collection<Transaction> results = getTransactions(stringQuery);
+        if(results == null)throw new UsersPlatformException("Query result was null");
+        if(results.size() <= 0) throw new UsersPlatformException("Transaction {"+transactionGuid + "} was not found");
+        return results.stream().findFirst().get();
+    }
+    @Override
+    public Collection<Transaction> getTransactionsByUser(int userGuid) throws UsersPlatformException {
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE " + userGuidColumn + " = " + userGuid);
+        Collection transactions = getTransactions(stringQuery);
+        if (transactions == null) throw new UsersPlatformException("Query result was null");
+        return transactions;
+    }
+    @Override
+    public Collection<Transaction> getTransactionsByRetail(int retailGuid) throws UsersPlatformException{
+        String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ retailGuidColumn+"=" + retailGuid);
+        Collection transactions = getTransactions(stringQuery);
+        if (transactions == null) throw new UsersPlatformException("Query result was null");
+        return transactions;
+    }
+    @Override
+    public Collection<Transaction> getTransactionsByDateRange(Date from, Date to) throws UsersPlatformException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ dateOfTransactionColumn +" BETWEEN '" +
                 formatter.format(from)+ "' and '" + formatter.format(to)+ "' ORDER BY " + dateOfTransactionColumn + " desc");
-        Collection<Transaction> results = getListOfTranactions(stringQuery);
-        return results;
+        Collection transactions = getTransactions(stringQuery);
+        if (transactions == null) throw new UsersPlatformException("Query result was null");
+        return transactions;
     }
-
     @Override
-    public Collection<Transaction> getTransactionByPriceRange(double fromPrice, double toPrice) throws UsersPlatformException {
+    public Collection<Transaction> getTransactionsByPriceRange(double fromPrice, double toPrice) throws UsersPlatformException {
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ priceColumn +" BETWEEN '" +
                 fromPrice + "' and '" + toPrice + "' ORDER BY " + dateOfTransactionColumn + " desc");
-        return getListOfTranactions(stringQuery);
+        Collection transactions = getTransactions(stringQuery);
+        if (transactions == null) throw new UsersPlatformException("Query result was null");
+        return transactions;
+    }
+    @Override
+    public void updateTransactionPrice(int transactionGuid, double newPrice) throws UsersPlatformException, SQLException {
+        Transaction transaction = getTransaction(transactionGuid);
+        if(transaction == null)throw new UsersPlatformException("Transaction {"+transactionGuid+"} was not found");
+        transaction.setPrice(newPrice);
+        executor.openConnection(dbConnector);
+        executor.TryExecuteUpdateQuery(dbConnector, transaction);
+        executor.closeConnection();
+    }
+    @Override
+    public void updateTransactionIncomeStatus(int transactionGuid, boolean newIsIncome) throws UsersPlatformException, SQLException {
+        Transaction transaction = getTransaction(transactionGuid);
+        if(transaction == null)throw new UsersPlatformException("Transaction {"+transactionGuid+"} was not found");
+        transaction.setIsIncome(newIsIncome);
+        executor.TryExecuteUpdateQuery(dbConnector, transaction);
+    }
+    @Override
+    public void updateTransactionDate(int transactionGuid, Date newDate) throws UsersPlatformException, SQLException {
+        Transaction transaction = getTransaction(transactionGuid);
+        if(transaction == null)throw new UsersPlatformException("Transaction {"+transactionGuid+"} was not found");
+        transaction.setDateOfTransaction(newDate);
+        executor.openConnection(dbConnector);
+        executor.TryExecuteUpdateQuery(dbConnector, transaction);
+        executor.closeConnection();
+    }
+    @Override
+    public void updateTransactionRetail(int transactionGuid, RetailType newRetailType) throws UsersPlatformException, SQLException {
+        Transaction transaction = getTransaction(transactionGuid);
+        if(transaction == null)throw new UsersPlatformException("Transaction {"+transactionGuid+"} was not found");
+        transaction.setRetail(newRetailType);
+        executor.openConnection(dbConnector);
+        executor.TryExecuteUpdateQuery(dbConnector, transaction);
+        executor.closeConnection();
+
     }
 
     @Override
-    public void updateTransaction(int guid, boolean isIncome, double price, String description, int retailGuid, LocalDate dateOT) throws UsersPlatformException {
-
+    public void updateTransactionUser(int transactionGuid, User newUser) throws UsersPlatformException, SQLException {
+        Transaction transaction = getTransaction(transactionGuid);
+        if(transaction == null)throw new UsersPlatformException("Transaction {"+transactionGuid+"} was not found");
+        transaction.setUser(newUser);
+        executor.openConnection(dbConnector);
+        executor.TryExecuteUpdateQuery(dbConnector, transaction);
+        executor.closeConnection();
     }
 
     @Override
     public void insertTransaction(Transaction transaction) throws SQLException, UsersPlatformException {
         executor.openConnection(dbConnector);
-        if (executor.TryExecuteInsertQuery(dbConnector, transaction) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not update Retail");
-        }
+        boolean resultsFlag = executor.TryExecuteInsertQuery(dbConnector, transaction);
         executor.closeConnection();
+        if (!resultsFlag) throw new UsersPlatformException("Could not update Retail");
+    }
+    @Override
+    public void deleteTransaction(int transactionGuid) throws UsersPlatformException, SQLException {
+        Transaction transaction = getTransaction(transactionGuid);
+        if(transaction == null)throw new UsersPlatformException("Transaction {"+transactionGuid + "} not found");
+        //transaction.setUser(new User());
+        //transaction.setRetail(new RetailType());
+        executor.openConnection(dbConnector);
+        executor.tryExecuteWildCardQuery("DELETE FROM Transaction WHERE "+guidColumn+" = " + transaction.getGuid());
+        //boolean resultsFlag = executor.TryExecuteDeleteQuery(dbConnector,transaction);
+        executor.closeConnection();
+        //if (!resultsFlag) throw new UsersPlatformException("Could not delete transaction {+"+transactionGuid+"}");
     }
 
     @Override
-    public void deleteTransaction(int guid) throws UsersPlatformException, SQLException {
-        Transaction rt = getTransaction(guid);
-        executor.openConnection(dbConnector);
-        if (executor.TryExecuteDeleteQuery(dbConnector,rt) == false)
-        {
-            executor.closeConnection();
-            throw new UsersPlatformException("Could not update Retail");
-        }
-        executor.closeConnection();
+    public IQueryExecuter getExecutor() {
+        return executor;
     }
 
     @Override
-    public void deleteUserTransactions(int userGuid) throws UsersPlatformException {
-        Collection<Transaction> rt = getTransactionByUser(userGuid);
-        AtomicBoolean foundError = new AtomicBoolean(false);
-        executor.openConnection(dbConnector);
-        rt.forEach(r ->{
-                r.setDateOfTransaction(new Date(0,0,0));
-                r.setUser(new User(0, "","",""));
-            try {
-                executor.TryExecuteUpdateQuery(dbConnector, r);
-            } catch (SQLException e) {
-                foundError.set(true);
-            }
-        });
-        if(foundError.get())throw new UsersPlatformException("Error updating transaction row ");
-        executor.closeConnection();
+    public AbstractDbConnector getDBConnector() {
+        return dbConnector;
     }
 
-    @Override
-    public void deleteRetailTransactions(int retailGuid) throws UsersPlatformException {
-        Collection<Transaction> rt = getTransactionByRetail(retailGuid);
-        executor.openConnection(dbConnector);
-        rt.forEach(r ->{
-            try {
-                Transaction t1 = new Transaction(r.getGuid(), r.isIncome(), r.getPrice(), new RetailType(0, "None"),
-                        new User(r.getUser().getUserName(), r.getUser().getEmail(), r.getUser().getPassword()),
-                        r.getDateOfTransaction(), r.getDescription());
-                executor.TryExecuteDeleteQuery(dbConnector, r);
-                insertTransaction(t1);
-//                executor.TryExecuteUpdateQuery(dbConnector,t1);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (UsersPlatformException e) {
-                e.printStackTrace();
-            }
-        });
-        executor.closeConnection();
-    }
 }

@@ -2,14 +2,13 @@ package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
 import costmanagerapp.lib.Models.RetailType;
-import costmanagerapp.lib.Models.User;
+import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
 import costmanagerapp.lib.QueryUtils.HnetMySqlDbConnector;
-import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecuter;
+import costmanagerapp.lib.QueryUtils.HnetMySqlQueryExecutor;
 import costmanagerapp.lib.QueryUtils.IQueryExecuter;
 import costmanagerapp.lib.UsersPlatformException;
 import java.io.File;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -23,7 +22,7 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
     private final String filePath =
             "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
 
-    public HnetMySqlRetailsDAO(){this(new HnetMySqlQueryExecuter<>(), new HnetMySqlTransactionDAO(), null);}
+    public HnetMySqlRetailsDAO(){this(new HnetMySqlQueryExecutor<>(), new HnetMySqlTransactionDAO(), null);}
     public HnetMySqlRetailsDAO(@NotNull IQueryExecuter<RetailType> queryExecutor,
                                @NotNull ITransactionDAO inputTransactionDAO, AbstractDbConnector connector){
         executor = queryExecutor;
@@ -76,7 +75,12 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
     @Override
     public void deleteRetail(@NotNull int retailGuid) throws UsersPlatformException, SQLException {
         RetailType rt = getRetail(retailGuid);
-        transactionDAO.deleteRetailTransactions(retailGuid);
+        if(rt.getName() == "None" || retailGuid == 1)throw new UsersPlatformException("Cant delete the none object");
+        RetailType noneRetail = getRetail(1);
+        if(noneRetail == null)noneRetail = new RetailType(1,"None");
+        for (Transaction transaction : transactionDAO.getTransactionsByRetail(rt.getGuid())) {
+            transactionDAO.updateTransactionRetail(transaction.getGuid(), noneRetail);
+        }
         executor.openConnection(dbConnector);
         boolean resultsFlag = executor.TryExecuteDeleteQuery(dbConnector,rt);
         executor.closeConnection();

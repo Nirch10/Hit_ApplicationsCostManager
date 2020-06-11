@@ -23,15 +23,13 @@ public class Transaction {
     private boolean IsIncome;
     @Column(name = "Price")
     private double Price;
-    @Fetch(FetchMode.JOIN)
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "RetailGuid", insertable=false, updatable=false)
+    //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    //@JoinColumn(name = "RetailGuid", insertable=false, updatable=false)
+    @Column(name = "UserGuid")
     private RetailType Retail;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
-    @Fetch(FetchMode.JOIN)
-    //@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "RetailGuid", insertable=false, updatable=false)
+    //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    //@JoinColumn(name = "UserGuid", insertable=false, updatable=false)
+    @Column(name = "UserGuid")
     private User User;
     @Column(name = "DateOfTransaction", columnDefinition = "DATE")
     private Date DateOfTransaction;

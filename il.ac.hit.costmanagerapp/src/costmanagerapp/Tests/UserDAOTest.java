@@ -74,7 +74,7 @@ public class UserDAOTest {
     //Delete Tests
     @Test
     public void testDeleteUser(){
-        int userGuid = 3;
+        int userGuid = 6;
         try {
             User u = tester.getUser(userGuid);
             if (u == null) throw new ValueException("User doesnt exist");

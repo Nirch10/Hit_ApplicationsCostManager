@@ -66,7 +66,7 @@ public class RetailDAOTest {
     //Delete Tests
     @Test
     public void testDeleteRetail(){
-        int retailGuid = 4;
+        int retailGuid = 1;
         try {
             tester.deleteRetail(retailGuid);
         } catch (UsersPlatformException e) {
@@ -79,7 +79,7 @@ public class RetailDAOTest {
     @Test
     public void testUpdateRetail(){
         int retailGuid = 1;
-        String retailsNewName = "Food";
+        String retailsNewName = "None";
         try {
             tester.setRetail(retailGuid,retailsNewName);
         } catch (SQLException e) {

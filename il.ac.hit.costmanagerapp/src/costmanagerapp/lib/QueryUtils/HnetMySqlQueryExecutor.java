@@ -1,23 +1,28 @@
 package costmanagerapp.lib.QueryUtils;
 
-import costmanagerapp.lib.Models.RetailType;
-import costmanagerapp.lib.UsersPlatformException;
-import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
-import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-public class HnetMySqlQueryExecuter<T> implements IQueryExecuter<T> {
+public class HnetMySqlQueryExecutor<T> implements IQueryExecuter<T> {
     private Session session;
 
-    public HnetMySqlQueryExecuter(){}
+    public HnetMySqlQueryExecutor(){}
 
     @Override
-    public Collection tryExecuteGetQuery(AbstractDbConnector connector, String getQuery) {
-        return null;
+    public boolean tryExecuteWildCardQuery(String query) {
+        try{
+            Query queryToExec = session.createQuery(query);
+            queryToExec.executeUpdate();
+            session.getTransaction().commit();
+            return true;
+        } catch (HibernateException e) {
+            return false;
+        }
     }
 
     @Override
