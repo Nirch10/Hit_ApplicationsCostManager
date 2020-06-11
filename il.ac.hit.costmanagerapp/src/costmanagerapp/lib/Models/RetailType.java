@@ -20,13 +20,10 @@ public class RetailType {
     private String Name;
 
     public RetailType(int guid, @NotNull String name){
-        //TODO::: Generate id automatically
-        //Guid = new Random().nextInt(100000);
         Guid = guid;
         Name = name;
     }
     public RetailType(){ }
-
     public RetailType(String retailName) {
         Name = retailName;
     }
@@ -38,10 +35,8 @@ public class RetailType {
     public String getType(){
         return Name;
     }
-
     public String getName() {
         return Name;
     }
-
     public void setName(String name){Name = name;}
 }

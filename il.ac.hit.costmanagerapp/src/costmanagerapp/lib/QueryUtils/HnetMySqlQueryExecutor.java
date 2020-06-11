@@ -14,6 +14,14 @@ public class HnetMySqlQueryExecutor<T> implements IQueryExecuter<T> {
     public HnetMySqlQueryExecutor(){}
 
     @Override
+    public void openConnection(AbstractDbConnector connector){
+        session = setSession(connector);
+    }
+    @Override
+    public void closeConnection() {
+        session.close();
+    }
+    @Override
     public boolean tryExecuteWildCardQuery(String query) {
         try{
             Query queryToExec = session.createQuery(query);
@@ -24,23 +32,6 @@ public class HnetMySqlQueryExecutor<T> implements IQueryExecuter<T> {
             return false;
         }
     }
-
-    @Override
-    public void openConnection(AbstractDbConnector connector){
-            session = setSession(connector);
-    }
-
-    @Override
-    public void closeConnection() {
-        session.close();
-    }
-
-    private Session setSession(AbstractDbConnector connector){
-        Session session = connector.openConn();
-        session.beginTransaction();
-        return session;
-    }
-
     //TODO :: abstract problem - there might be huge problem with DbConnector
     @Override
     public Collection<T> tryExecuteGetQuery(AbstractDbConnector connector, String getQuery, Class type) {
@@ -51,40 +42,43 @@ public class HnetMySqlQueryExecutor<T> implements IQueryExecuter<T> {
             return null;
         }
     }
-
     @Override
-    public Boolean TryExecuteInsertQuery(AbstractDbConnector connector, T insertObj) throws SQLException {
+    public Boolean TryExecuteInsertQuery(AbstractDbConnector connector, T insertObj) {
         try{
             session.save(insertObj);
             session.getTransaction().commit();
             return true;
         }
-        catch (Exception e){
+        catch (HibernateException e){
             return false;
         }
     }
-
     @Override
-    public Boolean TryExecuteUpdateQuery(AbstractDbConnector connector, T updateObj) throws SQLException {
+    public Boolean TryExecuteUpdateQuery(AbstractDbConnector connector, T updateObj) {
         try {
             session.merge(updateObj);
             session.getTransaction().commit();
             return true;
         }
-        catch (Exception e){
+        catch (HibernateException e){
             return false;
         }
     }
-
     @Override
-    public Boolean TryExecuteDeleteQuery(AbstractDbConnector connector, T deleteObj) throws SQLException {
+    public Boolean TryExecuteDeleteQuery(AbstractDbConnector connector, T deleteObj) {
         try{
         session.delete(deleteObj);
         session.flush();
         session.getTransaction().commit();
         return true;}
-        catch (Exception e){
+        catch (HibernateException e){
             return false;
         }
+    }
+
+    private Session setSession(AbstractDbConnector connector){
+        Session session = connector.openConn();
+        session.beginTransaction();
+        return session;
     }
 }

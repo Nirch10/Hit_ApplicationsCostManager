@@ -80,6 +80,7 @@ public class HnetMySqlUserDAO implements IUsersDAO {
     }
     @Override
     public void setPassword(int userGuid, String newPassword) throws UsersPlatformException, SQLException {
+        if(userGuid == 1)throw new UsersPlatformException("Cant update None object");
         User user = getUser(userGuid);
         user.setPassword(newPassword);
         executor.openConnection(dbConnector);

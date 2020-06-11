@@ -25,10 +25,6 @@ public class TransactionDAOUnitTest {
     public static void testCleanup() {
         // Do your cleanup here like close URL connection , releasing resources etc
     }
-//    @Test
-//    public void testGetRetailByGuid() throws UsersPlatformException {
-//        if (tester.getRetail(1) == null) throw new AssertionError();
-//    }
 
     //Get Tests
     @Test

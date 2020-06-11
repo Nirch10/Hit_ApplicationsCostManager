@@ -56,7 +56,8 @@ public class HnetMySqlRetailsDAO implements IRetailDAO {
         return retails;
     }
     @Override
-    public void setRetail(@NotNull int retailGuid,@NotNull String retailNewName) throws UsersPlatformException, SQLException {
+    public void updateRetailName(@NotNull int retailGuid, @NotNull String retailNewName) throws UsersPlatformException, SQLException {
+        if(retailGuid == 1)throw new UsersPlatformException("Cant update None object");
         RetailType retailTypeToSet = getRetail(retailGuid);
         if(retailTypeToSet == null)throw new UsersPlatformException("Retail {"+retailGuid + "} not found");
         retailTypeToSet.setName(retailNewName);

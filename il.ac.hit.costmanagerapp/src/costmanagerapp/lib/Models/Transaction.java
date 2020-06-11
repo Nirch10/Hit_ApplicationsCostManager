@@ -23,19 +23,14 @@ public class Transaction {
     private boolean IsIncome;
     @Column(name = "Price")
     private double Price;
-    //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    //@JoinColumn(name = "RetailGuid", insertable=false, updatable=false)
     @Column(name = "UserGuid")
     private RetailType Retail;
-    //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    //@JoinColumn(name = "UserGuid", insertable=false, updatable=false)
     @Column(name = "UserGuid")
     private User User;
     @Column(name = "DateOfTransaction", columnDefinition = "DATE")
     private Date DateOfTransaction;
     @Column(name = "Description")
     private String Description;
-
 
     public Transaction(@NotNull int guid, @NotNull boolean isIncome, @NotNull  double price, @NotNull  RetailType retailType, @NotNull  User user,
                        Date date,String description){
@@ -48,7 +43,6 @@ public class Transaction {
         DateOfTransaction = date;
         Description = description;
     }
-
     public Transaction(@NotNull boolean isIncome, @NotNull  double price, @NotNull  RetailType retailType, @NotNull  User user,
                        String description){
         //TODO::: Generate id automatically
@@ -60,7 +54,6 @@ public class Transaction {
         DateOfTransaction = Date.from(Instant.now());
         Description = description;
     }
-
     public Transaction() {
 
     }
@@ -68,34 +61,29 @@ public class Transaction {
     public int getGuid() {
         return Guid;
     }
-    public void setGuid(int guid){Guid = guid;}
     public boolean getIsIncome() {
         return IsIncome;
     }
-
-    public boolean isIncome() {
-        return IsIncome;
-    }
-
-    public void setIsIncome(boolean isIncome){IsIncome = isIncome;}
     public double getPrice() {
         return Price;
     }
-    public void setPrice(double price){Price = price;}
     public RetailType getRetail() {
         return Retail;
     }
-    public void setRetail(RetailType retail){Retail = retail;}
     public User getUser() {
         return User;
     }
-    public void setUser(User user){User = user;}
     public Date getDateOfTransaction() {
         return DateOfTransaction;
     }
-    public void setDateOfTransaction(Date dateOfTransaction){DateOfTransaction = dateOfTransaction;}
     public String getDescription() {
         return Description;
     }
+    public void setIsIncome(boolean isIncome){IsIncome = isIncome;}
+    public void setGuid(int guid){Guid = guid;}
+    public void setPrice(double price){Price = price;}
+    public void setRetail(RetailType retail){Retail = retail;}
+    public void setUser(User user){User = user;}
+    public void setDateOfTransaction(Date dateOfTransaction){DateOfTransaction = dateOfTransaction;}
     public void setDescription(String description){Description = description;}
 }

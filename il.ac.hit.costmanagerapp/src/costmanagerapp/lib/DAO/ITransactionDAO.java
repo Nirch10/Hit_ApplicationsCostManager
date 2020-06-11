@@ -26,6 +26,4 @@ public interface ITransactionDAO {
     void updateTransactionUser(int transactionGuid, User newUser) throws UsersPlatformException, SQLException;
     void insertTransaction(Transaction transaction) throws SQLException, UsersPlatformException;
     void deleteTransaction(int guid) throws UsersPlatformException, SQLException;
-    IQueryExecuter getExecutor();
-    AbstractDbConnector getDBConnector();
 }

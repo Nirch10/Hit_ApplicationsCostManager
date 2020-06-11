@@ -81,7 +81,7 @@ public class RetailDAOTest {
         int retailGuid = 1;
         String retailsNewName = "None";
         try {
-            tester.setRetail(retailGuid,retailsNewName);
+            tester.updateRetailName(retailGuid,retailsNewName);
         } catch (SQLException e) {
             throw new AssertionError("Could not update retails name" + e.getMessage());
         } catch (UsersPlatformException e) {

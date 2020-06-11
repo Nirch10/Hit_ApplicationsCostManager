@@ -8,5 +8,4 @@ public abstract class AbstractDbConnector {
     public String password;
 
     abstract Session openConn();
-
 }

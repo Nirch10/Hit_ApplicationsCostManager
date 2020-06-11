@@ -143,27 +143,13 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
         executor.closeConnection();
         if (!resultsFlag) throw new UsersPlatformException("Could not update Retail");
     }
+
     @Override
-    public void deleteTransaction(int transactionGuid) throws UsersPlatformException, SQLException {
+    public void deleteTransaction(int transactionGuid) throws UsersPlatformException{
         Transaction transaction = getTransaction(transactionGuid);
         if(transaction == null)throw new UsersPlatformException("Transaction {"+transactionGuid + "} not found");
-        //transaction.setUser(new User());
-        //transaction.setRetail(new RetailType());
         executor.openConnection(dbConnector);
         executor.tryExecuteWildCardQuery("DELETE FROM Transaction WHERE "+guidColumn+" = " + transaction.getGuid());
-        //boolean resultsFlag = executor.TryExecuteDeleteQuery(dbConnector,transaction);
         executor.closeConnection();
-        //if (!resultsFlag) throw new UsersPlatformException("Could not delete transaction {+"+transactionGuid+"}");
     }
-
-    @Override
-    public IQueryExecuter getExecutor() {
-        return executor;
-    }
-
-    @Override
-    public AbstractDbConnector getDBConnector() {
-        return dbConnector;
-    }
-
 }
