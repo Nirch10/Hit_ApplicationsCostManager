@@ -2,109 +2,137 @@ package costmanagerapp.Tests;
 
 import costmanagerapp.lib.*;
 import costmanagerapp.lib.DAO.*;
+import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.Models.Transaction;
+import costmanagerapp.lib.Models.User;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 public class TransactionDAOUnitTest {
-
     static ITransactionDAO tester;
-
     @BeforeClass
     public static void testSetup() {
-        try {
-            tester = new MySqlTransactionDAO();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+            tester = new HnetMySqlTransactionDAO();
     }
-
     @AfterClass
     public static void testCleanup() {
         // Do your cleanup here like close URL connection , releasing resources etc
     }
 
-//    @Test
-//    public void testGetUser() throws UsersPlatformException {
-//        if (tester.getRetail(1) == null) throw new AssertionError();
-//    }
-
+    //Get Tests
     @Test
-    public void testGetTransaction() throws UsersPlatformException {
-        Transaction cl = tester.getTransaction(1);
-        if(cl == null) throw new AssertionError("empty list");
-        System.out.println(cl.getGuid() + ", "+ cl.getPrice() +", " + cl.getDateOfTransaction());
+    public void testGetTransaction() throws UsersPlatformException, SQLException {
+        int transactionGuid = 1;
+        Transaction cl = tester.getTransaction(transactionGuid);
+        if(cl == null) throw new AssertionError("No transaction found");
+        System.out.println(cl.getGuid() + " :  " + cl.getIsIncome() +  ", " + cl.getPrice() +", "
+                + cl.getDateOfTransaction()  +  ", " + cl.getDescription() +  ", " + cl.getUser().getUserName() +  ", " +
+                cl.getRetail().getName());
     }
-
-
     @Test
     public void testGetTransactionByUser() throws UsersPlatformException {
-        Collection<Transaction> cl = tester.getTransactionByUser(1);
-        if(cl.size() == 0) throw new AssertionError("empty list");
-        cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getPrice()));
+        int userId = 1;
+        Collection<Transaction> res = tester.getTransactionsByUser(userId);
+        if(res.size() == 0) throw new AssertionError("No transaction found");
+        res.forEach(cl -> System.out.println(cl.getGuid() + " :  " + cl.getIsIncome() +  ", " + cl.getPrice() +", "
+                + cl.getDateOfTransaction()  +  ", " + cl.getDescription() +  ", " + cl.getUser().getUserName() +  ", " +
+                cl.getRetail().getName()));
     }
-
     @Test
-    public void testUpdateTransaction() throws ClassNotFoundException  {
-        LocalDate d = LocalDate.of(2020, 05, 10);
-        String desc = "Lord Of The Rings";
-        IRetailDAO retailDAO = new MySqlRetailDAO();
-        IUsersDAO usersDAO = new MySqlUserDAO();
-        try {
-            tester.updateTransaction(1234, true, 21, desc, 52790, d);
-        } catch (UsersPlatformException e) {
-            e.printStackTrace();
-            throw new AssertionError();
-        }
+    public void testGetTransactionByRetail() throws Exception {
+        int retailGuid = 1;
+        Collection<Transaction> res = tester.getTransactionsByRetail(retailGuid);
+        if(res.size() == 0) throw new AssertionError("No transaction found");
+        res.forEach(cl -> System.out.println(cl.getGuid() + " :  " + cl.getIsIncome() +  ", " + cl.getPrice() +", "
+                + cl.getDateOfTransaction()  +  ", " + cl.getDescription() +  ", " + cl.getUser().getUserName() +  ", " +
+                cl.getRetail().getName()));
     }
-
-    @Test
-    public void testGetTransactionByRetail() throws UsersPlatformException {
-        Collection<Transaction> cl = tester.getTransactionByRetail(52790);
-        if(cl.size() == 0) throw new AssertionError("empty list");
-        cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getRetail()));
-    }
-
     @Test
     public void testGetTransactionByDateRange() throws UsersPlatformException {
-        LocalDate d1 = LocalDate.of(2020, 05, 10);
-        LocalDate d2 = LocalDate.of(2020, 05, 15);
-        Collection<Transaction> cl = tester.getTransactionByDateRange(d1, d2);
-        if(cl.size() == 0) throw new AssertionError("empty list");
-        cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getDateOfTransaction()));
+//        LocalDate d1 = LocalDate.of(2020, 05, 10);
+//        LocalDate d2 = LocalDate.of(2020, 05, 15);
+        Date d1 = new Date(2020 -1900,00,01);
+        Date d2 = new Date(2020 - 1900,05,31);
+        Collection<Transaction> res = tester.getTransactionsByDateRange(d1, d2);
+        if(res.size() == 0) throw new AssertionError("No transaction found");
+        res.forEach(cl -> System.out.println(cl.getGuid() + " :  " + cl.getIsIncome() +  ", " + cl.getPrice() +", "
+                + cl.getDateOfTransaction()  +  ", " + cl.getDescription() +  ", " + cl.getUser().getUserName() +  ", " +
+                cl.getRetail().getName()));
     }
-
     @Test
     public void testGetTransactionByPriceRange() throws UsersPlatformException {
-        Collection<Transaction> cl = tester.getTransactionByPriceRange(0, 21);
-        if(cl.size() == 0) throw new AssertionError("empty list");
-        cl.forEach(c -> System.out.println(c.getGuid() +", "+ c.getPrice()));
-    }
-    @Test
-    public void testInsertTransaction() throws ClassNotFoundException {
-        IRetailDAO retailDAO = new MySqlRetailDAO();
-        IUsersDAO usersDAO = new MySqlUserDAO();
-        try {
-            tester.insertTransaction(new Transaction(19, false, 54.522, retailDAO.getRetails().stream().findFirst().get(),
-                    usersDAO.getUser(1), LocalDate.now(), "Test etset"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new AssertionError();
-        } catch (UsersPlatformException e) {
-            e.printStackTrace();
-            throw new AssertionError();
-        }
+        double from  = 10.5;
+        double to  = 100.5;
+        Collection<Transaction> res = tester.getTransactionsByPriceRange(from, to);
+        if(res.size() == 0) throw new AssertionError("No transaction found");
+        res.forEach(cl -> System.out.println(cl.getGuid() + " :  " + cl.getIsIncome() +  ", " + cl.getPrice() +", "
+                + cl.getDateOfTransaction()  +  ", " + cl.getDescription() +  ", " + cl.getUser().getUserName() +  ", " +
+                cl.getRetail().getName()));
     }
 
+    //Update Tests
+    @Test
+    public void testUpdateTransaction() {
+        LocalDate d = LocalDate.of(2020, 05, 10);
+        String desc = "Lord Of The Rings";
+        IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
+        IUsersDAO usersDAO = new HnetMySqlUserDAO();
+    }
+    @Test
+    public void testUpdateTransactionUser() throws UsersPlatformException, SQLException {
+        IUsersDAO usersDAO = new HnetMySqlUserDAO();
+        int userGuid = 8;
+        User user = usersDAO.getUser(userGuid);
+        int newUserGuid = 4;
+        User newUser = usersDAO.getUser(newUserGuid);
+        Collection<Transaction> transactionsByUser = tester.getTransactionsByUser(userGuid);
+        for (Transaction t :
+                transactionsByUser) {
+            tester.updateTransactionUser(t.getGuid(), newUser);
+        }
+    }
+    //Insert Tests
+    @Test
+    public void testInsertTransaction() throws UsersPlatformException {
+        IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
+        IUsersDAO usersDAO = new HnetMySqlUserDAO();
+        Collection<User> users = usersDAO.getAllUsers();
+        Collection<RetailType> retails = retailDAO.getRetails();
+        boolean isIncome = false;
+        double price = 1.5;
+        for (User user : users) {
+            for (RetailType retailType: retails) {
+                isIncome = !isIncome;
+                price *= 1.5;
+                try {
+                    tester.insertTransaction(new Transaction( isIncome, price, retailType,user,
+                            "Test etset"));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new AssertionError();
+                } catch (UsersPlatformException e) {
+                    e.printStackTrace();
+                    throw new AssertionError();
+                }
+
+            }
+        }
+
+
+        }
+    //Delete Tests
     @Test
     public void testDeleteTransaction(){
+       int transactionGuid = 1;
         try{
-            tester.deleteTransaction(11);
+            tester.deleteTransaction(transactionGuid);
         } catch (UsersPlatformException e) {
             e.printStackTrace();
             throw new AssertionError();
@@ -113,5 +141,4 @@ public class TransactionDAOUnitTest {
             throw new AssertionError();
         }
     }
-
 }
