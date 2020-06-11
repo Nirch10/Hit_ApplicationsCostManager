@@ -56,5 +56,6 @@
         <jarDirectory url="file://$MODULE_DIR$/../jars" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="com.google.code.gson:gson:2.8.6" level="project" />
   </component>
 </module>

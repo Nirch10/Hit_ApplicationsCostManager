@@ -1,6 +1,7 @@
 package costmanagerapp.lib.DAO;
 
 import com.sun.istack.internal.NotNull;
+import costmanagerapp.Config.CostManagerDAOConfig;
 import costmanagerapp.lib.Models.Transaction;
 import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.QueryUtils.AbstractDbConnector;
@@ -20,12 +21,12 @@ public class HnetMySqlUserDAO implements IUsersDAO {
     private AbstractDbConnector dbConnector;
     private ITransactionDAO transactionDAO;
     private User userType;
-    private final String filePath =
-            "C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
+    private final String filePath;//`"C:\\code\\Hit_ApplicationsCostManager\\il.ac.hit.costmanagerapp\\out\\production\\il.ac.hit.costmanagerapp\\costmanagerapp\\lib\\Models\\hibernate.cfg.xml";
 
-    public HnetMySqlUserDAO(){this(new HnetMySqlQueryExecutor<>(), new HnetMySqlTransactionDAO(),  null);}
-    public HnetMySqlUserDAO(@NotNull IQueryExecuter<User> queryExecutor,
+    public HnetMySqlUserDAO(@NotNull CostManagerDAOConfig config){this(config,new HnetMySqlQueryExecutor<>(), new HnetMySqlTransactionDAO(config),  null);}
+    public HnetMySqlUserDAO(@NotNull CostManagerDAOConfig config,@NotNull IQueryExecuter<User> queryExecutor,
                             @NotNull ITransactionDAO inputTransactionDAO, AbstractDbConnector connector){
+       filePath = config.HibernateConfigPath;
         executor = queryExecutor;
         transactionDAO = inputTransactionDAO;
         userType =  new User();

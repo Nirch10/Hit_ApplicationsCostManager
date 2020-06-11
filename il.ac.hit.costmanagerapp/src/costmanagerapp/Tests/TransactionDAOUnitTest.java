@@ -1,5 +1,6 @@
 package costmanagerapp.Tests;
 
+import costmanagerapp.Config.CostManagerDAOConfigWrapper;
 import costmanagerapp.lib.*;
 import costmanagerapp.lib.DAO.*;
 import costmanagerapp.lib.Models.RetailType;
@@ -9,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -18,8 +20,8 @@ import java.util.Date;
 public class TransactionDAOUnitTest {
     static ITransactionDAO tester;
     @BeforeClass
-    public static void testSetup() {
-            tester = new HnetMySqlTransactionDAO();
+    public static void testSetup() throws IOException {
+            tester = new HnetMySqlTransactionDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
     }
     @AfterClass
     public static void testCleanup() {
@@ -79,15 +81,15 @@ public class TransactionDAOUnitTest {
 
     //Update Tests
     @Test
-    public void testUpdateTransaction() {
+    public void testUpdateTransaction() throws IOException {
         LocalDate d = LocalDate.of(2020, 05, 10);
         String desc = "Lord Of The Rings";
-        IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
-        IUsersDAO usersDAO = new HnetMySqlUserDAO();
+        IRetailDAO retailDAO = new HnetMySqlRetailsDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
+        IUsersDAO usersDAO = new HnetMySqlUserDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
     }
     @Test
-    public void testUpdateTransactionUser() throws UsersPlatformException, SQLException {
-        IUsersDAO usersDAO = new HnetMySqlUserDAO();
+    public void testUpdateTransactionUser() throws UsersPlatformException, SQLException, IOException {
+        IUsersDAO usersDAO = new HnetMySqlUserDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
         int userGuid = 8;
         User user = usersDAO.getUser(userGuid);
         int newUserGuid = 4;
@@ -100,9 +102,9 @@ public class TransactionDAOUnitTest {
     }
     //Insert Tests
     @Test
-    public void testInsertTransaction() throws UsersPlatformException {
-        IRetailDAO retailDAO = new HnetMySqlRetailsDAO();
-        IUsersDAO usersDAO = new HnetMySqlUserDAO();
+    public void testInsertTransaction() throws UsersPlatformException, IOException {
+        IRetailDAO retailDAO = new HnetMySqlRetailsDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
+        IUsersDAO usersDAO = new HnetMySqlUserDAO(CostManagerDAOConfigWrapper.Deserialize("./Config.json"));
         Collection<User> users = usersDAO.getAllUsers();
         Collection<RetailType> retails = retailDAO.getRetails();
         boolean isIncome = false;
