@@ -1,6 +1,7 @@
 package costmanagerapp.API;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.istack.internal.NotNull;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -13,14 +14,14 @@ import costmanagerapp.lib.UsersPlatformException;
 import netscape.javascript.JSObject;
 import org.junit.jupiter.api.DisplayNameGenerator;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
     private static Collection<Transaction> transactions;
@@ -38,7 +39,9 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
 
     public CostManagerHttpServer(int portNum, RestModelConnector restModelConnector) {
         port = portNum;
-        jsonCreator = new Gson();
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+        jsonCreator = builder.create();
         transactions = new ArrayList<>();
         retailTypes = new ArrayList<>();
         this.restModelConnector = restModelConnector;
@@ -58,30 +61,48 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
     private void defineUriAndDo(HttpExchange httpExchange){
         String uri = httpExchange.getRequestURI().toString();
         try{
-            switch (uri){
-                case "/api/home/getAllTransactions":{
-                    getTransactions(httpExchange);
-                break;
-                }
-                case "/api/home/getUserTransactions":{
-                    getUserTransactions(httpExchange);
-                    break;
-                }
-                case "/api/home/getAllRetails":{
-                    getRetails(httpExchange);
-                }
+            if(uri.contains("/api/home/getAllTransactions"))
+                getTransactions(httpExchange);
+            else if (uri.contains("/api/home/getUserTransactions"))
+                getUserTransactions(httpExchange);
+            else if (uri.contains("/api/home/getAllRetails"))
+                getRetails(httpExchange);
+            else if(uri.contains("api/home/getTransactionsByRetail"))
+                getTransactionsByRetail(httpExchange);
+            } catch (UsersPlatformException ex) {
+            ex.printStackTrace();
+        }
+    }
 
+    private void getTransactionsByRetail(HttpExchange httpExchange) throws UsersPlatformException {
 
-            }
+        String[] uriParams = httpExchange.getRequestURI().getQuery().split("&");
+        String[] params = uriParams[0].split("=");
+        String[] retailParams = uriParams[1].split("=");
+        if(!(params[0].toLowerCase().equals("userid") && retailParams[0].toLowerCase().equals("retailid")))
+        {
+            responseMessage(httpExchange, 501, "WrongUriParams");
+            return;
+        }
+        int userId = Integer.parseInt(params[params.length - 1]);
+        int retailId = Integer.parseInt(retailParams[retailParams.length - 1]);
+        try {
+            Collection<Transaction> transactionsByUser = restModelConnector.getTransactionDAO().getTransactionsByUser(userId);
+
+            transactionsByUser = transactionsByUser.stream().filter(t -> t.getRetail().getGuid() == retailId).collect(Collectors.toList());
+            String j = jsonCreator.toJson(transactionsByUser);
+            responseMessage(httpExchange, 200, j);
         } catch (UsersPlatformException e) {
-            e.printStackTrace();
+            responseMessage(httpExchange, 400, e.getMessage());
+        } catch (Exception e) {
+            responseMessage(httpExchange, 400, e.getMessage());
         }
     }
 
     private void getRetails(HttpExchange httpExchange) throws UsersPlatformException {
         try {
             Collection<RetailType> retails = restModelConnector.getRetailDAO().getRetails();
-            responseMessage(httpExchange, 200, "Res" + retails.toString());
+            responseMessage(httpExchange, 200, jsonCreator.toJson(retails));
         } catch (UsersPlatformException e) {
             responseMessage(httpExchange, 400, e.getMessage());
         }
@@ -92,8 +113,12 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
         int id = Integer.parseInt(uri[uri.length - 1]);
         try {
             Collection<Transaction> transactionsByUser = restModelConnector.getTransactionDAO().getTransactionsByUser(id);
-            responseMessage(httpExchange, 200, "Res" + transactionsByUser.toString());
+            String j = jsonCreator.toJson(transactionsByUser);
+            responseMessage(httpExchange, 200, j);
         } catch (UsersPlatformException e) {
+            responseMessage(httpExchange, 400, e.getMessage());
+        }
+        catch (Exception e){
             responseMessage(httpExchange, 400, e.getMessage());
         }
 
@@ -105,11 +130,18 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
 
         try {
             transactions = restModelConnector.getTransactionDAO().getTransactionsByDateRange(fromDate, toDate);
-            responseMessage(httpExchange, 200, transactions.toString());
+            responseMessage(httpExchange, 200, jsonCreator.toJson(transactions));
         } catch (UsersPlatformException e) {
             responseMessage(httpExchange, 400, e.getMessage());
         }
 
+    }
+
+    private void insertUser(HttpExchange httpExchange) throws UnsupportedEncodingException {
+        InputStreamReader isr =  new InputStreamReader(httpExchange.getRequestBody(),"utf-8");
+        BufferedReader br = new BufferedReader(isr);
+
+        //restModelConnector.getUsersDAO().insertUser();
     }
 
     private void responseMessage(HttpExchange httpExchange, int resCode, String data) throws UsersPlatformException {
@@ -125,6 +157,8 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
         }
 
     }
+
+
 
     @Override
     public void stop() {
