@@ -2,6 +2,7 @@ package costmanagerapp.API;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import com.sun.istack.internal.NotNull;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -10,12 +11,14 @@ import costmanagerapp.lib.DAO.ITransactionDAO;
 import costmanagerapp.lib.DAO.IUsersDAO;
 import costmanagerapp.lib.Models.RetailType;
 import costmanagerapp.lib.Models.Transaction;
+import costmanagerapp.lib.Models.User;
 import costmanagerapp.lib.UsersPlatformException;
 import netscape.javascript.JSObject;
-import org.junit.jupiter.api.DisplayNameGenerator;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,16 +64,104 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
     private void defineUriAndDo(HttpExchange httpExchange){
         String uri = httpExchange.getRequestURI().toString();
         try{
-            if(uri.contains("/api/home/getAllTransactions"))
+            if(uri.toLowerCase().contains("api/login"))
+                postLogin(httpExchange);
+            else if(uri.toLowerCase().contains("/api/home/getalltransactions"))
                 getTransactions(httpExchange);
-            else if (uri.contains("/api/home/getUserTransactions"))
+            else if (uri.toLowerCase().contains("/api/home/getusertransactions"))
                 getUserTransactions(httpExchange);
-            else if (uri.contains("/api/home/getAllRetails"))
+            else if (uri.toLowerCase().contains("/api/home/getallretails"))
                 getRetails(httpExchange);
-            else if(uri.contains("api/home/getTransactionsByRetail"))
+            else if(uri.toLowerCase().contains("api/home/gettransactionsbyretail"))
                 getTransactionsByRetail(httpExchange);
             } catch (UsersPlatformException ex) {
             ex.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String parseBodyToString(HttpExchange httpExchange) throws IOException {
+        try{
+            System.out.println("parsing json body here");
+            if(httpExchange.getRequestBody()== null)return "{}";
+            InputStream requestBody = httpExchange.getRequestBody();
+
+            StringBuilder sb = new StringBuilder();
+            System.out.println("created sb" );
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(requestBody));
+            System.out.println("created buffer");
+            String i;int ii =0;
+            while ((i = bufferedReader.readLine()) != null) {
+                System.out.println("in"+ii+i);
+                sb.append(i);
+                ii++;
+            }
+            System.out.println(sb);
+            if(ii==0){
+                System.out.println("empty");
+                return "{}";
+            }
+            return String.valueOf(sb);}
+        catch (Exception e){
+            System.out.println("error parsing body"+ e);
+            return "";
+        }
+    }
+
+    public static String parseBody(HttpExchange httpExchange) throws IOException {
+        System.out.println("trying prase body");
+        return parseBodyToString(httpExchange);
+        //String contentType = getRequestContentType(httpExchange);
+//        switch (contentType.toLowerCase()){
+//            case "application/json":{
+//                System.out.println("its json");
+//                return parseBodyToString(httpExchange);}
+//            case "application/x-www-form-urlencoded":
+//                return parseEncodedTypeBody(httpExchange);
+//            default:
+//                return parseBodyToString(httpExchange);
+//        }
+    }
+
+    private static String parseEncodedTypeBody(HttpExchange httpExchange) throws IOException  {
+        String bodyEncoded = parseBodyToString(httpExchange);
+        String body = URLDecoder.decode(bodyEncoded, "UTF8");
+        if(body.charAt(0) == '=')
+            return body.substring(1);
+        return body;
+    }
+
+    private void postLogin(HttpExchange httpExchange) throws IOException, UsersPlatformException {
+        String bodyStr = parseBody(httpExchange);
+        Gson gson = new Gson();
+        User userReceived = gson.fromJson(bodyStr, User.class);
+        if(userReceived.getUserName() == null || userReceived.getPassword() == null){
+            responseMessage(httpExchange, 401, gson.toJson("Incorrect Parameters"));
+            return;
+        }
+        try{
+            User user = restModelConnector.getUsersDAO().getUser(userReceived.getGuid());
+            if(userReceived.getPassword().equals(user.getPassword())&& userReceived.getUserName().toLowerCase()
+                    .equals(user.getUserName().toLowerCase()))
+                responseMessage(httpExchange, 200, gson.toJson(user));
+            else
+                responseMessage(httpExchange, 501, gson.toJson("No Such user found"));
+        } catch (UsersPlatformException e) {
+            e.printStackTrace();
+            responseMessage(httpExchange, 501, gson.toJson("No Such user found"));
+        }
+    }
+
+    private JSONObject parseBodyToJson(HttpExchange httpExchange) {
+        try {
+            String body = parseBody(httpExchange);
+            JSONObject jsonObject = new JSONObject(body);
+            return jsonObject;
+        }catch (Exception e){
+            return null;
         }
     }
 
