@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script src="incomeoutcomeJS.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+
+
+
+</head>
+<body>
+<div data-role = "page" id="loginpage"> <!---first page--->
+    <div data-role="header" data-theme="b">
+        <h1>CostManagerApp</h1>
+
+    </div>
+
+
+    <h4 style="text-align:center" >Cost Manager</h4>
+
+    <div>
+        <p style="text-align:center">User Name:</p>
+        <textarea name="textarea" id="username" data-role="none" placeholder="Enter Username" style="display:block;; margin-left: auto;  margin-right: auto;"></textarea>
+
+        <p style="text-align:center">Password:</p>
+        <textarea name="textarea" id="password" data-role="none" placeholder="Enter Password" style="display:block; margin-left: auto;  margin-right: auto"></textarea>
+    </div>
+
+    <br>
+
+    <div>
+
+        <a onclick="inituser()" data-role="button"  >Log In </a>
+        <a href = "#home" onclick="initData()" data-role="button"  >Log In check</a>
+
+
+    </div>
+
+
+    <footer data-role="footer" data-theme="b">
+        <h4>CostMangerApp &copy; HIT 2020</h4>
+    </footer>
+</div> <!-- end of first page--->
+
+
+
+
+
+
+
+    <div data-role = "page" id="home"> <!---second page--->
+        <div data-role="header" data-theme="b">
+            <h1>CostManagerApp</h1>
+            
+        </div>
+
+
+
+    <div data-role = "navbar">
+        <ul>
+            <li><a href="#plus"  data-transition="none" data-icon="plus">plus</a></li>
+            <li><a href="#newoutcome"  data-transition="none" data-icon="minus">minus</a></li>
+
+        </ul>
+    </div>
+
+    <div>
+    <ul data-role="listview" data-theme="a">
+        <li> food  <span class="ui-li-count" >0</span></li>
+        <li>Clothes <span class="ui-li-count" >0</span></li>
+        <li>Apartment <span class="ui-li-count">0</span></li>
+        <li>Bills<span class="ui-li-count">0</span></li>
+        <li>Leisure<span class="ui-li-count">0</span></li>
+        <li>Studies<span class="ui-li-count">0</span></li>
+        <li>Car<span class="ui-li-count">0</span></li>
+        <li>Vacations<span class="ui-li-count">0</span></li>
+        <li>Others<span class="ui-li-count" >0</span></li>
+    </ul>
+</div>
+        <div>
+            Total cost: <span id="total"></span>
+        </div>
+<div data-role="content">
+    <br>
+    <a href = "#details" data-role="button">details</a>
+    <a href = "#" data-rel = "back" data-role="button"> Exit </a>
+</div>
+
+<footer data-role="footer" data-theme="b">
+    <h4>CostMangerApp &copy; HIT 2020</h4>
+</footer>
+</div> <!-- end of second page--->
+
+    <div data-role="page" id="newoutcome"> <!-- third page--->
+        <div data-role="header" data-theme="b">
+            <h1>CostManagerApp</h1>
+        </div>
+        <div data-role="content">
+
+            <h3>Add New Outcome: </h3>
+
+
+
+                <p>Choose the Retail:</p>
+                <input list="retailsnewoutcome"  id = "retail">
+
+                <datalist id="retailsnewoutcome">
+                    <!---<option value="Food">
+                    <option value="Clothes">
+                    <option value="Apartment">
+                    <option value="Bills">
+                    <option value="Leisure">
+                    <option value="Studies">
+                    <option value="Car">
+                    <option value="Vacations">
+                    <option value="Others">--->
+
+                </datalist>
+
+                <p>Cost:</p>
+                <input type="number" id = "cost">
+
+
+                <p>Description:</p>
+                <textarea name="textarea" id="description"></textarea>
+
+                <br>
+
+                <button id = "addoutcome" onclick="addOutCome()" >Add</button>
+
+
+
+           <!--- </form>--->
+            </div>
+            <br><br><br><br>
+            <a href = "#" data-rel = "back" data-role="button"> back </a>
+
+        </div>
+
+
+
+        <footer data-role="footer" data-theme="b">
+            <h4>CostMangerApp &copy; HIT 2020</h4>
+        </footer>
+
+
+    </div> <!-- end of third page--->
+
+
+    <div data-role="page" id="details"><!-- four page--->
+        <div data-role="header" data-theme="b">
+            <h1>CostManagerApp</h1>
+        </div>
+        <div data-role="content">
+            <h3>expenses details </h3>
+
+           <!-- <form id = form2>--->
+
+
+                <p>Choose the retail:</p>
+            <input list="retailist" id ="retaildetails">
+
+            <datalist id="retailist">
+                <!--<option value="Food" id=1>
+                <option value="Clothes" id=2>
+                <option value="Apartment" id=3>
+                <option value="Bills" id=4>
+                <option value="Leisure" id=5>
+                <option value="Studies" id=6>
+                <option value="Car" id=7>
+                <option value="Vacations" id=8>
+                <option value="Others" id=9>--->
+
+            </datalist>
+
+
+            <!--<label> date:</label>
+            <input type="date">--->
+
+               <button id = "showDetails" onclick="showDetails()"  data-transition="none" data-role="none" >Show Details</button>
+
+                <ul id="expensesList" data-role="listview" data-inset="true" data-theme="b" >
+                </ul>
+
+            <br><br><br><br><br><br><br><br>
+            <a href = "#" data-rel = "back" data-role="button"> back </a>
+            <!--</form>--->
+        </div>
+        <br><br><br><br>
+        <footer data-role="footer" data-theme="b">
+            <h4>CostMangerApp &copy; HIT 2020</h4>
+        </footer>
+
+    </div><!-- end of four page--->
+
+
+
+
+</body>
+
+
+</html>
