@@ -9,16 +9,16 @@
         </id>
         <property name="IsIncome" ><column name="IsIncome"/></property>
         <property name="Price"><column name="Price"/></property>
-        
-		<property name="Description"><column name="Description"/></property>
+
+        <property name="Description"><column name="Description"/></property>
         <property name="DateOfTransaction"><column name="DateOfTransaction"/></property>
-    
+
         <many-to-one name="Retail" class="costmanagerapp.lib.Models.RetailType"
-            column="RetailGuid" not-null="true"
-            cascade="all" />
-		<many-to-one name="User" class="costmanagerapp.lib.Models.User"
-            column="UserGuid" not-null="true"
-            cascade="all" />
-        
-	</class>
+                     column="retailGuid" unique="true" not-null="true"
+                     cascade="all" />
+        <many-to-one name="User" class="costmanagerapp.lib.Models.User"
+                     column="userGuid" unique="true" not-null="true"
+                     cascade="all" />
+
+    </class>
 </hibernate-mapping>
