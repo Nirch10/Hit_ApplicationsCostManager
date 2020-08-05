@@ -73,6 +73,7 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
     //Http Generic
     private void responseMessage(HttpExchange httpExchange, int resCode, String data) throws UsersPlatformException {
         byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+        httpExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         httpExchange.getResponseHeaders().add("Content-Type", "application/json");
         try {
             httpExchange.sendResponseHeaders(resCode, bytes.length);
