@@ -138,6 +138,8 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
                 postLogin(httpExchange);
             else if (uri.toLowerCase().contains("api/home/addtransaction"))
                 postTransaction(httpExchange);
+            else if (uri.toLowerCase().contains("api/home/signup"))
+                postSignUp(httpExchange);
             else
                 responseMessage(httpExchange, 501, jsonCreator.toJson("Invalid URI"));
 
@@ -305,21 +307,41 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
         }
         try{
             User user = restModelConnector.getUsersDAO().getUser(userReceived.getUserName());
-            if(user== null){
-                user = new User(userReceived.getUserName(), "@.com", userReceived.getPassword());
-                restModelConnector.getUsersDAO().insertUser(user);
-                responseMessage(httpExchange, 200, jsonCreator.toJson(user));
-            }
-            else if(userReceived.getPassword().equals(user.getPassword())&& userReceived.getUserName().toLowerCase()
+//            if(user== null){
+//                user = new User(userReceived.getUserName(), "@.com", userReceived.getPassword());
+//                restModelConnector.getUsersDAO().insertUser(user);
+//                responseMessage(httpExchange, 200, jsonCreator.toJson(user));
+//            }
+            if(userReceived.getPassword().equals(user.getPassword())&& userReceived.getUserName().toLowerCase()
                     .equals(user.getUserName().toLowerCase()))
                 responseMessage(httpExchange, 200, jsonCreator.toJson(user));
             else
                 responseMessage(httpExchange, 404, jsonCreator.toJson("Incorrect Password"));
         } catch (UsersPlatformException e) {
             responseMessage(httpExchange, 501, jsonCreator.toJson("No Such user found"));
-        } catch (SQLException e) {
-            responseMessage(httpExchange, 501, jsonCreator.toJson(e.getMessage()));
         }
+    }
+
+    private void postSignUp(HttpExchange httpExchange) throws IOException, UsersPlatformException {
+        User userReceived = parseUserBody(httpExchange);
+        if(userReceived.getUserName() == null || userReceived.getPassword() == null || userReceived.getEmail() == null){
+            responseMessage(httpExchange, 401, jsonCreator.toJson("Incorrect Parameters"));
+            return;
+        }
+        try {
+            User user = restModelConnector.getUsersDAO().getUser(userReceived.getUserName());
+            if (user == null) {
+                user = new User(userReceived.getUserName(), userReceived.getEmail(), userReceived.getPassword());
+                restModelConnector.getUsersDAO().insertUser(user);
+                responseMessage(httpExchange, 200, jsonCreator.toJson(user));
+            }
+            else
+                responseMessage(httpExchange, 404, jsonCreator.toJson("User exists"));
+        }
+       catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //Delete Api Methods

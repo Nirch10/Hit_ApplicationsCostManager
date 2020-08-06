@@ -7,11 +7,18 @@ transactions = [];
 var serverIp = 0;
 var port = 0;
 
+
+
 function initGenerics(){
 totalExpensesSum = 0;
 transactions = []
 loggedUser = [];
 
+}
+
+function addNewExpensePrice(priceToAdd){
+    totalExpensesSum += priceToAdd;
+    document.getElementById("total-expenses-num").innerHTML = totalExpensesSum;
 }
 
 function load(serverIpAddr, portNum){
@@ -63,11 +70,16 @@ function initUserTransactions(){
         transactions = results;
         results.forEach(function(res){
             var viewedT = setTransactionForView(res);
-            addToTransactionsTable("transactions-table-body",viewedT);
-            totalExpensesSum = totalExpensesSum + res.Price;
+            //addToTransactionsTable("transactions-table-body",viewedT);
+            addToTransactionsListView("transactions-list",viewedT);
+            if(res.IsIncome == true)
+            {addNewExpensePrice(res.Price);}
+            else{
+            addNewExpensePrice(-1* res.Price);
+            }
         });
         console.log(totalExpensesSum);
-        document.getElementById("total-expenses-num").innerHTML = totalExpensesSum;
+
          return results;
 });
 };
@@ -75,10 +87,13 @@ function initUserTransactions(){
 function setTransactionForView(res){
     var toView = {};
     if(res.IsIncome == true){
-        toView["IsIncome"] = "+";
+        toView["IsIncome"] = '<a class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-b ui-btn-inline"></a>';
+
+        //toView["IsIncome"] = "+";
     }
     else{
-        toView["IsIncome"] = "-";
+        toView["IsIncome"] = '<a class="ui-btn ui-shadow ui-corner-all ui-icon-minus ui-btn-icon-notext ui-btn-b ui-btn-inline"></a>';
+        //toView["IsIncome"] = "-";
     }
     toView["Guid"] = res.Guid;
     toView["Price"] = res.Price;
@@ -89,9 +104,10 @@ function setTransactionForView(res){
 }
 
 function addToTransactionsListView(id, item){
-    var html = '<li id="'+item["Guid"]+'">'+item["IsIncome"] +' '+item["Price"] +'</li>';
-   $("#"+id).append(html);
-
+  var html = ' <div data-role="collapsible" id="'+item.Guid
+  +'" data-collapsed="true"><h3>'+item.Category +' : '+item.Price+'</h3><p>'+ item.Date
+  +', '+ item.IsIncome +', '+item.Description+'</p></div>'
+  $("#"+id).append(html).collapsibleset('refresh');
 }
 
 function addToTransactionsTable(id, item){
@@ -137,11 +153,30 @@ var options = '';
   document.getElementById(id).innerHTML = options;
 };
 
+function signOut(){
+initGenerics();
+ $("#transactions-table-body").empty();
+goToLogin();
+}
+
+
+
+
+
 function goToHome(){
 window.location.href= "#home-page";
 }
 
 function goToAddExpense(){
 window.location.href= "#new-transaction-page";
+}
+
+function goToLogin(){
+window.location.href= "#login-page";
+}
+
+
+function goToSignUp(){
+window.location.href= "#sign-up-page";
 }
 

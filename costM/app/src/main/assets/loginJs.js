@@ -1,11 +1,15 @@
 
-
 function onLoginSuccess(user){
 console.log(JSON.stringify(user));
 initGenerics();
 setLoggedUser(user);
 initUserTransactions()
 goToHome();
+}
+function onLoginError(){
+    initGenerics();
+    goToLogin();
+
 }
 
 var Login = (function(){
@@ -23,16 +27,17 @@ Login.prototype.login = function(){
              dataType: 'json',
              beforeSend: function() {
                          $.mobile.showPageLoadingMsg(true);
-                     },
-                     complete: function() {
-                         $.mobile.hidePageLoadingMsg();
-                     },
+             },
+            
              data: JSON.stringify(data1),
              success: function(data, textStatus, jqXHR){
+                $.mobile.hidePageLoadingMsg();
                    onLoginSuccess(data);
              },
              complete: function(){},
              error: function(a,b,c) {
+                  $.mobile.hidePageLoadingMsg();
+                  onLoginError();
                   console.log('something went wrong1:',a);
                   console.log('something went wrong2:',b);
                   console.log('something went wrong:3',c);

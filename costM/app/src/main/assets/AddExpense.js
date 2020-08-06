@@ -27,6 +27,13 @@ function buildJsonBodyReq(){
 }
 
 function onAddExpenseSuccess(data){
+    var viewedT = setTransactionForView(data);
+    addToTransactionsListView("transactions-list",viewedT);
+    if(data.IsIncome == false){
+        viewedT.Price *= -1;
+    }
+    addNewExpensePrice(viewedT.Price);
+    goToHome();
 }
 
 function addExpense(){
