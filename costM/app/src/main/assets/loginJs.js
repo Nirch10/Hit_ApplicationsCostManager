@@ -1,14 +1,14 @@
-var serverIp = 0;
-var port = 0;
+
+
+function onLoginSuccess(user){
+console.log(JSON.stringify(user));
+initGenerics();
+setLoggedUser(user);
+initUserTransactions()
+goToHome();
+}
 
 var Login = (function(){
-
-
-
-Login.prototype.load = function(serverIpAddr, portNum){
-serverIp = serverIpAddr;
-port = portNum;
-}
 
 Login.prototype.login = function(){
     $("#login-btn").on('click',function(){
@@ -21,7 +21,7 @@ Login.prototype.login = function(){
              url: 'http://'+serverIp +':'+port+'/api/login',
              type: 'POST',
              dataType: 'json',
-              beforeSend: function() {
+             beforeSend: function() {
                          $.mobile.showPageLoadingMsg(true);
                      },
                      complete: function() {
@@ -29,10 +29,9 @@ Login.prototype.login = function(){
                      },
              data: JSON.stringify(data1),
              success: function(data, textStatus, jqXHR){
-                  console.log(textStatus);  // will display the content of data
-                  console.log("ok", JSON.stringify(data));  // will display the content of data
-                  window.location.href= "#new-transaction-page";
+                   onLoginSuccess(data);
              },
+             complete: function(){},
              error: function(a,b,c) {
                   console.log('something went wrong1:',a);
                   console.log('something went wrong2:',b);
@@ -43,19 +42,7 @@ Login.prototype.login = function(){
 
 }
 
-
-
-
 (function($) {
-    $.fn.invisible = function() {
-        return this.each(function() {
-            $(this).css("visibility", "hidden");
-        });
-    };
-    $.fn.visible = function() {
-        return this.each(function() {
-            $(this).css("visibility", "visible");
-        });
-    };
+
 }(jQuery));
 });

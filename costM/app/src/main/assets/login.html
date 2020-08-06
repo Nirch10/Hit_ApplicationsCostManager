@@ -8,12 +8,14 @@
         <script type = "text/javascript" src="loader.js" charset="utf-8"></script>
         <script type = "text/javascript" src="loginJs.js" charset="utf-8"></script>
         <script type = "text/javascript" src="utils.js" charset="utf-8"></script>
+        <script type = "text/javascript" src="AddExpense.js" charset="utf-8"></script>
+
 
     </head>
 
 
     <div id="login-page" data-role="page">
-        <header></header>
+        <header>Costy</header>
         <div>
             <div>
                 <p>User Name:</p>
@@ -25,50 +27,71 @@
             </div>
         </div>
         <input type="button" id="login-btn" value="Login"/>
-        <input type="button" id="aa-btn" value="Login1"/>
-        <footer></footer>
+        <footer>Costy</footer>
     </div>
 
 
     <!-- home page -->
-    <div id="home-page" data-role="page">
-
-        <header data-role="header" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="">
-            <h1>
-                <div class="date-filter">
-
-                    <span id="date-filter-display"></span>
-
-                </div>
-            </h1>
-            <a href="#settings-page" id="settings-page-id" data-icon="gear" data-transition="fade">Settings</a>
-<!--            <a href="#statistics-page" id="statistics" data-icon="grid">Statistics</a>-->
-            <div data-ripple="#3388cc" class="hover-price-report-container header header--fixed hide-from-print" id="hover-price-report-container" role="banner">
-                <div class="hover-price-report-col">
-                    Budget
-                    <div class="budget-price-color" id="hover-price-budget-price">
-                    </div>
-                </div>
-                <div class="hover-price-report-col">
-                    Expenses
-                    <div class="expense-price-color" id="hover-price-expenses-price">
-                    </div>
-                </div>
-                <div class="hover-price-report-col">
-                    Total
-                    <div id="hover-price-report-total-price">
-                    </div>
-                </div>
+    <div id="home-page" data-role="page" >
+        <header>Costy</header>
+        <div data-role="content">
+            <div>
+                <label id="total-expenses"> Total expenses are : <label id="total-expenses-num"></label></label>
             </div>
-        </header>
+            <div>
+                <input type="button" onclick="goToAddExpense()" value="New Expense" id="go-to-add-btn">
+            </div>
+            <div>
+                <ul data-role="listview" id="trans-list" data-inset="true"></ul>
+            </div>
+            <div>
+                <table data-role="table" id="transactions-table" data-mode="reflow" class="ui-responsive">
+                    <thead>
+                    <tr>
+                        <th data-priority="1">Category</th>
+                        <th data-priority="persist">Description</th>
+                        <th data-priority="2">Plus/Minus</th>
+                        <th data-priority="3">Price</th>
+                        <th data-priority="4">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody id="transactions-table-body"></tbody>
+                </table>
+
+            </div>
         </div>
+        <footer>Costy</footer>
+    </div>
 
 
     <div id="new-transaction-page" data-role="page">
-        <div data-role="content">
-            <input list="retailslist" id="retails-choose-list"/>
-            <datalist id="retailslist"></datalist>
+        <header>Costy</header>
+       <div data-role="content">
+           <div class="ui-field-contain">
+<!--                <input list="retailslist" list="retailslist" placeholder="Select Category" id="retails-choose-list">-->
+               <label for="retails-choose-list">Icon left:</label>
+               <select name="retails-choose-list" id="retails-choose-list" inlist="retailsList"></select>
+            </div>
+        <div>
+            <p>
+                <label><input type="radio" id="income-btn" name="isIncome" value="true"/>+</label>
+                <label><input type="radio" id="outcome-btn" name="isIncome" value="false"/>-</label>
+            </p>
         </div>
+        <div>
+            <input id="sum-input" placeholder="0" type="number"/>
+        </div>
+       <div>
+            <input id="description-input" placeholder="..." type="text"/>
+        </div>
+           <div>
+               <input type="button" id="add-expense-btn" value="Add" onclick="addExpense()"/>
+           </div>
+           <div>
+               <input type="button" onclick="goToHome()" value="Back" id="go-back-btn">
+           </div>
+       </div>
+        <footer>Costy</footer>
     </div>
 
     <script type="text/javascript">
