@@ -2,6 +2,43 @@
 $("input[name='isIncome']").change(function(){
 });
 
+$(document).on("change","select",function(){
+  console.log("§2");
+  console.log(this.value);
+//  $('option[value="' + this.value + '"]', this)
+  $('#'+this.value+'Exp',this)
+  .attr("selected", true).siblings()
+  .removeAttr("selected")
+});
+
+function removeTransaction(id){
+$.ajax({
+                     url: 'http://'+serverIp +':'+port+'/api/home/deletetransaction/'+ id,
+                     type: 'DELETE',
+                     dataType: 'json',
+                     headers:{
+                        'Access-Control-Allow-Origin': '*'
+//                        'Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD',
+//                        "Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept"
+                     },
+                      beforeSend: function() {
+                                 $.mobile.showPageLoadingMsg(true);
+                             },
+                             complete: function() {
+                                 $.mobile.hidePageLoadingMsg();
+                             },
+                     success: function(data, textStatus, jqXHR){
+                           onDeleteExpenseSuccess(data, id);
+                     },
+                     error: function(a,b,c) {
+                          console.log('something went wrong1:',a);
+                          console.log('something went wrong2:',b);
+                          console.log('something went wrong:3',c);
+                     }
+                });
+
+}
+
 function resolveIsIncome(){
 var radioValue = $("input[name='isIncome']:checked"). val();
 if(radioValue == 'true')
@@ -24,6 +61,10 @@ function buildJsonBodyReq(){
     console.log(JSON.stringify(jsonData));
     console.log(jsonData);
     return jsonData;
+}
+
+function onDeleteExpenseSuccess(data, id){
+    initUserTransactions();
 }
 
 function onAddExpenseSuccess(data){

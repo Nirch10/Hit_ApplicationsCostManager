@@ -18,123 +18,110 @@
 
     </head>
 
-    <body >
-    <div id="login-page" data-role="page" style="background:#A9EDA1 !important; font-family: Lucida Console, Courier, monospace;">
-        <header data-role="header">
+    <body>
+        <div id="login-page" data-role="page" style="font-family: Lucida Console, Courier, monospace;">
+            <header data-role="header">
             <h4>CostMangerApp</h4>
-        </header>
-        <div>
-            <div>
-                <p class="log-in-de">User Name</p>
-                <input id="userNameInputLogin"  type="text"/>
+                <button data-icon="home" data-iconpos="notext" onclick="setRandomColor('#login-page')"></button>
+            </header>
+            <div data-role="content">
+                <form class="validatedForm" id="log-in-form" method="get" action="">
+                    <fieldset>
+                        <label>User name:<input id="userNameInputLogin" type="text" /></label>
+                        <label>Password:<input name="password" id="passwordInputLogin" type="password"/></label>
+                        <input type="button" id="login-btn" value="Login"/>
+                    </fieldset>
+                </form>
             </div>
-            <div>
-                <p>Password</p>
-                <input id="passwordInputLogin" type="password"/>
-            </div>
-        </div>
-        <input type="button" id="login-btn" value="Login"/>
-        <input type="button" id="go-to-sign-up-btn" onclick="goToSignUp()" value="Sign Up"/>
-        <footer data-role="footer" style="bottom:0" data-position="fixed">
-            <h4>CostMangerApp &copy; HIT 2020</h4>
+            <input type="button" id="go-to-sign-up-btn" onclick="goToSignUp()" style="background: #009688" value="New here? Sign Up"/>
+            <footer data-role="footer" style="bottom:0" data-position="fixed">
+        <h4>CostMangerApp &copy; HIT 2020</h4>
         </footer>
-    </div>
-
-    <div id="sign-up-page" data-role="page" style="background:#A9EDA1 !important;">
-        <header data-role="header">
-            <h4>CostMangerApp</h4>
-        </header>
-        <div data-role="content">
-            <form class="validatedForm" id="commentForm" method="get" action="">
-                <fieldset>
-                    <label>User name:<input id="new-username-input"  type="text" aria-valuetext="UserName:"/></label>
-                    <label>Password:<input name="password" id="new-password-input" type="password"/></label>
-<!--                    <label>Confirm Password:<input name="password_confirm" type="password"/></label>-->
-                    <label>Email:<input id="new-email-input"  type="email"/></label>
-                    <input type="button" id="sign-up-btn" onclick="signUp()" value="Sign Up"/>
-                </fieldset>
-            </form>
         </div>
 
-        <footer data-role="footer" style="bottom:0" data-position="fixed">
-            <h4>CostMangerApp &copy; HIT 2020</h4>
-        </footer>
-    </div>
+        <div id="sign-up-page" data-role="page" style="font-family: Lucida Console, Courier, monospace;">
+            <header data-role="header">
+                <h4>CostMangerApp</h4>
+            </header>
+            <div data-role="content">
+                <form class="validatedForm" id="commentForm" method="get" action="">
+                    <fieldset>
+                        <label>User name:<input id="new-username-input"  type="text" aria-valuetext="UserName:"/></label>
+                        <label>Password:<input name="password" id="new-password-input" type="password"/></label>
+                        <label>Email:<input id="new-email-input"  type="email"/></label>
+                        <input type="button" id="sign-up-btn" onclick="signUp()" style="background: #032F71" value="Sign Up"/>
+                    </fieldset>
+                </form>
+            </div>
+            <input type="button" id="login-page-btn" onclick="goToLogin()" style="background: #009688" value="Logged In Already? Log In!"/>
+            <footer data-role="footer" style="bottom:0" data-position="fixed">
+                <h4>CostMangerApp &copy; HIT 2020</h4>
+            </footer>
+        </div>
 
-    <!-- home page -->
-    <div id="home-page" data-role="page" style="background:#A9EDA1 !important;">
-        <header data-role="header">
-            <h4>CostMangerApp</h4>
-        </header>
-        <div data-role="content" >
-            <div>
-                <label id="total-expenses"> Total expenses are : <label id="total-expenses-num"></label></label>
-            </div>
-            <div>
-                <input type="button" onclick="goToAddExpense()" value="New Expense" id="go-to-add-btn">
-            </div>
-            <div>
+        <div id="home-page" data-role="page" style="font-family: Lucida Console, Courier, monospace;">
+            <header data-role="header">
+                <h4>CostMangerApp</h4>
+                <button onclick="goToHome()" data-icon="home" data-iconpos="notext" ></button>
+            </header>
+            <div data-role="content" >
+                <h3 id="total-expenses" style="text-align: center;"> Total expenses are : <label id="total-expenses-num"></label></h3>
+                <input type="button" onclick="goToAddExpense()" value="New Expense" style="background: #009688" id="go-to-add-btn">
+                <input type="button" onclick="goToAddCategory()" value="New Category" style="background: #009688">
                 <div data-role="collapsible-set" data-content-theme="a" id="transactions-list">
-
                 </div>
             </div>
-            <div>
-                <input type="button" onclick="signOut()" value="Sign Out">
+            <input type="button" onclick="signOut()" value="Sign Out" style="background: #B84037 !important;">
+            <footer data-role="footer" style="bottom:0;" data-position="relative">
+                <h4>CostMangerApp &copy; HIT 2020</h4>
+            </footer>
+        </div>
+
+        <div id="new-transaction-page" data-role="page" style="font-family: Lucida Console, Courier, monospace;">
+            <header data-role="header">
+                <h4>CostMangerApp</h4>
+                <button onclick="goToHome()" data-icon="home" data-iconpos="notext" ></button>
+            </header>
+            <div data-role="content">
+                <h3 for="retails-choose-list" style="text-align: center;">Add new expense</h3>
+                <form>
+                   <select name="retails-choose-list" id="retails-choose-list" inlist="retailsList" style="text-align:left">
+                       <option value="">Expense's Category</option>
+                   </select>
+                    <label style="background:#6DF46F !important;border-color:black;"  data-icon="plus" data-iconpos="notext"><input type="radio" id="income-btn" name="isIncome" value="true"/>+</label>
+                    <label style="background:#F17B73 !important;border-color:black;"><input type="radio" id="outcome-btn" name="isIncome" value="false" data-icon="minus" data-iconpos="notext"/>-</label>
+                    <input id="sum-input" placeholder="Expense's sum" type="number"/>
+                    <input id="description-input" placeholder="Description of expense" type="text"/>
+                </form>
+                <input type="button" id="add-expense-btn" value="Add" onclick="addExpense()" style="background: #009688" />
             </div>
+            <input type="button" onclick="signOut()" value="Sign Out" style="background: #B84037 !important;">
+            <footer data-role="footer" style="bottom:0" data-position="fixed">
+                <h4>CostMangerApp &copy; HIT 2020</h4>
+            </footer>
         </div>
-        <footer data-role="footer" style="bottom:0" data-position="fixed">
-            <h4>CostMangerApp &copy; HIT 2020</h4>
-        </footer>
-    </div>
 
+        <div id="add-category-page" data-role="page">
+            <header data-role="header">
+                <h4>CostMangerApp</h4>
+                <button onclick="goToHome()" data-icon="home" data-iconpos="notext" ></button>
+            </header>
+            <div data-role="content">
+                <h3 style="text-align: center;">Add new Category</h3>
+                <form>
+                    <fieldset>
+                        <label><input type="text" value="Category Name"></label>
+                    </fieldset>
+                </form>
+                <input type="button" id="add-cat-btn"  onclick="addCategory()" value="Add">
 
-    <div id="new-transaction-page" data-role="page" style="background:#A9EDA1 !important;">
-        <header data-role="header">
-            <h4>CostMangerApp</h4>
-        </header>
-       <div data-role="content">
-           <div class="ui-field-contain">
-<!--                <input list="retailslist" list="retailslist" placeholder="Select Category" id="retails-choose-list">-->
-               <label for="retails-choose-list">Icon left:</label>
-               <select name="retails-choose-list" id="retails-choose-list" inlist="retailsList"></select>
             </div>
-        <div>
-            <p>
-                <label><input type="radio" id="income-btn" name="isIncome" value="true"/>+</label>
-                <label><input type="radio" id="outcome-btn" name="isIncome" value="false"/>-</label>
-            </p>
+            <input type="button" onclick="signOut()" value="Sign Out" style="background: #B84037 !important;">
+            <footer data-role="footer" style="bottom:0" data-position="fixed">
+                <h4>CostMangerApp &copy; HIT 2020</h4>
+            </footer>
         </div>
-        <div>
-            <input id="sum-input" placeholder="0" type="number"/>
-        </div>
-       <div>
-            <input id="description-input" placeholder="..." type="text"/>
-        </div>
-           <div>
-               <input type="button" id="add-expense-btn" value="Add" onclick="addExpense()"/>
-           </div>
-           <div>
-               <input type="button" onclick="goToHome()" value="Back" id="go-back-btn">
-           </div>
-       </div>
-        <div>
-            <input type="button" onclick="signOut()" value="Sign Out">
-        </div>
-        <footer data-role="footer" style="bottom:0" data-position="fixed">
-            <h4>CostMangerApp &copy; HIT 2020</h4>
-        </footer>
-    </div>
-
-    <script type="text/javascript">
-          $(document).ready(function(){
-              console.log("dsgd")
-          });
-        $(document).bind('mobileinit', function () {
-        $.mobile.page.prototype.options.headerTheme = 'e';
-            $.mobile.page.prototype.options.theme  = "e";
-        });
-      </script>
     </body>
-
-
 </html>
+
+<!--background: rgb(82, 7, 45); rgb(183, 6, 89);rgb(44, 26, 164) rgb(224, 251, 37); rgb(196, 46, 48)-->

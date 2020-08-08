@@ -28,7 +28,7 @@ Login.prototype.login = function(){
              beforeSend: function() {
                          $.mobile.showPageLoadingMsg(true);
              },
-            
+
              data: JSON.stringify(data1),
              success: function(data, textStatus, jqXHR){
                 $.mobile.hidePageLoadingMsg();

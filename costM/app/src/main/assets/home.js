@@ -1,3 +1,0 @@
-function initHomePage(){
-
-}

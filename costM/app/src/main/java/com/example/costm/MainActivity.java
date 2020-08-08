@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl("file:///android_asset/login.html");
         webView.setWebChromeClient(new WebChromeClient());
 
+
         setContentView(webView);
 
     }

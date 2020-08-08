@@ -1,3 +1,11 @@
+option:checked {
+    display: none;
+}
+
+.sign-out-btn{
+    background: red !important;
+}
+
 
 .ui-icon-myicon {
     background-image: url("../sources/icons/wallet.png");

@@ -1,13 +1,25 @@
 var retails = [];
 var loggedUser = [];
-var retailsCountDict = {};
-var retailsDict = new Map();
 var totalExpensesSum = 0;
+var retailsDict = []
 transactions = [];
 var serverIp = 0;
 var port = 0;
 
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function setRandomColor(id){
+
+  $(id).css("background", getRandomColor());
+}
 
 function initGenerics(){
 totalExpensesSum = 0;
@@ -19,6 +31,7 @@ loggedUser = [];
 function addNewExpensePrice(priceToAdd){
     totalExpensesSum += priceToAdd;
     document.getElementById("total-expenses-num").innerHTML = totalExpensesSum;
+    document.getElementById("total-expenses-num").innerHTML += " $";
 }
 
 function load(serverIpAddr, portNum){
@@ -37,7 +50,7 @@ console.log(JSON.stringify(loggedUser))
 
 function initRetails(){
     $.ajax({
-                 url: 'http://10.0.0.8:1234/api/home/getallretails',
+                 url: 'http://'+serverIp+':'+port+'/api/home/getallretails',
                  type: 'GET',
                  dataType: 'json',
                   beforeSend: function() {
@@ -46,7 +59,6 @@ function initRetails(){
                          complete: function() {
                              $.mobile.hidePageLoadingMsg();
                          },
-                 //data: JSON.stringify(data1),
                  success: function(data, textStatus, jqXHR){
                       retails = data;
                       retails.forEach(function(retail){
@@ -66,8 +78,11 @@ function initRetails(){
 
 function initUserTransactions(){
    $.when(getAllUserTransactions()).done(function(results){
-        console.log("res", results);
-        transactions = results;
+        if(results.length == 0)
+        {
+         $("#transactions-list").append('<label>Nothing to show just yet</label>')
+        }
+
         results.forEach(function(res){
             var viewedT = setTransactionForView(res);
             //addToTransactionsTable("transactions-table-body",viewedT);
@@ -78,7 +93,6 @@ function initUserTransactions(){
             addNewExpensePrice(-1* res.Price);
             }
         });
-        console.log(totalExpensesSum);
 
          return results;
 });
@@ -86,15 +100,7 @@ function initUserTransactions(){
 
 function setTransactionForView(res){
     var toView = {};
-    if(res.IsIncome == true){
-        toView["IsIncome"] = '<a class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-b ui-btn-inline"></a>';
-
-        //toView["IsIncome"] = "+";
-    }
-    else{
-        toView["IsIncome"] = '<a class="ui-btn ui-shadow ui-corner-all ui-icon-minus ui-btn-icon-notext ui-btn-b ui-btn-inline"></a>';
-        //toView["IsIncome"] = "-";
-    }
+    toView["IsIncome"] = res.IsIncome;
     toView["Guid"] = res.Guid;
     toView["Price"] = res.Price;
     toView["Description"] = res.Description;
@@ -104,9 +110,21 @@ function setTransactionForView(res){
 }
 
 function addToTransactionsListView(id, item){
+  var color = "#F44336";
+  var isIncomeTxt = "-";
+  if(item["IsIncome"] == true){
+    color = "#03DAC5";
+    isIncomeTxt = "+";
+  }
   var html = ' <div data-role="collapsible" id="'+item.Guid
-  +'" data-collapsed="true"><h3>'+item.Category +' : '+item.Price+'</h3><p>'+ item.Date
-  +', '+ item.IsIncome +', '+item.Description+'</p></div>'
+  +'" data-collapsed="true" style="background:'+color+' !important;">'
+  +'<h3><label style="text-align:left">'
+  +item.Category+' : </label><label>'
+  +isIncomeTxt + item.Price+'$</label></h3>'
+  +'<p style="color:'+color+';">Date :       '+ item.Date+'</p>'
+//  +'<p style="color:'+color+';">Plus / Minus : '+isIncomeTxt+'</p>'
+  +'<p style="color:'+color+';">Description : '+ item.Description+'</p>'
+  +'<input onclick="removeTransaction('+item.Guid+')" type="button" value="Remove expense" data-icon="delete">'
   $("#"+id).append(html).collapsibleset('refresh');
 }
 
@@ -121,7 +139,7 @@ function addToTransactionsTable(id, item){
 
 function getAllUserTransactions(){
  return $.when($.ajax({
-                 url: 'http://10.0.0.8:1234/api/home/getusertransactions/' + loggedUser.Guid,
+                 url: 'http://'+serverIp+':'+port+'/api/home/getusertransactions/' + loggedUser.Guid,
                  type: 'GET',
                  dataType: 'json',
                   beforeSend: function() {
@@ -139,8 +157,7 @@ function addToDL(id,array){
 var options = '';
 
   for(var i = 0; i < array.length; i++)
-    options += '<option label="'+array[i].Name +'" value="'+array[i].Guid+'" />';
-
+    options += '<option id="'+array[i].Guid+'Exp" label="'+array[i].Name +'" value="'+array[i].Guid+'">'+array[i].Name+'</option>';
   document.getElementById(id).innerHTML = options;
 };
 
@@ -159,10 +176,6 @@ initGenerics();
 goToLogin();
 }
 
-
-
-
-
 function goToHome(){
 window.location.href= "#home-page";
 }
@@ -179,4 +192,6 @@ window.location.href= "#login-page";
 function goToSignUp(){
 window.location.href= "#sign-up-page";
 }
-
+function goToAddCategory(){
+window.location.href= "#add-category-page";
+}
