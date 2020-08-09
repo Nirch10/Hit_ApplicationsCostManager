@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         WebView webView = new WebView(this);
         webView.getSettings().setJavaScriptEnabled(true);
-        //webView.getSettings().setAllowFileAccessFromFileURLs(true);
-        //webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-//        webView.getSettings().setDomStorageEnabled(true);
         webView.loadUrl("file:///android_asset/login.html");
         webView.setWebChromeClient(new WebChromeClient());
 

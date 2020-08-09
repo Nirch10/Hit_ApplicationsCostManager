@@ -1,29 +1,3 @@
-
-
-function signUpValidation(){
-    $('.validatedForm').validate({
-    			rules : {
-    				password : {
-    					minlength : 5
-    				},
-    				password_confirm : {
-    					minlength : 5,
-    					equalTo : "#password"
-    				}
-    			},
-                submitHandler:function(form){
-                    doSign();
-                },invalidHandler: function(form, validator) {
-                      $('html, body').animate({scrollTop: '0px'}, 300);
-                    }
-    		});
-
-}
-
-function doSign(){
-    console.log("arrived");
-}
-
 function setSignUpBody(){
     var jsonBody = {};
     jsonBody["UserName"] = $("#new-username-input").val();
@@ -31,9 +5,7 @@ function setSignUpBody(){
     jsonBody["Email"] = $("#new-email-input").val();
     return jsonBody;
 }
-
 function signUp(){
-    //signUpValidation();
     var jsonBodyReq = setSignUpBody();
     $.ajax({
          url: 'http://'+serverIp +':'+port+'/api/home/signup',

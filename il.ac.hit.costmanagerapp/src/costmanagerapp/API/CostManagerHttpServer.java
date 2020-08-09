@@ -17,9 +17,13 @@ import java.net.InetSocketAddress;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
@@ -109,27 +113,28 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
                 break;
             }
             default:
-                responseMessage(httpExchange, 401, jsonCreator.toJson("Not valid request method"));
+                responseMessage(httpExchange, 405, jsonCreator.toJson("Not valid request method"));
         }
     }
 
     private void defineGetUriAndDo(HttpExchange httpExchange) {
         String uri = httpExchange.getRequestURI().toString();
         try {
-            if (uri.toLowerCase().contains("/api/home/getalltransactions"))
-                getTransactions(httpExchange);
-            else if (uri.toLowerCase().contains("/api/home/getusertransactions"))
+            if (uri.toLowerCase().contains("/api/home/getusertransactions"))
                 getUserTransactions(httpExchange);
             else if (uri.toLowerCase().contains("/api/home/getallretails"))
                 getRetails(httpExchange);
             else if (uri.toLowerCase().contains("api/home/gettransactionsbyretail"))
                 getTransactionsByRetail(httpExchange);
+            else if (uri.toLowerCase().contains("api/home/gettransactionsbydates"))
+                getTransactionsByDates(httpExchange);
             else
-                responseMessage(httpExchange, 501, jsonCreator.toJson("Invalid URI"));
+                responseMessage(httpExchange, 404, jsonCreator.toJson("Invalid URI"));
         } catch (UsersPlatformException ex) {
             ex.printStackTrace();
         }
     }
+
 
     private void definePostUriAndDo(HttpExchange httpExchange) {
         String uri = httpExchange.getRequestURI().toString();
@@ -141,7 +146,7 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
             else if (uri.toLowerCase().contains("api/home/signup"))
                 postSignUp(httpExchange);
             else
-                responseMessage(httpExchange, 501, jsonCreator.toJson("Invalid URI"));
+                responseMessage(httpExchange, 404, jsonCreator.toJson("Invalid URI"));
 
         } catch (UsersPlatformException ex) {
             ex.printStackTrace();
@@ -215,7 +220,7 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
         String[] retailParams = uriParams[1].split("=");
         if(!(params[0].toLowerCase().equals("userid") && retailParams[0].toLowerCase().equals("retailid")))
         {
-            responseMessage(httpExchange, 501, "WrongUriParams");
+            responseMessage(httpExchange, 400, "WrongUriParams");
             return;
         }
         int userId = Integer.parseInt(params[params.length - 1]);
@@ -227,9 +232,9 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
             String j = jsonCreator.toJson(transactionsByUser);
             responseMessage(httpExchange, 200, j);
         } catch (UsersPlatformException e) {
-            responseMessage(httpExchange, 400, e.getMessage());
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
         } catch (Exception e) {
-            responseMessage(httpExchange, 400, e.getMessage());
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
         }
     }
 
@@ -238,7 +243,7 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
             Collection<RetailType> retails = restModelConnector.getRetailDAO().getRetails();
             responseMessage(httpExchange, 200, jsonCreator.toJson(retails));
         } catch (UsersPlatformException e) {
-            responseMessage(httpExchange, 400, e.getMessage());
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
         }
     }
 
@@ -250,24 +255,32 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
             String j = jsonCreator.toJson(transactionsByUser);
             responseMessage(httpExchange, 200, j);
         } catch (UsersPlatformException e) {
-            responseMessage(httpExchange, 400, e.getMessage());
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
         }
         catch (Exception e){
-            responseMessage(httpExchange, 400, e.getMessage());
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
         }
     }
 
-    private void getTransactions(HttpExchange httpExchange) throws UsersPlatformException {
-        Date fromDate = new Date(0,0,0);
-        Date toDate = new Date();
-
+    private void getTransactionsByDates(HttpExchange httpExchange) throws UsersPlatformException {
+        String[] uriParams = httpExchange.getRequestURI().getQuery().split("&");
         try {
-            transactions = restModelConnector.getTransactionDAO().getTransactionsByDateRange(fromDate, toDate);
-            responseMessage(httpExchange, 200, jsonCreator.toJson(transactions));
-        } catch (UsersPlatformException e) {
-            responseMessage(httpExchange, 400, e.getMessage());
-        }
 
+            String[] userId = uriParams[0].split("=");
+            String[] fromDateStrArray = uriParams[1].split("=");
+            String[] toDateStrArray = uriParams[2].split("=");
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date fromDate = format.parse(fromDateStrArray[1]);
+            Date toDate = format.parse(toDateStrArray[1]);
+
+            Collection<Transaction> transactionsByDateRange = restModelConnector.getTransactionDAO().getTransactionsByDateRange(fromDate, toDate,Integer.parseInt(userId[1]));
+            String j = jsonCreator.toJson(transactionsByDateRange);
+            responseMessage(httpExchange, 200, j);
+        } catch (UsersPlatformException e) {
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
+        } catch (ParseException e) {
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
+        }
     }
 
     //Post Api Methods
@@ -278,9 +291,9 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
             restModelConnector.getTransactionDAO().insertTransaction(transactionToAdd);
             responseMessage(httpExchange, 200, jsonCreator.toJson(transactionToAdd));
         } catch (UsersPlatformException e) {
-            responseMessage(httpExchange, 404, jsonCreator.toJson("Transaction's params incorrect"));
+            responseMessage(httpExchange, 400, jsonCreator.toJson("Transaction's params incorrect"));
         } catch (SQLException e) {
-            responseMessage(httpExchange, 404, jsonCreator.toJson("Transaction's params incorrect"));
+            responseMessage(httpExchange, 400, jsonCreator.toJson("Transaction's params incorrect"));
         }
     }
 
@@ -307,25 +320,20 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
         }
         try{
             User user = restModelConnector.getUsersDAO().getUser(userReceived.getUserName());
-//            if(user== null){
-//                user = new User(userReceived.getUserName(), "@.com", userReceived.getPassword());
-//                restModelConnector.getUsersDAO().insertUser(user);
-//                responseMessage(httpExchange, 200, jsonCreator.toJson(user));
-//            }
             if(userReceived.getPassword().equals(user.getPassword())&& userReceived.getUserName().toLowerCase()
                     .equals(user.getUserName().toLowerCase()))
                 responseMessage(httpExchange, 200, jsonCreator.toJson(user));
             else
                 responseMessage(httpExchange, 404, jsonCreator.toJson("Incorrect Password"));
         } catch (UsersPlatformException e) {
-            responseMessage(httpExchange, 501, jsonCreator.toJson("No Such user found"));
+            responseMessage(httpExchange, 401, jsonCreator.toJson("No Such user found"));
         }
     }
 
     private void postSignUp(HttpExchange httpExchange) throws IOException, UsersPlatformException {
         User userReceived = parseUserBody(httpExchange);
         if(userReceived.getUserName() == null || userReceived.getPassword() == null || userReceived.getEmail() == null){
-            responseMessage(httpExchange, 401, jsonCreator.toJson("Incorrect Parameters"));
+            responseMessage(httpExchange, 400, jsonCreator.toJson("Incorrect Parameters"));
             return;
         }
         try {
@@ -350,11 +358,11 @@ public class CostManagerHttpServer extends AbstractHttpServer<Transaction> {
         int id = Integer.parseInt(uri[uri.length - 1]);
         try {
             restModelConnector.getTransactionDAO().deleteTransaction(id);
-            responseMessage(httpExchange, 200, "Res : transaction deleted sucessfuly");
+            responseMessage(httpExchange, 200, "Res : transaction deleted successfully");
         } catch (UsersPlatformException e) {
-            responseMessage(httpExchange, 404, "Error deleting "+ e.getMessage());
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
         } catch (SQLException e) {
-            responseMessage(httpExchange, 404, "Error deleting " + e.getMessage());
+            responseMessage(httpExchange, 404, jsonCreator.toJson(e.getMessage()));
         }
     }
 

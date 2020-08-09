@@ -17,7 +17,8 @@ public interface ITransactionDAO {
     Transaction getTransaction(int transaction_id) throws UsersPlatformException, SQLException;
     Collection<Transaction> getTransactionsByUser(int userId) throws UsersPlatformException;
     Collection<Transaction> getTransactionsByRetail(int retailId) throws UsersPlatformException;
-    Collection<Transaction> getTransactionsByDateRange(Date from, Date to) throws UsersPlatformException;
+    Collection<Transaction> getTransactionsByDateRange(Date from, Date to, int userGuid) throws UsersPlatformException;
+
     Collection<Transaction> getTransactionsByPriceRange(double fromPrice, double toPrice) throws UsersPlatformException;
     void updateTransactionPrice(@NotNull int transactionGuid, @NotNull double newPrice) throws UsersPlatformException, SQLException;
     void updateTransactionIncomeStatus(@NotNull int transactionGuid, @NotNull boolean newIsIncome) throws UsersPlatformException, SQLException;
