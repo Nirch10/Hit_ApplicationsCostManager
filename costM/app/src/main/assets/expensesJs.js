@@ -11,6 +11,44 @@ $(document).on("change","select",function(){
   .removeAttr("selected")
 });
 
+//$(function() {
+//    $('.date-picker').datepicker( {
+//        changeMonth: true,
+//        changeYear: true,
+//        showButtonPanel: true,
+//        dateFormat: 'MM yy',
+//        onClose: function(dateText, inst) {
+//            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+//            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//            $(this).datepicker('setDate', new Date(year, month, 1));
+//        }
+//    });
+//});
+
+function groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+         const key = keyGetter(item);
+         const collection = map.get(key);
+         if (!collection) {
+             map.set(key, [item]);
+         } else {
+             collection.push(item);
+         }
+    });
+    return map;
+}
+
+function setPieGroupsAndValues(transactions){
+    var results = [];
+    var groupedData = groupBy(transactions, transaction => transaction.Retail.Guid)
+    groupedData.forEach(function(group){
+       results.push({label:group[0].Retail.Name, length: group.length})
+    });
+    console.log("kfsaf" + JSON.stringify(results));
+    return results;
+}
+
 function removeTransaction(id){
 $.ajax({
                      url: 'http://'+serverIp +':'+port+'/api/home/deletetransaction/'+ id,
@@ -101,3 +139,89 @@ jsonBodyReq = buildJsonBodyReq();
                      }
                 });
 }
+
+function getCurrentRetailsNames(chartData){
+    var results = []
+    chartData.forEach(function(ret){
+        results.push(ret.label);
+    })
+    return results;
+}
+
+function createChart(chartData){
+    var dataToShow = getCurrentRetailsNames(chartData);
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'bar',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'Monthly Expenses count',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Your expenses fully detailed graph',
+                x: -20
+            },
+            xAxis: {
+                categories: dataToShow
+            },
+            yAxis: {
+                title: {
+                    text: 'Expenses Count'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                        this.x +': '+ this.y +'';
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Category',
+                data: getChartsValue(chartData)
+            }]
+        });
+    });
+}
+
+$(document).on('pageshow', '#category-detailed-page', function(){
+    var chart;
+    $.when(getAllUserTransactions()).done(function(results){
+            console.log(results);
+            console.log(JSON.stringify(results));
+            var chartData = setPieGroupsAndValues(results);
+            createChart(chartData);
+         return results;
+    });
+
+});
+
+
+function getChartsValue(array){
+    var results = []
+    array.forEach(function(cat){
+        results.push(cat.length)
+    });
+    return results;
+}
+
+
+
+

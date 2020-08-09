@@ -8,6 +8,7 @@ jQuery(document).ready(function($){
     setRandomColor('#login-page')
     setRandomColor('#sign-up-page')
     setRandomColor('#home-page')
-    setRandomColor('#new-transaction-page')
+    setRandomColor('#new-transaction-page');
+
 
 });

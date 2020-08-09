@@ -1,7 +1,6 @@
 var retails = [];
 var loggedUser = [];
 var totalExpensesSum = 0;
-var retailsDict = []
 transactions = [];
 var serverIp = 0;
 var port = 0;
@@ -17,15 +16,15 @@ function getRandomColor() {
 }
 
 function setRandomColor(id){
-
   $(id).css("background", getRandomColor());
 }
 
 function initGenerics(){
 totalExpensesSum = 0;
+document.getElementById("total-expenses-num").innerHTML = totalExpensesSum;
+document.getElementById("total-expenses-num").innerHTML += " $";
 transactions = []
 loggedUser = [];
-
 }
 
 function addNewExpensePrice(priceToAdd){
@@ -40,6 +39,13 @@ port = portNum;
 }
 
 function getRetails(){return retails;}
+function getRetailsNames(){
+var results = [];
+    retails.forEach(function(retail){
+        results.push(retail.Name);
+    })
+    return results;
+}
 
 function getLoggedUser(){return loggedUser;}
 
@@ -61,11 +67,7 @@ function initRetails(){
                          },
                  success: function(data, textStatus, jqXHR){
                       retails = data;
-                      retails.forEach(function(retail){
-                        retailsDict[retail] = 0;
-                      });
                       addToDL('retails-choose-list', getRetails());
-
                  },
                  error: function(a,b,c) {
                       retails = [];
@@ -78,11 +80,6 @@ function initRetails(){
 
 function initUserTransactions(){
    $.when(getAllUserTransactions()).done(function(results){
-        if(results.length == 0)
-        {
-         $("#transactions-list").append('<label>Nothing to show just yet</label>')
-        }
-
         results.forEach(function(res){
             var viewedT = setTransactionForView(res);
             //addToTransactionsTable("transactions-table-body",viewedT);
@@ -148,7 +145,6 @@ function getAllUserTransactions(){
                          complete: function() {
                              $.mobile.hidePageLoadingMsg();
                          },
-                 //data: JSON.stringify(data1),
                  }).then(function(res){
                  return res;}));
 };
@@ -171,13 +167,16 @@ var options = '';
 };
 
 function signOut(){
-initGenerics();
- $("#transactions-table-body").empty();
-goToLogin();
+    initGenerics();
+    $("#transactions-list").empty();
+    goToLogin();
 }
 
 function goToHome(){
-window.location.href= "#home-page";
+if(loggedUser == [])
+    goToLogin();
+else
+    window.location.href= "#home-page";
 }
 
 function goToAddExpense(){
@@ -185,6 +184,7 @@ window.location.href= "#new-transaction-page";
 }
 
 function goToLogin(){
+
 window.location.href= "#login-page";
 }
 
@@ -194,4 +194,7 @@ window.location.href= "#sign-up-page";
 }
 function goToAddCategory(){
 window.location.href= "#add-category-page";
+}
+function goToDetailedCategory(){
+window.location.href= "#category-detailed-page";
 }
