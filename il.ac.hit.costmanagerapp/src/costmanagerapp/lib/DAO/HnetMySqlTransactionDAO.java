@@ -76,10 +76,10 @@ public class HnetMySqlTransactionDAO implements ITransactionDAO {
         return transactions;
     }
     @Override
-    public Collection<Transaction> getTransactionsByDateRange(Date from, Date to) throws UsersPlatformException {
+    public Collection<Transaction> getTransactionsByDateRange(Date from, Date to, int userGuid) throws UsersPlatformException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String stringQuery = ("SELECT * FROM " + transactionsTable + " WHERE "+ dateOfTransactionColumn +" BETWEEN '" +
-                formatter.format(from)+ "' and '" + formatter.format(to)+ "' ORDER BY " + dateOfTransactionColumn + " desc");
+                formatter.format(from)+ "' and '" + formatter.format(to)+ "' and "+userGuidColumn+" = "+ userGuid + "  ORDER BY " + dateOfTransactionColumn + " desc");
         Collection transactions = getTransactions(stringQuery);
         if (transactions == null) throw new UsersPlatformException("Query result was null");
         return transactions;

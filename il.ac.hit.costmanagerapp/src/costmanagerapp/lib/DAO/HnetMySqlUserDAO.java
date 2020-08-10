@@ -17,6 +17,7 @@ import java.util.Date;
 public class HnetMySqlUserDAO implements IUsersDAO {
     private String tableName = "user";
     private String guidColumn = "Guid";
+    private String userNameColumn = "UserName";
     private IQueryExecuter<User> executor;
     private AbstractDbConnector dbConnector;
     private ITransactionDAO transactionDAO;
@@ -46,6 +47,21 @@ public class HnetMySqlUserDAO implements IUsersDAO {
         if (rs.size() <= 0) throw new UsersPlatformException("User {" + userGuid + "}does not exist");
         return rs.stream().findFirst().get();
     }
+
+    @Override
+    public User getUser(String userName) throws UsersPlatformException {
+        executor.openConnection(dbConnector);
+        Collection<User> rs = executor.tryExecuteGetQuery(dbConnector, "SELECT * FROM " + tableName +
+                " WHERE "+userNameColumn+" =\"" + userName+"\"", userType.getClass());
+        executor.closeConnection();
+        if (rs == null) return null;
+        //if (rs == null) throw new UsersPlatformException("Query result was null");
+        if (rs.size() <= 0) return null;
+       // if (rs.size() <= 0) throw new UsersPlatformException("User {" + userName + "}does not exist");
+        return rs.stream().findFirst().get();
+
+    }
+
     @Override
     public Collection<User> getAllUsers() throws UsersPlatformException {
         Collection<User> users;

@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import java.util.Random;
 
 @Entity
-@Table(appliesTo = "retailtyppe")
+@Table(appliesTo = "retailtype")
 public class RetailType {
     @Id @GeneratedValue
     @Column(name = "Guid")

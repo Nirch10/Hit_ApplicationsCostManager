@@ -62,7 +62,7 @@ public class TransactionDAOUnitTest {
 //        LocalDate d2 = LocalDate.of(2020, 05, 15);
         Date d1 = new Date(2020 -1900,00,01);
         Date d2 = new Date(2020 - 1900,05,31);
-        Collection<Transaction> res = tester.getTransactionsByDateRange(d1, d2);
+        Collection<Transaction> res = tester.getTransactionsByDateRange(d1, d2,1);
         if(res.size() == 0) throw new AssertionError("No transaction found");
         res.forEach(cl -> System.out.println(cl.getGuid() + " :  " + cl.getIsIncome() +  ", " + cl.getPrice() +", "
                 + cl.getDateOfTransaction()  +  ", " + cl.getDescription() +  ", " + cl.getUser().getUserName() +  ", " +

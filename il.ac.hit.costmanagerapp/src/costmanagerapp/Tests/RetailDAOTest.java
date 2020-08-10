@@ -53,7 +53,7 @@ public class RetailDAOTest {
     }
     @Test
     public void testInsertRetails(){
-        String[] retailNames = {"Food", "HouseHold", "Clothes", "Sports"};
+        String[] retailNames = {"Fun", "Clothes", "Sports"};
 
         for (int i = 0; i< retailNames.length;i++){
             try{
@@ -68,9 +68,10 @@ public class RetailDAOTest {
     //Delete Tests
     @Test
     public void testDeleteRetail(){
-        int retailGuid = 1;
+        int retailGuid = 4;
         try {
-            tester.deleteRetail(retailGuid);
+            for(int i = 5;i<13;i++)
+                tester.deleteRetail(i);
         } catch (UsersPlatformException e) {
             throw new AssertionError("Could not delete retail, " + e.getMessage());
         } catch (SQLException e) {
